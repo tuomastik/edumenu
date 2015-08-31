@@ -26,10 +26,10 @@ namespace Edumenu
             DependencyProperty.Register("MenuState", typeof(MenuState), typeof(SlideInMenuContentControl), new PropertyMetadata(MenuState.Left, OnMenuStateChanged));
 
         public static readonly DependencyProperty RightSideMenuWidthProperty =
-            DependencyProperty.Register("RightSideMenuWidth", typeof(double), typeof(SlideInMenuContentControl), new PropertyMetadata(250.0));
+            DependencyProperty.Register("RightSideMenuWidth", typeof(double), typeof(SlideInMenuContentControl), new PropertyMetadata(300.0));
 
         public static readonly DependencyProperty LeftSideMenuWidthProperty =
-            DependencyProperty.Register("LeftSideMenuWidth", typeof(double), typeof(SlideInMenuContentControl), new PropertyMetadata(250.0));
+            DependencyProperty.Register("LeftSideMenuWidth", typeof(double), typeof(SlideInMenuContentControl), new PropertyMetadata(300.0));
 
         private const string ElementLeftSideMenu = "ContentLeftSideMenu";
         private const string ElementRightSideMenu = "ContentRightSideMenu";
