@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,6 +23,18 @@ namespace Edumenu.Views
         public RestaurantView()
         {
             this.InitializeComponent();
+        }
+
+        private async void Button_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            string restaurantName = (((sender as Button).Content as Border).Child as TextBlock).Text;
+            //Creating instance for the MessageDialog Class  
+            //and passing the message in it's Constructor  
+            MessageDialog msgbox = new MessageDialog("Haluatko varmasti avata ravintolan " + restaurantName + 
+                "  verkkosivun selaimessa?");
+            //Calling the Show method of MessageDialog class  
+            //which will show the MessageBox  
+            await msgbox.ShowAsync();
         }
     }
 }
