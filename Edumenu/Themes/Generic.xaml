@@ -24,7 +24,8 @@
                                 <Grid Background="{StaticResource ResourceKey=ThemeColor1}">
                                     <!--Margin="-1,0,-4,0"-->
                                     <ContentControl
-                                        Content="{TemplateBinding Content}" />
+                                        Content="{TemplateBinding Content}"
+                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
                                     <Border
                                         Visibility="Collapsed"
                                         x:Name="DisableContentOverlay"
