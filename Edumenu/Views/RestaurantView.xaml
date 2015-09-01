@@ -13,20 +13,15 @@
     <UserControl.Resources>
         <converters:StringToUpperConverter x:Key="StringToUpperConverter"/>
     </UserControl.Resources>
-
+	
     <ScrollViewer Background="{StaticResource ResourceKey=ThemeColor1}">
         <ItemsControl x:Name="LayoutRoot" ItemsSource="{Binding Restaurants}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Button Grid.Row="0"
-                                Style="{StaticResource ButtonStyle1}" 
+                    <StackPanel>
+                        
+                        <Button Style="{StaticResource ContentButton}" 
                                 Tapped="Button_Tapped">
                             <Border Background="{StaticResource ResourceKey=ThemeColor2}"
                                     x:Name="Item">
@@ -37,14 +32,15 @@
                             </Border>
                         </Button>
 
-                        <TextBlock Grid.Row="1"
-                                   Text="{Binding Menu, Mode=OneWay}"
+                        <TextBlock Text="{Binding Menu, Mode=OneWay}"
                                    TextAlignment="Left"
                                    Foreground="{StaticResource ResourceKey=ThemeColor3}"
                                    TextWrapping="Wrap"
                                    FontSize="22"
                                    Margin="20,10" />
-                    </Grid>
+
+                    </StackPanel>
+                    
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
