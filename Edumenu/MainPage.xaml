@@ -33,19 +33,19 @@
                                    HorizontalAlignment="Left"/>
                     </Border>
                     <TextBlock Text="Maanantai" Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                               FontSize="22" Margin="30,10,0,0"/>
+                               FontSize="22" Margin="20,10,0,0"/>
                     <TextBlock Text="Tiistai" Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                               FontSize="22" Margin="30,10,0,0"/>
+                               FontSize="22" Margin="20,10,0,0"/>
                     <TextBlock Text="Keskiviikko" Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                               FontSize="22" Margin="30,10,0,0"/>
+                               FontSize="22" Margin="20,10,0,0"/>
                     <TextBlock Text="Torstai" Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                               FontSize="22" Margin="30,10,0,0"/>
+                               FontSize="22" Margin="20,10,0,0"/>
                     <TextBlock Text="Perjantai" Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                               FontSize="22" Margin="30,10,0,0"/>
+                               FontSize="22" Margin="20,10,0,0"/>
                     <TextBlock Text="Lauantai" Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                               FontSize="22" Margin="30,10,0,0"/>
+                               FontSize="22" Margin="20,10,0,0"/>
                     <TextBlock Text="Sunnuntai" Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                               FontSize="22" Margin="30,10,0,0"/>
+                               FontSize="22" Margin="20,10,0,0"/>
 
                     <Border Background="{StaticResource ResourceKey=ThemeColor7}" Margin="0,15,0,0">
                         <TextBlock Text="Tietoa" Foreground="{StaticResource ResourceKey=ThemeColor3}"
@@ -54,9 +54,9 @@
                                    HorizontalAlignment="Left"/>
                     </Border>
                     <TextBlock Text="Asetukset" Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                               FontSize="22" Margin="30,10,0,0"/>
+                               FontSize="22" Margin="20,10,0,0"/>
                     <TextBlock Text="Erityisruokavaliot" Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                               FontSize="22" Margin="30,10,0,0"/>
+                               FontSize="22" Margin="20,10,0,0"/>
                 </StackPanel>
             </Grid>
         </local:SlideInMenuContentControl.LeftMenuContent>
@@ -72,38 +72,26 @@
                 <!--Header-->
                 <Border Background="{StaticResource ResourceKey=ThemeColor4}">
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
 
                         <!--School name-->
                         <Button HorizontalAlignment="Center"
-                                BorderThickness="0"
-                                VerticalContentAlignment="Center"
+                                VerticalAlignment="Center"
                                 Style="{StaticResource ContentButton}">
                             <TextBlock Text="TTY"
-                                       Margin="0"
                                        Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                       FontSize="23"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Tapped="SchoolText_Tapped"/>
+                                       FontSize="24"
+                                       Tapped="SchoolText_Tapped"
+                                       Padding="25,10,25,10"/>
                         </Button>
 
                         <!--Hamburger button-->
-                        <Button ManipulationMode="All"
-                                Height="58"
+                        <Button HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                Margin="11,2,0,0"
                                 x:Name="LeftButtonTapped"
-                                Width="50"
-                                MinWidth="50"
-                                HorizontalAlignment="Left"
                                 Tapped="HamburgerButton_Tapped"
-                                BorderThickness="0"
-                                Style="{StaticResource ContentButton}" >
-                            <StackPanel>
+                                Style="{StaticResource ContentButton}"
+                                ManipulationMode="All">
+                            <StackPanel Margin="20">
                                 <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" />
                                 <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0" />
                                 <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0"/>
@@ -114,7 +102,11 @@
                 </Border>
 
                 <!--Content, i.e., the restaurant menus-->
-                <views:RestaurantView Grid.Row="1" />
+                <views:RestaurantView Grid.Row="1"
+                                      HorizontalAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"/>
 
             </Grid>
 
