@@ -18,27 +18,59 @@
     <Canvas x:Name="canvas"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            Background="Black"
             ManipulationStarted="canvas_ManipulationStarted"
             ManipulationDelta="canvas_ManipulationDelta"
             ManipulationCompleted="canvas_ManipulationCompleted">
         <Canvas.Resources>
             <Storyboard x:Name="moveAnimation">
-                <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(Canvas.Left)" Storyboard.TargetName="LayoutRoot" d:IsOptimized="True" />
+                <DoubleAnimation Duration="0:0:0.2"
+                                 To="0"
+                                 Storyboard.TargetProperty="(Canvas.Left)"
+                                 Storyboard.TargetName="LayoutRoot"
+                                 d:IsOptimized="True" />
             </Storyboard>
         </Canvas.Resources>
-        <Canvas  CacheMode="BitmapCache" x:Name="LayoutRoot" Width="1320"  VerticalAlignment="Stretch" Background="Transparent" Canvas.Left="-420">
-            <Border Width="420"  CacheMode="BitmapCache" Background="#FF31363E" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="{Binding ActualHeight, ElementName=canvas}"/>
-            <Border Width="420" Margin="900,0,0,0" CacheMode="BitmapCache" Background="#FF31363E" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="{Binding ActualHeight, ElementName=canvas}"/>
-            <Grid x:Name="grdCommands" Margin="420,0,0,0" CacheMode="BitmapCache" Grid.Column="1" Background="#FFCFD4E2" Height="{Binding ActualHeight, ElementName=canvas}" Width="480" >
-                <!--<Grid.RowDefinitions>
-                    <RowDefinition Height="58"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>-->
-                <!--<Grid Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF3B5998">
-                    <Button  Click="OpenClose_Left" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80"/>
-                    <Button  Click="OpenClose_Right" Content="" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="80"/>
-                </Grid>-->
+
+        <Canvas x:Name="LayoutRoot"
+                CacheMode="BitmapCache"
+                Width="1180"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                Canvas.Left="-350">
+            
+            <!--Left view-->
+            <Border x:Name="LeftView"
+                    Width="350"
+                    CacheMode="BitmapCache"
+                    Background="#FF31363E"
+                    Grid.Column="0"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Height="{Binding ActualHeight, ElementName=canvas}">
+                <TextBlock Text="=D" />
+            </Border>
+            
+            <!--Right view-->
+            <Border x:Name="RightView"
+                    Width="350"
+                    CacheMode="BitmapCache"
+                    Background="#FF31363E"
+                    Margin="830,0,0,0"
+                    Grid.Column="2"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Height="{Binding ActualHeight, ElementName=canvas}">
+                <TextBlock Text="=D" />
+            </Border>
+
+            <!--Middle/main View-->
+            <Grid x:Name="grdCommands"
+                  Margin="350,0,0,0"
+                  CacheMode="BitmapCache"
+                  Grid.Column="1"
+                  Background="#FFCFD4E2"
+                  Height="{Binding ActualHeight, ElementName=canvas}"
+                  Width="480" >
 
                 <!--Header-->
                 <ScrollViewer x:Name="Scroller"
@@ -57,10 +89,11 @@
                     </StackPanel>
                 </ScrollViewer>
 
-                <Border Height="58" VerticalAlignment="Top"
+                <!--Restaurant menus-->
+     
+                    <Grid Height="58" VerticalAlignment="Top"
                         Grid.Row="0" Background="{StaticResource ResourceKey=ThemeColor4}"
                         x:Name="HeaderBorder">
-                    <Grid>
 
                         <!--School name-->
                         <Button HorizontalAlignment="Center"
@@ -87,7 +120,7 @@
                         </Button>
 
                     </Grid>
-                </Border>
+           
 
 
 

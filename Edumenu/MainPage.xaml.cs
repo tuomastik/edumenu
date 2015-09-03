@@ -34,32 +34,29 @@ namespace Edumenu
             this.DataContext = App.RestaurantViewModel;
         }
 
+        public int viewChangeThreshold = 160;
         private void OpenClose_Left(object sender, RoutedEventArgs e)
         {
             var left = Canvas.GetLeft(LayoutRoot);
-            if (left > -100)
+            if (left > -viewChangeThreshold)
             {
-                //ApplicationBar.IsVisible = true;
-                MoveViewWindow(-420);
+                MoveViewWindow(-LeftView.Width);
             }
             else
             {
-                //ApplicationBar.IsVisible = false;
                 MoveViewWindow(0);
             }
         }
         private void OpenClose_Right(object sender, RoutedEventArgs e)
         {
             var left = Canvas.GetLeft(LayoutRoot);
-            if (left > -520)
+            if (left > (-LeftView.Width - viewChangeThreshold))
             {
-                //ApplicationBar.IsVisible = false;
-                MoveViewWindow(-840);
+                MoveViewWindow(-LeftView.Width + RightView.Width);
             }
             else
             {
-                //ApplicationBar.IsVisible = true;
-                MoveViewWindow(-420);
+                MoveViewWindow(-LeftView.Width);
 
             }
         }
@@ -67,10 +64,6 @@ namespace Edumenu
         void MoveViewWindow(double left)
         {
             _viewMoved = true;
-            //if (left == -420)
-            //    ApplicationBar.IsVisible = true;
-            //else
-            //    ApplicationBar.IsVisible = false;
             ((Storyboard)canvas.Resources["moveAnimation"]).SkipToFill();
             ((DoubleAnimation)((Storyboard)canvas.Resources["moveAnimation"]).Children[0]).To = left;
             ((Storyboard)canvas.Resources["moveAnimation"]).Begin();
@@ -79,7 +72,8 @@ namespace Edumenu
         private void canvas_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
             if (e.DeltaManipulation.Translation.X != 0)
-                Canvas.SetLeft(LayoutRoot, Math.Min(Math.Max(-840, Canvas.GetLeft(LayoutRoot) + e.DeltaManipulation.Translation.X), 0));
+                Canvas.SetLeft(LayoutRoot, Math.Min(Math.Max(-(LeftView.Width+RightView.Width),
+                    Canvas.GetLeft(LayoutRoot) + e.DeltaManipulation.Translation.X), 0));
         }
 
         double initialPosition;
@@ -95,26 +89,26 @@ namespace Edumenu
             var left = Canvas.GetLeft(LayoutRoot);
             if (_viewMoved)
                 return;
-            if (Math.Abs(initialPosition - left) < 100)
+            if (Math.Abs(initialPosition - left) < viewChangeThreshold)
             {
-                //bouncing back
+                // Bouncing back
                 MoveViewWindow(initialPosition);
                 return;
             }
-            //change of state
+            // Change of state
             if (initialPosition - left > 0)
             {
-                //slide to the left
-                if (initialPosition > -420)
-                    MoveViewWindow(-420);
+                // Slide to the left
+                if (initialPosition > -LeftView.Width)
+                    MoveViewWindow(-LeftView.Width);
                 else
-                    MoveViewWindow(-840);
+                    MoveViewWindow(-(LeftView.Width+RightView.Width));
             }
             else
             {
                 //slide to the right
-                if (initialPosition < -420)
-                    MoveViewWindow(-420);
+                if (initialPosition < -RightView.Width)
+                    MoveViewWindow(-RightView.Width);
                 else
                     MoveViewWindow(0);
             }
