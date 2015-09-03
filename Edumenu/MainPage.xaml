@@ -21,6 +21,7 @@
             ManipulationStarted="canvas_ManipulationStarted"
             ManipulationDelta="canvas_ManipulationDelta"
             ManipulationCompleted="canvas_ManipulationCompleted">
+        
         <Canvas.Resources>
             <Storyboard x:Name="moveAnimation">
                 <DoubleAnimation Duration="0:0:0.2"
@@ -64,7 +65,7 @@
             </Border>
 
             <!--Middle/main View-->
-            <Grid x:Name="grdCommands"
+            <Grid x:Name="MainView"
                   Margin="350,0,0,0"
                   CacheMode="BitmapCache"
                   Grid.Column="1"
@@ -72,14 +73,18 @@
                   Height="{Binding ActualHeight, ElementName=canvas}"
                   Width="480" >
 
-                <!--Header-->
+                <!--Content-->
+                <!--Content is defined before header, so that header will be on top of content-->
                 <ScrollViewer x:Name="Scroller"
                               VerticalScrollBarVisibility="Visible"
                               Background="{StaticResource ResourceKey=ThemeColor1}"
                               Loaded="Scroller_Loaded">
                     <StackPanel>
+                        
+                        <!--Empty space under the header-->
                         <StackPanel Width="58" Height="58" />
-
+                        
+                        <!--Restaurants and their menus-->
                         <views:RestaurantView x:Name="restaurantView"
                                       Grid.Row="0"
                                       HorizontalAlignment="Stretch"
@@ -89,38 +94,38 @@
                     </StackPanel>
                 </ScrollViewer>
 
-                <!--Restaurant menus-->
-     
-                    <Grid Height="58" VerticalAlignment="Top"
-                        Grid.Row="0" Background="{StaticResource ResourceKey=ThemeColor4}"
-                        x:Name="HeaderBorder">
+                <!--Header-->
+                <Grid Height="58"
+                      VerticalAlignment="Top"
+                      Grid.Row="0"
+                      Background="{StaticResource ResourceKey=ThemeColor4}"
+                      x:Name="HeaderContainer">
 
-                        <!--School name-->
-                        <Button HorizontalAlignment="Center"
+                    <!--Hamburger button-->
+                    <Button HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            x:Name="LeftButtonTapped"
+                            Click="OpenClose_Left"
+                            Style="{StaticResource ContentButton}">
+                        <StackPanel Margin="20">
+                            <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" />
+                            <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0" />
+                            <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!--School name-->
+                    <Button HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource ContentButton}">
-                            <TextBlock Text="TTY"
+                        <TextBlock Text="TTY"
                                        Foreground="{StaticResource ResourceKey=ThemeColor3}"
                                        FontSize="24"
-                                       
                                        Padding="25,10,25,10"/>
-                        </Button>
+                    </Button>
 
-                        <!--Hamburger button-->
-                        <Button HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                x:Name="LeftButtonTapped"
-                                Click="OpenClose_Left"
-                                Style="{StaticResource ContentButton}">
-                            <StackPanel Margin="20">
-                                <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" />
-                                <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0" />
-                                <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0"/>
-                            </StackPanel>
-                        </Button>
+                </Grid>
 
-                    </Grid>
-           
 
 
 

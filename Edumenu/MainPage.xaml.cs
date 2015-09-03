@@ -162,20 +162,29 @@ namespace Edumenu
 
         private void OnScrollbarValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            System.Diagnostics.Debug.WriteLine(e.OldValue.ToString());
+            System.Diagnostics.Debug.WriteLine(e.NewValue.ToString());
+            System.Diagnostics.Debug.WriteLine("Animation running: " + animationRunning.ToString());
+            System.Diagnostics.Debug.WriteLine("Header visible: " + headerVisible.ToString());
+
             if (e.NewValue > e.OldValue &&
-                e.NewValue > HeaderBorder.Height &&
+                e.NewValue > HeaderContainer.Height &&
                 !animationRunning && headerVisible)
             {
                 // Scroll Down
                 headerVisible = false;
-                AnimateMove(HeaderBorder, 0, -HeaderBorder.Height, 300);
+                AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
+                System.Diagnostics.Debug.WriteLine("User scrolled down!");
             }
-            else if (!animationRunning && !headerVisible)
+            else if (e.NewValue < e.OldValue &&
+                     !animationRunning && !headerVisible)
             {
                 // Scroll up
                 headerVisible = true;
-                AnimateMove(HeaderBorder, -HeaderBorder.Height, 0, 300);
+                AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
+                System.Diagnostics.Debug.WriteLine("User scrolled up!");
             }
+            System.Diagnostics.Debug.WriteLine("---------------------");
         }
 
         public void AnimateMove(FrameworkElement fe, double from, double to, int durationMs)

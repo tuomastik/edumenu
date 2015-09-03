@@ -10,88 +10,23 @@
     d:DesignHeight="400"
     d:DesignWidth="400">
 
-
-
-    <!--<ListBox  ItemsSource="{Binding Restaurants}" Background="Transparent" BorderThickness="0">
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <StackPanel Background="Transparent">
-                    <Button Style="{StaticResource ContentButton}" 
-                                Tapped="Button_Tapped">
-                        <Border Background="{StaticResource ResourceKey=ThemeColor2}"
-                                    x:Name="Item">
-                            <TextBlock Text="{Binding Name, Mode=OneWay}"
-                                           Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                           FontSize="26" Margin="20,5,0,5"
-                                           FontFamily="Segoe UI" FontWeight="SemiBold"/>
-                        </Border>
-                    </Button>
-
-                    <TextBlock Text="{Binding Menu, Mode=OneWay}"
-                                   TextAlignment="Left"
-                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                   TextWrapping="Wrap"
-                                   FontSize="22"
-                                   Margin="20,10" />
-                </StackPanel>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>-->
-
-    <!--<ListBox Padding="10">
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem">
-                <Setter Property="IsEnabled" Value="False"/>
-            </Style>
-        </ListBox.ItemContainerStyle>
-        <ItemsControl ItemsSource="{Binding Restaurants}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        
-                        <Button Style="{StaticResource ContentButton}" 
-                                Tapped="Button_Tapped">
-                            <Border Background="{StaticResource ResourceKey=ThemeColor2}"
-                                    x:Name="Item">
-                                <TextBlock Text="{Binding Name, Mode=OneWay}"
-                                           Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                           FontSize="26" Margin="20,5,0,5"
-                                           FontFamily="Segoe UI" FontWeight="SemiBold"/>
-                            </Border>
-                        </Button>
-
-                        <TextBlock Text="{Binding Menu, Mode=OneWay}"
-                                   TextAlignment="Left"
-                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                   TextWrapping="Wrap"
-                                   FontSize="22"
-                                   Margin="20,10" />
-
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </ListBox>-->
-
-
-
     <StackPanel x:Name="Scroller" Background="{StaticResource ResourceKey=ThemeColor1}">
         <ItemsControl x:Name="LayoutRoot" ItemsSource="{Binding Restaurants}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-
                     <StackPanel>
-                        <Button Style="{StaticResource ContentButton}" 
+                        
+                        <!--Restaurant name-->
+                        <Button Style="{StaticResource RestaurantButtonStyle}"
                                 Click="Button_Tapped">
-                            <Border Background="{StaticResource ResourceKey=ThemeColor2}"
-                                    x:Name="Item">
-                                <TextBlock Text="{Binding Name, Mode=OneWay}"
-                                           Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                           FontSize="26" Margin="20,5,0,5"
-                                           FontFamily="Segoe UI" FontWeight="SemiBold"/>
-                            </Border>
-                        </Button>
 
+                            <TextBlock Text="{Binding Name, Mode=OneWay}"
+                                       Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                                       FontSize="26" Margin="20,5,0,5"
+                                       FontFamily="Segoe UI" FontWeight="SemiBold"/>
+                        </Button>
+                        
+                        <!--Restaurant menu-->
                         <TextBlock Text="{Binding Menu, Mode=OneWay}"
                                    TextAlignment="Left"
                                    Foreground="{StaticResource ResourceKey=ThemeColor3}"
@@ -100,7 +35,6 @@
                                    Margin="20,10" />
 
                     </StackPanel>
-                    
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

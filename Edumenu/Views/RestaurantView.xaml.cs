@@ -63,7 +63,7 @@ namespace Edumenu.Views
 
         private void Button_Tapped(object sender, RoutedEventArgs e)
         {
-            string restaurantName = (((sender as Button).Content as Border).Child as TextBlock).Text;
+            string restaurantName = ((sender as Button).Content as TextBlock).Text;
             MessageBox.Show("Haluatko varmasti avata ravintolan " + restaurantName +
                 " verkkosivun selaimessa?");
         }
