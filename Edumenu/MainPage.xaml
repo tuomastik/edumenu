@@ -40,14 +40,19 @@
                     <Button  Click="OpenClose_Right" Content="" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="80"/>
                 </Grid>-->
 
-                <!--Header-->
+                
+                <!--Content-->
+                <!--Content is defined before header, so that header will be on top of content-->
                 <ScrollViewer x:Name="Scroller"
                               VerticalScrollBarVisibility="Visible"
                               Background="{StaticResource ResourceKey=ThemeColor1}"
                               Loaded="Scroller_Loaded">
                     <StackPanel>
+                        
+                        <!--Empty space under the header-->
                         <StackPanel Width="58" Height="58" />
-
+                        
+                        <!--Restaurants and their menus-->
                         <views:RestaurantView x:Name="restaurantView"
                                       Grid.Row="0"
                                       HorizontalAlignment="Stretch"
@@ -57,21 +62,11 @@
                     </StackPanel>
                 </ScrollViewer>
 
+                <!--Header-->
                 <Border Height="58" VerticalAlignment="Top"
                         Grid.Row="0" Background="{StaticResource ResourceKey=ThemeColor4}"
                         x:Name="HeaderBorder">
                     <Grid>
-
-                        <!--School name-->
-                        <Button HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource ContentButton}">
-                            <TextBlock Text="TTY"
-                                       Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                       FontSize="24"
-                                       
-                                       Padding="25,10,25,10"/>
-                        </Button>
 
                         <!--Hamburger button-->
                         <Button HorizontalAlignment="Left"
@@ -84,6 +79,16 @@
                                 <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0" />
                                 <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0"/>
                             </StackPanel>
+                        </Button>
+
+                        <!--School name-->
+                        <Button HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource ContentButton}">
+                            <TextBlock Text="TTY"
+                                       Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                                       FontSize="24"
+                                       Padding="25,10,25,10"/>
                         </Button>
 
                     </Grid>
