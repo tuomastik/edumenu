@@ -13,26 +13,103 @@ using System.Windows.Media.Animation;
 using Edumenu.ViewModels;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
+using System.ComponentModel;
 
 namespace Edumenu
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private RestaurantViewModel _restaurantViewModel
-        {
-            get
-            {
-                return this.DataContext as RestaurantViewModel;
-            }
-        }
+        // Class level variables
+        private static BackgroundWorker bw = new BackgroundWorker();
+
+        //private static RestaurantViewModel _restaurantViewModel
+        //{
+        //    get
+        //    {
+        //        return this.DataContext as RestaurantViewModel;
+        //    }
+        //}
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            VisualStateManager.GoToState(this, "Normal", false);
+            //VisualStateManager.GoToState(this, "Normal", false);
             this.DataContext = App.RestaurantViewModel;
+            // BackgroundWorker
+            bw.WorkerSupportsCancellation = true;
+            bw.WorkerReportsProgress = true;
+            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+            if (bw.IsBusy != true)
+            {
+                bw.RunWorkerAsync();
+            }
         }
+
+
+
+
+
+
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // Fetching restaurant menus with BackgroundWorker
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            for (int i = 1; i <= 10; i++)
+            {
+                if ((worker.CancellationPending == true))
+                {
+                    e.Cancel = true;
+                    break;
+                }
+                else
+                {
+                    // Perform a time consuming operation and report progress.
+                    System.Threading.Thread.Sleep(500);
+                    worker.ReportProgress(i * 10);
+                }
+            }
+        }
+
+        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(e.ProgressPercentage.ToString() + "%");
+        }
+
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                System.Diagnostics.Debug.WriteLine("Canceled!");
+            }
+            else if (!(e.Error == null))
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + e.Error.Message);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Done!");
+            }
+        }
+
+        //--------------------------------------------------------------------
+        // Fetching restaurant menus with BackgroundWorker
+        //--------------------------------------------------------------------
+
+
+
+
+
+
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // The code implementing moving between left, middle and right view
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         public int viewChangeThreshold = 160;
         private void OpenClose_Left(object sender, RoutedEventArgs e)
@@ -114,6 +191,10 @@ namespace Edumenu
             }
 
         }
+
+        //--------------------------------------------------------------------
+        // The code implementing moving between left, middle and right view
+        //--------------------------------------------------------------------
 
 
 
