@@ -11,7 +11,7 @@
     d:DesignWidth="400">
 
     <StackPanel x:Name="Scroller" Background="{StaticResource ResourceKey=ThemeColor1}">
-        <ItemsControl x:Name="LayoutRoot" ItemsSource="{Binding Restaurants}">
+        <ItemsControl x:Name="LayoutRoot" ItemsSource="{Binding restaurants}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -20,14 +20,15 @@
                         <Button Style="{StaticResource RestaurantButtonStyle}"
                                 Click="Button_Tapped">
 
-                            <TextBlock Text="{Binding Name, Mode=OneWay}"
+                            <TextBlock x:Name="RestaurantName_TB"
+                                       Text="{Binding name, Mode=OneWay}"
                                        Foreground="{StaticResource ResourceKey=ThemeColor3}"
                                        FontSize="26" Margin="20,5,0,5"
                                        FontFamily="Segoe UI" FontWeight="SemiBold"/>
                         </Button>
                         
                         <!--Restaurant menu-->
-                        <TextBlock Text="{Binding Menu, Mode=OneWay}"
+                        <TextBlock Text="{Binding menu, Mode=OneWay}"
                                    TextAlignment="Left"
                                    Foreground="{StaticResource ResourceKey=ThemeColor3}"
                                    TextWrapping="Wrap"

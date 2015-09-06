@@ -8,10 +8,9 @@ namespace Edumenu.Models
 {
     public class Restaurant
     {
-        // The name of the accomplishment.
-        public string Name { get; set; }
-
-        // The type of the accomplishment, Item or Level.
-        public string Menu { get; set; }
+        public string name { get; set; }
+        public string menu { get; set; }
+        public Uri menuUrl { get; set; }
+        public Uri homeUrl { get; set; }
     }
 }
