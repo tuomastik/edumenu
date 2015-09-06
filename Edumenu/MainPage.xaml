@@ -84,6 +84,8 @@
                         <!--Empty space under the header-->
                         <StackPanel Width="58" Height="58" />
                         
+                        <Button Content="Alter observablecollection" Click="Button_Click"/>
+
                         <!--Restaurants and their menus-->
                         <views:RestaurantView x:Name="restaurantView"
                                       Grid.Row="0"
@@ -124,7 +126,14 @@
                                        Padding="25,10,25,10"/>
                     </Button>
 
+                    <ProgressBar x:Name="ProBar"
+                                     IsIndeterminate="True"
+                                     Foreground="White"
+                                     Margin="0,52,0,0"/>
+
                 </Grid>
+
+
 
 
 
