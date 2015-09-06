@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using Edumenu.Resources;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using Edumenu.ViewModels;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
+using Edumenu.Models;
 
 namespace Edumenu
 {
@@ -21,7 +17,6 @@ namespace Edumenu
     {
         // Class level variables
         private static BackgroundWorker bw = new BackgroundWorker();
-
         //private static RestaurantViewModel _restaurantViewModel
         //{
         //    get
@@ -70,6 +65,9 @@ namespace Edumenu
                 }
                 else
                 {
+                    WebClient webClient = new WebClient();
+                    alterCollection();
+                    //webClient.DownloadStringAsync(restaurant.menuUrl);
                     // Perform a time consuming operation and report progress.
                     System.Threading.Thread.Sleep(500);
                     worker.ReportProgress(i * 10);
@@ -95,6 +93,11 @@ namespace Edumenu
             else
             {
                 System.Diagnostics.Debug.WriteLine("Done!");
+                App.RestaurantViewModel.restaurants.Clear();
+                foreach (Restaurant r in App.RestaurantViewModel.restaurants_tut)
+                {
+                    App.RestaurantViewModel.restaurants.Add(r);
+                }
             }
         }
 
@@ -316,6 +319,28 @@ namespace Edumenu
         //--------------------------------------------------------------------
         // ScrollViewer - Header interactions
         //--------------------------------------------------------------------
+
+
+
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            alterCollection();
+        }
+
+        public void alterCollection()
+        {
+            //App.RestaurantViewModel.restaurants.Clear();
+            var r = new Models.Restaurant()
+                {
+                    name = "Uusi ravintola",
+                    menu = "Qwerty asd asd",
+                    menuUrl = new Uri("http://test"),
+                    homeUrl = new Uri("http://juuh")
+                };
+            App.RestaurantViewModel.restaurants_tut.Add(r);
+        }
 
 
 
