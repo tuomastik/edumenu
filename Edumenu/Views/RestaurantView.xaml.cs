@@ -23,43 +23,9 @@ namespace Edumenu.Views
         public RestaurantView()
         {
             this.InitializeComponent();
-            //Scroller.MouseMove += MyScroller_MouseMove;
         }
 
-        //private double lastY = 0.0;
-        //private double thresholdY = 5.0;
-        //private double headerHeight = 58.0;
-        //private void MyScroller_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    //System.Diagnostics.Debug.WriteLine("X="+e.GetPosition(Scroller).X.ToString());
-        //    System.Diagnostics.Debug.WriteLine("Y="+e.GetPosition(Scroller).Y.ToString());
-        //    double currentY = e.GetPosition(Scroller).Y;
-
-        //    // Do nothing, if less than threshold value was scrolled
-        //    if (Math.Abs(lastY - currentY) <= thresholdY)
-        //    {
-        //        return;
-        //    }
-
-
-        //    // If they scrolled down and are past the navbar, add class .nav-up.
-        //    // This is necessary so you never see what is "behind" the navbar.
-        //    if (currentY > lastY) // && currentY > headerHeight){
-        //    {
-        //        // Scroll Down
-        //        MainPage.AnimateMove()
-        //    //    $('header').removeClass('nav-down').addClass('nav-up');
-        //    //} else {
-        //    //    // Scroll Up
-        //    //    if(st + $(window).height() < $(document).height()) {
-        //    //        $('header').removeClass('nav-up').addClass('nav-down');
-        //    //    }
-        //    //}
-    
-        //    //lastScrollTop = st;
-        //}
-
-
+        
 
         private void Button_Tapped(object sender, RoutedEventArgs e)
         {
