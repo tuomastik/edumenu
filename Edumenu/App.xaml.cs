@@ -8,6 +8,7 @@ using Microsoft.Phone.Shell;
 using Edumenu.Resources;
 using Edumenu.ViewModels;
 using Windows.Storage;
+using Edumenu.Models;
 
 namespace Edumenu
 {
@@ -54,7 +55,7 @@ namespace Edumenu
             // Language display initialization
             InitializeLanguage();
 
-            AddOrUpdateSettings();
+            CheckIfFirstLaunch();
 
             // Show graphics profiling information while debugging.
             if (Debugger.IsAttached)
@@ -78,25 +79,14 @@ namespace Edumenu
 
         }
 
-        private void AddOrUpdateSettings()
+        private void CheckIfFirstLaunch()
         {
-            var localSettings = ApplicationData.Current.LocalSettings;
-
-            // First launch
-            if (!localSettings.Values.ContainsKey("isFirstLaunch"))
+            AppSettings appSettings = new AppSettings();
+            if (appSettings.firstLaunch.Equals(true))
             {
-                localSettings.Values["isFirstLaunch"] = true;
+                appSettings.firstLaunch = false;
             }
-            else
-            {
-                localSettings.Values["isFirstLaunch"] = false;
-            }
-            System.Diagnostics.Debug.WriteLine("Is this the first launch? " + localSettings.Values["isFirstLaunch"].ToString());
-
-            if (localSettings.Values["isFirstLaunch"].Equals(true))
-            {
-                localSettings.Values["selectedSchool"] = "TTY";
-            }
+            System.Diagnostics.Debug.WriteLine("Is this the first launch? " + appSettings.firstLaunch.ToString());
         }
 
         // Code to execute when a contract activation such as a file open or save picker returns 
