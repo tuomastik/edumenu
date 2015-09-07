@@ -10,6 +10,8 @@ using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Edumenu.Models;
+using Windows.Storage;
+using System.Threading.Tasks;
 
 namespace Edumenu
 {
@@ -17,7 +19,7 @@ namespace Edumenu
     {
         // Class level variables
         private static BackgroundWorker bw = new BackgroundWorker();
-        //AppSettings appSettings;
+        AppSettings appSettings = new AppSettings();
         //private static RestaurantViewModel _restaurantViewModel
         //{
         //    get
@@ -30,7 +32,9 @@ namespace Edumenu
         public MainPage()
         {
             InitializeComponent();
-            //VisualStateManager.GoToState(this, "Normal", false);
+            VisualStateManager.GoToState(this, "Normal", false);
+            // Set data contexts
+            SelectedSchool.DataContext = appSettings;
             this.DataContext = App.RestaurantViewModel;
             // BackgroundWorker
             bw.WorkerSupportsCancellation = true;
@@ -42,10 +46,8 @@ namespace Edumenu
             {
                 bw.RunWorkerAsync();
             }
-            System.Diagnostics.Debug.WriteLine("school: " + Windows.Storage.ApplicationData.Current.LocalSettings.Values["selectedSchool"]);
-            asd.DataContext = Windows.Storage.ApplicationData.Current.LocalSettings.Values;//["selectedSchool"];
-        }
 
+        }
 
 
 
@@ -117,7 +119,7 @@ namespace Edumenu
         // The code implementing moving between left, middle and right view
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        public int viewChangeThreshold = 160;
+        public int viewChangeThreshold = 30;
         private void OpenClose_Left(object sender, RoutedEventArgs e)
         {
             var left = Canvas.GetLeft(LayoutRoot);
@@ -147,7 +149,7 @@ namespace Edumenu
         void MoveViewWindow(double left)
         {
             _viewMoved = true;
-            ((Storyboard)canvas.Resources["moveAnimation"]).SkipToFill();
+            //((Storyboard)canvas.Resources["moveAnimation"]).SkipToFill();
             ((DoubleAnimation)((Storyboard)canvas.Resources["moveAnimation"]).Children[0]).To = left;
             ((Storyboard)canvas.Resources["moveAnimation"]).Begin();
         }
@@ -172,6 +174,7 @@ namespace Edumenu
             var left = Canvas.GetLeft(LayoutRoot);
             if (_viewMoved)
                 return;
+
             if (Math.Abs(initialPosition - left) < viewChangeThreshold)
             {
                 // Bouncing back
@@ -189,7 +192,7 @@ namespace Edumenu
             }
             else
             {
-                //slide to the right
+                // Slide to the right
                 if (initialPosition < -RightView.Width)
                     MoveViewWindow(-RightView.Width);
                 else
@@ -329,7 +332,14 @@ namespace Edumenu
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            alterCollection();
+            if (appSettings.selectedSchool == "TAYS")
+            {
+                appSettings.selectedSchool = "TTY";
+            }
+            else
+            {
+                appSettings.selectedSchool = "TAYS";
+            }
         }
 
         public void alterCollection()

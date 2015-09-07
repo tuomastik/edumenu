@@ -14,7 +14,6 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
     <Canvas x:Name="canvas"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
@@ -24,11 +23,15 @@
         
         <Canvas.Resources>
             <Storyboard x:Name="moveAnimation">
-                <DoubleAnimation Duration="0:0:0.2"
+                <DoubleAnimation Duration="0:0:0.4"
                                  To="0"
                                  Storyboard.TargetProperty="(Canvas.Left)"
                                  Storyboard.TargetName="LayoutRoot"
-                                 d:IsOptimized="True" />
+                                 d:IsOptimized="True">
+                    <DoubleAnimation.EasingFunction>
+                        <ExponentialEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
             </Storyboard>
         </Canvas.Resources>
 
@@ -120,17 +123,17 @@
                     <Button HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource ContentButton}">
-                        <TextBlock Text="{Binding [selectedSchool]}"
-                                   x:Name="asd"
-                                       Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                       FontSize="24"
-                                       Padding="25,10,25,10"/>
+                        <TextBlock Text="{Binding selectedSchool}"
+                                   x:Name="SelectedSchool"
+                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                                   FontSize="24"
+                                   Padding="25,10,25,10"/>
                     </Button>
 
-                    <ProgressBar x:Name="ProBar"
+                    <!--<ProgressBar x:Name="ProBar"
                                      IsIndeterminate="True"
                                      Foreground="White"
-                                     Margin="0,52,0,0"/>
+                                     Margin="0,52,0,0"/>-->
 
                 </Grid>
 
