@@ -7,6 +7,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Edumenu.Resources;
 using Edumenu.ViewModels;
+using Windows.Storage;
 
 namespace Edumenu
 {
@@ -53,6 +54,8 @@ namespace Edumenu
             // Language display initialization
             InitializeLanguage();
 
+            AddOrUpdateSettings();
+
             // Show graphics profiling information while debugging.
             if (Debugger.IsAttached)
             {
@@ -73,6 +76,27 @@ namespace Edumenu
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+        }
+
+        private void AddOrUpdateSettings()
+        {
+            var localSettings = ApplicationData.Current.LocalSettings;
+
+            // First launch
+            if (!localSettings.Values.ContainsKey("isFirstLaunch"))
+            {
+                localSettings.Values["isFirstLaunch"] = true;
+            }
+            else
+            {
+                localSettings.Values["isFirstLaunch"] = false;
+            }
+            System.Diagnostics.Debug.WriteLine("Is this the first launch? " + localSettings.Values["isFirstLaunch"].ToString());
+
+            if (localSettings.Values["isFirstLaunch"].Equals(true))
+            {
+                localSettings.Values["selectedSchool"] = "TTY";
+            }
         }
 
         // Code to execute when a contract activation such as a file open or save picker returns 
