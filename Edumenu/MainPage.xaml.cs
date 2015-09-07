@@ -17,6 +17,7 @@ namespace Edumenu
     {
         // Class level variables
         private static BackgroundWorker bw = new BackgroundWorker();
+        //AppSettings appSettings;
         //private static RestaurantViewModel _restaurantViewModel
         //{
         //    get
@@ -41,6 +42,8 @@ namespace Edumenu
             {
                 bw.RunWorkerAsync();
             }
+            System.Diagnostics.Debug.WriteLine("school: " + Windows.Storage.ApplicationData.Current.LocalSettings.Values["selectedSchool"]);
+            asd.DataContext = Windows.Storage.ApplicationData.Current.LocalSettings.Values;//["selectedSchool"];
         }
 
 

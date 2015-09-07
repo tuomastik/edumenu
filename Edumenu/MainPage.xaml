@@ -120,7 +120,8 @@
                     <Button HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource ContentButton}">
-                        <TextBlock Text="TTY"
+                        <TextBlock Text="{Binding [selectedSchool]}"
+                                   x:Name="asd"
                                        Foreground="{StaticResource ResourceKey=ThemeColor3}"
                                        FontSize="24"
                                        Padding="25,10,25,10"/>
