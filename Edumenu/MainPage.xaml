@@ -83,10 +83,10 @@
                               Background="{StaticResource ResourceKey=ThemeColor1}"
                               Loaded="Scroller_Loaded">
                     <StackPanel>
-                        
+
                         <!--Empty space under the header-->
                         <StackPanel Width="58" Height="58" />
-                        
+
                         <Button Content="Alter observablecollection" Click="Button_Click"/>
 
                         <ItemsControl ItemsSource="{Binding restaurants}">
@@ -96,23 +96,24 @@
 
                                         <!--Restaurant name-->
                                         <Button x:Name="RestaurantButton"
-                                Style="{StaticResource RestaurantButtonStyle}"
-                                Click="Button_Tapped">
+                                                Style="{StaticResource RestaurantButtonStyle}"
+                                                Click="Button_Tapped">
 
                                             <TextBlock x:Name="RestaurantName_TB"
-                                       Text="{Binding name, Mode=OneWay}"
-                                       Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                       FontSize="26" Margin="20,5,0,5"
-                                       FontFamily="Segoe UI" FontWeight="SemiBold"/>
+                                                       Text="{Binding name, Mode=OneWay}"
+                                                       Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                                                       FontSize="26" Margin="20,5,0,5"
+                                                       FontFamily="Segoe UI" FontWeight="SemiBold"/>
                                         </Button>
 
                                         <!--Restaurant menu-->
+                                        <RichTextBox />
                                         <TextBlock Text="{Binding menu, Mode=OneWay}"
-                                   TextAlignment="Left"
-                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                   TextWrapping="Wrap"
-                                   FontSize="22"
-                                   Margin="20,10" />
+                                                   TextAlignment="Left"
+                                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                                                   TextWrapping="Wrap"
+                                                   FontSize="22"
+                                                   Margin="20,10" />
 
                                     </StackPanel>
                                 </DataTemplate>
