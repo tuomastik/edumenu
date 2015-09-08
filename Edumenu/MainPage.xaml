@@ -89,13 +89,35 @@
                         
                         <Button Content="Alter observablecollection" Click="Button_Click"/>
 
-                        <!--Restaurants and their menus-->
-                        <views:RestaurantView x:Name="restaurantView"
-                                      Grid.Row="0"
-                                      HorizontalAlignment="Stretch"
-                                      HorizontalContentAlignment="Stretch"
-                                      VerticalAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"/>
+                        <ItemsControl ItemsSource="{Binding restaurants}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+
+                                        <!--Restaurant name-->
+                                        <Button x:Name="RestaurantButton"
+                                Style="{StaticResource RestaurantButtonStyle}"
+                                Click="Button_Tapped">
+
+                                            <TextBlock x:Name="RestaurantName_TB"
+                                       Text="{Binding name, Mode=OneWay}"
+                                       Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                                       FontSize="26" Margin="20,5,0,5"
+                                       FontFamily="Segoe UI" FontWeight="SemiBold"/>
+                                        </Button>
+
+                                        <!--Restaurant menu-->
+                                        <TextBlock Text="{Binding menu, Mode=OneWay}"
+                                   TextAlignment="Left"
+                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                                   TextWrapping="Wrap"
+                                   FontSize="22"
+                                   Margin="20,10" />
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
                 </ScrollViewer>
 

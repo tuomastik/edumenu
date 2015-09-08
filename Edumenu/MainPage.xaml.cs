@@ -8,10 +8,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
 using Edumenu.Models;
-using Windows.Storage;
-using System.Threading.Tasks;
 
 namespace Edumenu
 {
@@ -20,19 +17,11 @@ namespace Edumenu
         // Class level variables
         private static BackgroundWorker bw = new BackgroundWorker();
         AppSettings appSettings = new AppSettings();
-        //private static RestaurantViewModel _restaurantViewModel
-        //{
-        //    get
-        //    {
-        //        return this.DataContext as RestaurantViewModel;
-        //    }
-        //}
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            VisualStateManager.GoToState(this, "Normal", false);
             // Set data contexts
             SelectedSchool.DataContext = appSettings;
             this.DataContext = App.RestaurantViewModel;
@@ -46,7 +35,6 @@ namespace Edumenu
             {
                 bw.RunWorkerAsync();
             }
-
         }
 
 
@@ -158,7 +146,7 @@ namespace Edumenu
         {
             if (e.DeltaManipulation.Translation.X != 0)
                 Canvas.SetLeft(LayoutRoot, Math.Min(Math.Max(-(LeftView.Width+RightView.Width),
-                    Canvas.GetLeft(LayoutRoot) + e.DeltaManipulation.Translation.X), 0));
+                    Canvas.GetLeft(LayoutRoot) + e.DeltaManipulation.Translation.X), 0));  
         }
 
         double initialPosition;
@@ -252,10 +240,10 @@ namespace Edumenu
 
         private void OnScrollbarValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            System.Diagnostics.Debug.WriteLine(e.OldValue.ToString());
-            System.Diagnostics.Debug.WriteLine(e.NewValue.ToString());
-            System.Diagnostics.Debug.WriteLine("Animation running: " + animationRunning.ToString());
-            System.Diagnostics.Debug.WriteLine("Header visible: " + headerVisible.ToString());
+            //System.Diagnostics.Debug.WriteLine(e.OldValue.ToString());
+            //System.Diagnostics.Debug.WriteLine(e.NewValue.ToString());
+            //System.Diagnostics.Debug.WriteLine("Animation running: " + animationRunning.ToString());
+            //System.Diagnostics.Debug.WriteLine("Header visible: " + headerVisible.ToString());
 
             if (e.NewValue > e.OldValue &&
                 e.NewValue > HeaderContainer.Height &&
@@ -264,7 +252,7 @@ namespace Edumenu
                 // Scroll Down
                 headerVisible = false;
                 AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
-                System.Diagnostics.Debug.WriteLine("User scrolled down!");
+                //System.Diagnostics.Debug.WriteLine("User scrolled down!");
             }
             else if (e.NewValue < e.OldValue &&
                      !animationRunning && !headerVisible)
@@ -272,9 +260,9 @@ namespace Edumenu
                 // Scroll up
                 headerVisible = true;
                 AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
-                System.Diagnostics.Debug.WriteLine("User scrolled up!");
+                //System.Diagnostics.Debug.WriteLine("User scrolled up!");
             }
-            System.Diagnostics.Debug.WriteLine("---------------------");
+            //System.Diagnostics.Debug.WriteLine("---------------------");
         }
 
         public void AnimateMove(FrameworkElement fe, double from, double to, int durationMs)
@@ -355,8 +343,20 @@ namespace Edumenu
             App.RestaurantViewModel.restaurants_tut.Add(r);
         }
 
+        private void Button_Tapped(object sender, RoutedEventArgs e)
+        {
+            // Do not fire up the MessageBox if user is scrolling horizontally
+            if (Canvas.GetLeft(LayoutRoot) != -LeftView.Width)
+            {
+                return;
+            }
+            string restaurantName = ((sender as Button).Content as TextBlock).Text;
+            MessageBox.Show("Haluatko varmasti avata ravintolan " + restaurantName +
+                " verkkosivun selaimessa?");
+        }
 
 
+        
 
 
 
