@@ -89,7 +89,7 @@
 
                         <Button Content="Alter observablecollection" Click="Button_Click"/>
 
-                        <ItemsControl ItemsSource="{Binding restaurants}">
+                        <ItemsControl ItemsSource="{Binding restaurantsVisible}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
@@ -145,7 +145,8 @@
                     <!--School name-->
                     <Button HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Style="{StaticResource ContentButton}">
+                                Style="{StaticResource ContentButton}"
+                                Click="OpenClose_Right">
                         <TextBlock Text="{Binding selectedSchool}"
                                    x:Name="SelectedSchool"
                                    Foreground="{StaticResource ResourceKey=ThemeColor3}"

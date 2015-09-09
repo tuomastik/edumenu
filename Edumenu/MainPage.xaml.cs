@@ -86,10 +86,10 @@ namespace Edumenu
             else
             {
                 System.Diagnostics.Debug.WriteLine("Done!");
-                App.RestaurantViewModel.restaurants.Clear();
-                foreach (Restaurant r in App.RestaurantViewModel.restaurants_tut)
+                App.RestaurantViewModel.restaurantsVisible.Clear();
+                foreach (Restaurant r in App.RestaurantViewModel.restaurantsAll)
                 {
-                    App.RestaurantViewModel.restaurants.Add(r);
+                    App.RestaurantViewModel.restaurantsVisible.Add(r);
                 }
             }
         }
@@ -120,17 +120,17 @@ namespace Edumenu
                 MoveViewWindow(0);
             }
         }
+
         private void OpenClose_Right(object sender, RoutedEventArgs e)
         {
             var left = Canvas.GetLeft(LayoutRoot);
             if (left > (-LeftView.Width - viewChangeThreshold))
             {
-                MoveViewWindow(-LeftView.Width + RightView.Width);
+                MoveViewWindow(-LeftView.Width - RightView.Width);
             }
             else
             {
                 MoveViewWindow(-LeftView.Width);
-
             }
         }
 
@@ -340,7 +340,7 @@ namespace Edumenu
                     menuUrl = new Uri("http://test"),
                     homeUrl = new Uri("http://juuh")
                 };
-            App.RestaurantViewModel.restaurants_tut.Add(r);
+            App.RestaurantViewModel.restaurantsAll.Add(r);
         }
 
         private void Button_Tapped(object sender, RoutedEventArgs e)
