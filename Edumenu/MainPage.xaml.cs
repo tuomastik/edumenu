@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 using Edumenu.Models;
+using System.Text;
 
 namespace Edumenu
 {
@@ -49,21 +50,46 @@ namespace Edumenu
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
-            for (int i = 1; i <= 10; i++)
+            foreach(Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
             {
                 if ((worker.CancellationPending == true))
                 {
                     e.Cancel = true;
                     break;
                 }
+                if (!appSettings.selectedSchool.Equals(restaurant.school.nameShort_fi))
+                {
+                    // Skip the restaurants which do not belong to the selected school
+                    continue;
+                }
                 else
                 {
-                    WebClient webClient = new WebClient();
-                    alterCollection();
-                    //webClient.DownloadStringAsync(restaurant.menuUrl);
-                    // Perform a time consuming operation and report progress.
-                    System.Threading.Thread.Sleep(500);
-                    worker.ReportProgress(i * 10);
+                    // Restaurant belongs to the selected school
+                    WebClient client = new WebClient();
+                    client.Encoding = Encoding.UTF8;
+
+                    switch (restaurant.company)
+                    {
+                        // Use correct parser for correct restaurant company
+                        case Company.Amica:
+                            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(ParseAmica);
+                            break;
+                        case Company.Campusravita:
+                            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(ParseCampusRavita);
+                            break;
+                        case Company.Juvenes:
+                            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(ParseJuvenes);
+                            break;
+                        case Company.Sodexo:
+                            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(ParseSodexo);
+                            break;
+                        default:
+                            // If restaurant's company is not any of those procecced above,
+                            // go to the next restaurant
+                            continue;
+                    }
+                    client.DownloadStringAsync(restaurant.menuUrl);
+                    //worker.ReportProgress(i * 10);
                 }
             }
         }
@@ -85,11 +111,19 @@ namespace Edumenu
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Done!");
+                // Backgroundworker completed successfully
                 App.RestaurantViewModel.restaurantsVisible.Clear();
-                foreach (Restaurant r in App.RestaurantViewModel.restaurantsAll)
+                foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
                 {
-                    App.RestaurantViewModel.restaurantsVisible.Add(r);
+                    // Skip the restaurants which do not correspond to the selected school
+                    if (!appSettings.selectedSchool.Equals(restaurant.school.nameShort_fi))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        App.RestaurantViewModel.restaurantsVisible.Add(restaurant);
+                    }
                 }
             }
         }
@@ -97,7 +131,6 @@ namespace Edumenu
         //--------------------------------------------------------------------
         // Fetching restaurant menus with BackgroundWorker
         //--------------------------------------------------------------------
-
 
 
 
@@ -192,7 +225,6 @@ namespace Edumenu
         //--------------------------------------------------------------------
         // The code implementing moving between left, middle and right view
         //--------------------------------------------------------------------
-
 
 
 
@@ -318,6 +350,42 @@ namespace Edumenu
 
 
 
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // Restaurant menu parsers
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        private void ParseAmica(object sender, DownloadStringCompletedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void ParseCampusRavita(object sender, DownloadStringCompletedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void ParseJuvenes(object sender, DownloadStringCompletedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void ParseSodexo(object sender, DownloadStringCompletedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        //--------------------------------------------------------------------
+        // Restaurant menu parsers
+        //--------------------------------------------------------------------
+
+
+
+
+
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // Button clicks
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (appSettings.selectedSchool == "TAYS")
@@ -328,19 +396,10 @@ namespace Edumenu
             {
                 appSettings.selectedSchool = "TAYS";
             }
-        }
-
-        public void alterCollection()
-        {
-            //App.RestaurantViewModel.restaurants.Clear();
-            var r = new Models.Restaurant()
-                {
-                    name = "Uusi ravintola",
-                    menu = "Qwerty asd asd",
-                    menuUrl = new Uri("http://test"),
-                    homeUrl = new Uri("http://juuh")
-                };
-            App.RestaurantViewModel.restaurantsAll.Add(r);
+            if (bw.IsBusy != true)
+            {
+                bw.RunWorkerAsync();
+            }
         }
 
         private void Button_Tapped(object sender, RoutedEventArgs e)
@@ -355,8 +414,9 @@ namespace Edumenu
                 " verkkosivun selaimessa?");
         }
 
-
-        
+        //--------------------------------------------------------------------
+        // Button clicks
+        //--------------------------------------------------------------------        
 
 
 
