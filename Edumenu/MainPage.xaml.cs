@@ -11,6 +11,8 @@ using System.ComponentModel;
 using Edumenu.Models;
 using System.Text;
 using System.Globalization;
+using System.Threading;
+using Microsoft.Phone.Shell;
 
 namespace Edumenu
 {
@@ -18,6 +20,10 @@ namespace Edumenu
     {
         public static string selectedDay = (new CultureInfo("fi-FI")).
             DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek);
+
+        public static int progress; // Total progress 0...1
+        public static int nRestaurantsProcessed; // Restaurants processed per school
+        public static bool allRestaurantsProcessed; // Can we exit the background thread?
     }
 
     public partial class MainPage : PhoneApplicationPage
@@ -56,6 +62,10 @@ namespace Edumenu
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
+            Globals.nRestaurantsProcessed = 0;
+            Globals.allRestaurantsProcessed = false;
+            Globals.progress = 0;
+            worker.ReportProgress(0);
 
             foreach(Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
             {
@@ -76,7 +86,26 @@ namespace Edumenu
                     client.Encoding = Encoding.UTF8;
                     client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(MenuDownloadCompleted);
                     client.DownloadStringAsync(restaurant.menuUrl, restaurant);
-                    //worker.ReportProgress(i * 10);
+                }
+            }
+            // Wait until all restaurant menus have been downloaded and parsed.
+            int lastProgress = Globals.progress;
+            for (int i = 1; i <= 1000; i++) // Max sleep time 100 * 0,1 s = 10 s
+            {
+                if (!lastProgress.Equals(Globals.progress))
+                {
+                    worker.ReportProgress(Globals.progress);
+                    lastProgress = Globals.progress;
+                }
+                if (Globals.allRestaurantsProcessed)
+                {
+                    worker.ReportProgress(100);
+                    break;
+                }
+                else
+                {
+                    // Continue sleeping for another 100 ms = 0,1 s
+                    Thread.Sleep(100);
                 }
             }
         }
@@ -114,7 +143,15 @@ namespace Edumenu
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(e.ProgressPercentage.ToString() + "%");
+            //System.Diagnostics.Debug.WriteLine(e.ProgressPercentage.ToString() + "%");
+            ProBar.Value = ((double)e.ProgressPercentage);
+            var progressIndicator = new ProgressIndicator
+            {
+                Text = "Ladataan ruokalistoja...",
+                IsVisible = true,
+                IsIndeterminate = false,        
+            };
+            SystemTray.SetProgressIndicator(this, progressIndicator);
         }
 
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -127,9 +164,18 @@ namespace Edumenu
             {
                 System.Diagnostics.Debug.WriteLine("Error: " + e.Error.Message);
             }
-            else
+            else // Backgroundworker completed successfully
             {
-                // Backgroundworker completed successfully
+                ProBar.Value = 0;
+                var progressIndicator = new ProgressIndicator
+                {
+                    Text = "",
+                    IsVisible = false,
+                    Value = 0.0,
+                };
+                SystemTray.SetProgressIndicator(this, progressIndicator);
+
+                
                 App.RestaurantViewModel.restaurantsVisible.Clear();
                 foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
                 {
@@ -374,13 +420,13 @@ namespace Edumenu
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (appSettings.selectedSchool == "TAYS")
+            if (appSettings.selectedSchool == "TAY")
             {
                 appSettings.selectedSchool = "TTY";
             }
             else
             {
-                appSettings.selectedSchool = "TAYS";
+                appSettings.selectedSchool = "TAY";
             }
             if (bw.IsBusy != true)
             {
