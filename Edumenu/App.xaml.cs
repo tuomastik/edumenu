@@ -86,7 +86,7 @@ namespace Edumenu
             {
                 appSettings.firstLaunch = false;
             }
-            System.Diagnostics.Debug.WriteLine("Is this the first launch? " + appSettings.firstLaunch.ToString());
+            //System.Diagnostics.Debug.WriteLine("Is this the first launch? " + appSettings.firstLaunch.ToString());
         }
 
         // Code to execute when a contract activation such as a file open or save picker returns 
