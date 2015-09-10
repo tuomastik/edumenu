@@ -11,7 +11,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True">  <!--shell:SystemTray.Opacity="0"-->
 
     <Canvas x:Name="canvas"
             VerticalAlignment="Stretch"
@@ -143,9 +143,9 @@
 
                     <!--School name-->
                     <Button HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource ContentButton}"
-                                Click="OpenClose_Right">
+                            VerticalAlignment="Center"
+                            Style="{StaticResource ContentButton}"
+                            Click="OpenClose_Right">
                         <TextBlock Text="{Binding selectedSchool}"
                                    x:Name="SelectedSchool"
                                    Foreground="{StaticResource ResourceKey=ThemeColor3}"
@@ -153,10 +153,14 @@
                                    Padding="25,10,25,10"/>
                     </Button>
 
-                    <!--<ProgressBar x:Name="ProBar"
-                                     IsIndeterminate="True"
-                                     Foreground="White"
-                                     Margin="0,52,0,0"/>-->
+                    <ProgressBar x:Name="ProBar"
+                                 IsIndeterminate="False"
+                                 Foreground="White"
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Stretch"
+                                 HorizontalContentAlignment="Stretch"
+                                 Margin="0"
+                                 Padding="0"/>
 
                 </Grid>
 
