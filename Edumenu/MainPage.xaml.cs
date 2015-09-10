@@ -10,9 +10,16 @@ using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 using Edumenu.Models;
 using System.Text;
+using System.Globalization;
 
 namespace Edumenu
 {
+    public static class Globals
+    {
+        public static string selectedDay = (new CultureInfo("fi-FI")).
+            DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek);
+    }
+
     public partial class MainPage : PhoneApplicationPage
     {
         // Class level variables
@@ -67,30 +74,41 @@ namespace Edumenu
                     // Restaurant belongs to the selected school
                     WebClient client = new WebClient();
                     client.Encoding = Encoding.UTF8;
-
-                    switch (restaurant.company)
-                    {
-                        // Use correct parser for correct restaurant company
-                        case Company.Amica:
-                            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(ParseAmica);
-                            break;
-                        case Company.Campusravita:
-                            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(ParseCampusRavita);
-                            break;
-                        case Company.Juvenes:
-                            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(ParseJuvenes);
-                            break;
-                        case Company.Sodexo:
-                            client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(ParseSodexo);
-                            break;
-                        default:
-                            // If restaurant's company is not any of those procecced above,
-                            // go to the next restaurant
-                            continue;
-                    }
-                    client.DownloadStringAsync(restaurant.menuUrl);
+                    client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(MenuDownloadCompleted);
+                    client.DownloadStringAsync(restaurant.menuUrl, restaurant);
                     //worker.ReportProgress(i * 10);
                 }
+            }
+        }
+
+        private void MenuDownloadCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if ((e.Error != null) || (string.IsNullOrEmpty(e.Result)))
+            {
+                return;
+            }
+
+            Restaurant restaurant = e.UserState as Restaurant;
+
+            switch (restaurant.company)
+            {
+                // Use correct parser for correct restaurant company
+                case Company.Amica:
+                    restaurant.ParseAmica(e.Result);
+                    break;
+                case Company.Campusravita:
+                    restaurant.ParseCampusRavita(e.Result);
+                    break;
+                case Company.Juvenes:
+                    restaurant.ParseJuvenes(e.Result);
+                    break;
+                case Company.Sodexo:
+                    restaurant.ParseSodexo(e.Result);
+                    break;
+                default:
+                    // If restaurant's company is not any of those processed above,
+                    // go to the next restaurant
+                    return;
             }
         }
 
@@ -344,38 +362,6 @@ namespace Edumenu
 
         //--------------------------------------------------------------------
         // ScrollViewer - Header interactions
-        //--------------------------------------------------------------------
-
-
-
-
-
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // Restaurant menu parsers
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-        private void ParseAmica(object sender, DownloadStringCompletedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        private void ParseCampusRavita(object sender, DownloadStringCompletedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        private void ParseJuvenes(object sender, DownloadStringCompletedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        private void ParseSodexo(object sender, DownloadStringCompletedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        //--------------------------------------------------------------------
-        // Restaurant menu parsers
         //--------------------------------------------------------------------
 
 
