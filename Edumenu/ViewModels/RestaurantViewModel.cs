@@ -7,9 +7,6 @@ namespace Edumenu.ViewModels
 
     public class RestaurantViewModel //: INotifyPropertyChanged
     {
-        /// <summary>
-        /// A collection for RestaurantViewModel objects.
-        /// </summary>
         public ObservableCollection<Restaurant> restaurantsVisible { get; set; }
         public ObservableCollection<Restaurant> restaurantsAll { get; set; }
 
