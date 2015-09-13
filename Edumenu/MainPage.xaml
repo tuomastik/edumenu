@@ -50,7 +50,15 @@
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     Height="{Binding ActualHeight, ElementName=canvas}">
-                <TextBlock Text="=D" />
+                <!--Header-->
+                <Grid Style="{StaticResource ResourceKey=HeaderGrid}"
+                      Background="{StaticResource ResourceKey=ThemeColor7}">
+
+                        <TextBlock Text="Edumenu"
+                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                                   FontSize="24"
+                                   Padding="25,10,25,10"/>
+                </Grid>
             </Border>
             
             <!--Right view-->
@@ -63,7 +71,14 @@
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     Height="{Binding ActualHeight, ElementName=canvas}">
-                <TextBlock Text="=D" />
+                <Grid Style="{StaticResource ResourceKey=HeaderGrid}"
+                      Background="{StaticResource ResourceKey=ThemeColor7}">
+
+                    <TextBlock Text="Oppilaitokset"
+                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                                   FontSize="24"
+                                   Padding="25,10,25,10"/>
+                </Grid>
             </Border>
 
             <!--Middle/main View-->
@@ -106,12 +121,12 @@
                                         </Button>
 
                                         <!--Restaurant menu-->
-                                        <RichTextBox />
+                                        <!--<RichTextBox Margin="20,0" Padding="0" />-->
                                         <TextBlock Text="{Binding menu, Mode=OneWay}"
                                                    TextAlignment="Left"
                                                    Foreground="{StaticResource ResourceKey=ThemeColor3}"
                                                    TextWrapping="Wrap"
-                                                   FontSize="22"
+                                                   FontSize="24"
                                                    Margin="20,10" />
 
                                     </StackPanel>
@@ -122,9 +137,7 @@
                 </ScrollViewer>
 
                 <!--Header-->
-                <Grid Height="58"
-                      VerticalAlignment="Top"
-                      Grid.Row="0"
+                <Grid Style="{StaticResource ResourceKey=HeaderGrid}"
                       Background="{StaticResource ResourceKey=ThemeColor4}"
                       x:Name="HeaderContainer">
 
