@@ -39,12 +39,13 @@ namespace Edumenu.Models
                 foreach (XElement dayNode in dayNodes)
                 {
                     dayOfWeek = dayNode.Element("title").ToString().ToLower();
-                    if (!dayOfWeek.Contains(Globals.selectedDay.ToLower()))
+                    if (dayOfWeek.IndexOf(Globals.selectedDay,
+                        StringComparison.OrdinalIgnoreCase) < 0)
                     {
                         // Skip if not the selected day
                         continue;
                     }
-                    menu = CleanMenu(dayNode.Element("description").Value.ToString());
+                    menu = CleanMenu(dayNode.Element("description").Value);
                     break;
                 }
             }
@@ -80,8 +81,9 @@ namespace Edumenu.Models
                 var dayNodes = rss.Element("channel").Elements("item");
                 foreach (XElement dayNode in dayNodes)
                 {
-                    dayOfWeekAndMenu = dayNode.Element("description").Value.ToString();
-                    if (!dayOfWeekAndMenu.Contains(dayOfWeekEndSequence))
+                    dayOfWeekAndMenu = dayNode.Element("description").Value;
+                    if (dayOfWeekAndMenu.IndexOf(dayOfWeekEndSequence,
+                        StringComparison.OrdinalIgnoreCase) < 0)
                     {
                         // Skip if not able to resolve the day of week
                         continue;
@@ -89,7 +91,8 @@ namespace Edumenu.Models
                     dayOfWeek = dayOfWeekAndMenu.Substring(0,
                         dayOfWeekAndMenu.IndexOf(dayOfWeekEndSequence) +
                         dayOfWeekEndSequence.Length);
-                    if (!dayOfWeek.ToLower().Contains(Globals.selectedDay.ToLower()))
+                    if (dayOfWeek.IndexOf(Globals.selectedDay,
+                        StringComparison.OrdinalIgnoreCase) < 0)
                     {
                         // Skip if not the selected day
                         continue;
@@ -111,13 +114,74 @@ namespace Edumenu.Models
             }
         }
 
-        internal void ParseSodexo(string p)
+        internal void ParseSodexo(string sourceCode)
         {
-            for (int i = 0; i < 10 * 10 * 10 * 10; ++i)
+            try
             {
-                continue;
+                string dayOfWeek = "";
+                string dayOfWeekAndMenu = "";
+
+                XElement rss = XElement.Parse(sourceCode);
+                string allDaysAndMenus = rss.Element("channel")
+                    .Element("item").Element("description").Value;
+                List<string> daySplits = new List<string>(sourceCode.Split(
+                    new string[] { "<h2>" }, StringSplitOptions.RemoveEmptyEntries));
+                foreach (string daySplit in daySplits)
+                {
+                    if (daySplit.IndexOf(Globals.selectedDay.ToString(),
+                        StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        // Selected day found
+                        dayOfWeekAndMenu = daySplit;
+                        break;
+                    }
+                }
+                if (dayOfWeekAndMenu.Equals(""))
+                {
+                    // Selected day not found
+                    return;
+                }
+                List<string> menuItems = new List<string>(dayOfWeekAndMenu.Split(
+                    new string[] { "<strong>" }, StringSplitOptions.RemoveEmptyEntries));
+                List<string> menuItemSymbols = new List<string>(dayOfWeekAndMenu.Split(
+                    new string[] { "<span>" }, StringSplitOptions.RemoveEmptyEntries));
+                string item = "";
+                string itemSymbol = "";
+
+                // Make sure that there are as many menuItems as there are menuItemSymbols
+                if (!menuItems.Count().Equals(menuItemSymbols.Count()))
+                {
+                    return;
+                }
+                for (int a = 1; a < menuItems.Count(); a += 2)
+                {
+                    item = menuItems[a].Substring(0, menuItems[a].IndexOf(
+                        "</strong>", StringComparison.OrdinalIgnoreCase));
+                    int spanEndIndex = menuItemSymbols[a].IndexOf("</span>",
+                        StringComparison.OrdinalIgnoreCase);
+                    if (spanEndIndex >= 0)
+                    {
+                        itemSymbol = "(" + menuItemSymbols[a].Substring(0, spanEndIndex) + ")";
+                        if (itemSymbol.Equals("()"))
+                        {
+                            itemSymbol = String.Empty;
+                        }
+                    }
+                    menu += item + " " + itemSymbol + Environment.NewLine + Environment.NewLine;
+                }
+                menu += Environment.NewLine;
+                
+
             }
-            UpdateProgress();
+            catch
+            {
+                // Silently swallow an error condition and continue execution.
+                // This is okay, because menu strings were initialized properly before execution.
+            }
+            finally
+            {
+                UpdateProgress();
+            }
         }
 
         private string CleanMenu(string dirtyMenu)
@@ -137,7 +201,7 @@ namespace Edumenu.Models
                     dirtyMenu = Regex.Replace(dirtyMenu, "\\s+(?=[^()]*\\))", "");
                     //dirtyMenu = Regex.Replace(dirtyMenu, "\\s+(?=[^[]]*\\])", "");
 
-                    // Remove uppercase from menu type title
+                    // Remove uppercase from menu type title and capitalize the first letter
                     // Split by newlines
                     string[] lines = dirtyMenu.Split(new string[]
                         { "\r\n", "\n" }, StringSplitOptions.None);
@@ -183,6 +247,7 @@ namespace Edumenu.Models
             int totalSchoolRestaurants = 0;
             foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
             {
+                // Count the number of restaurants belonging to the selected school
                 if (restaurant.school.name_fi.Equals(school.name_fi))
                 {
                     totalSchoolRestaurants += 1;
