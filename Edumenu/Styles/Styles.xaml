@@ -4,20 +4,20 @@
 
     <!--Define reusable custom colors -->
     <!--When theme is changed, these values will be changed in code behind-->
-    <SolidColorBrush Color="Salmon" x:Key="ThemeColor1" />
-    <SolidColorBrush Color="IndianRed" x:Key="ThemeColor2" />
-    <SolidColorBrush Color="WhiteSmoke" x:Key="ThemeColor3" />
-    <SolidColorBrush Color="CadetBlue" x:Key="ThemeColor4" />
+    <SolidColorBrush x:Key="ThemeColor1" Color="Salmon"/>
+    <SolidColorBrush x:Key="ThemeColor2" Color="IndianRed"/>
+    <SolidColorBrush x:Key="ThemeColor3" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="ThemeColor4" Color="CadetBlue"/>
 
-    <SolidColorBrush Color="#ff2f313e" x:Key="ThemeColor5" />
-    <SolidColorBrush Color="#FF242634" x:Key="ThemeColor6" />
-    <SolidColorBrush Color="#FF181A25" x:Key="ThemeColor7" />
+    <SolidColorBrush x:Key="ThemeColor5" Color="#FF2F313E"/>
+    <SolidColorBrush x:Key="ThemeColor6" Color="#FF242634"/>
+    <SolidColorBrush x:Key="ThemeColor7" Color="#FF181A25"/>
 
-    <Style x:Key="CampusHeaderTextBlock" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="60"/>
-        <Setter Property="FontFamily" Value="Segoe WP Light"/>
-        <Setter Property="Foreground" Value="#FF4D4D4D"/>
+    <Style x:Key="HeaderGrid" TargetType="Grid">
+        <Setter Property="Height" Value="58"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
+    
     <Style x:Key="RestaurantTextBlockTemplate" TargetType="TextBlock">
         <Setter Property="Margin" Value="0, 0, 0, 0"/>
         <Setter Property="FontSize" Value="32"/>
