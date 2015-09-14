@@ -116,29 +116,8 @@ namespace Edumenu
             {
                 return;
             }
-
             Restaurant restaurant = e.UserState as Restaurant;
-
-            switch (restaurant.company)
-            {
-                // Use correct parser for correct restaurant company
-                case Company.Amica:
-                    restaurant.ParseAmica(e.Result);
-                    break;
-                case Company.Campusravita:
-                    restaurant.ParseCampusRavita(e.Result);
-                    break;
-                case Company.Juvenes:
-                    restaurant.ParseJuvenes(e.Result);
-                    break;
-                case Company.Sodexo:
-                    restaurant.ParseSodexo(e.Result);
-                    break;
-                default:
-                    // If restaurant's company is not any of those processed above,
-                    // go to the next restaurant
-                    return;
-            }
+            restaurant.ParseMenu(e.Result);
         }
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -169,7 +148,7 @@ namespace Edumenu
                 ProBar.Value = 0;
                 var progressIndicator = new ProgressIndicator
                 {
-                    Text = "",
+                    Text = string.Empty,
                     IsVisible = false,
                     Value = 0.0,
                 };
