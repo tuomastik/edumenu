@@ -13,6 +13,7 @@ using System.Text;
 using System.Globalization;
 using System.Threading;
 using Microsoft.Phone.Shell;
+using System.Collections.Generic;
 
 namespace Edumenu
 {
@@ -29,8 +30,17 @@ namespace Edumenu
     public partial class MainPage : PhoneApplicationPage
     {
         // Class level variables
-        private static BackgroundWorker bw = new BackgroundWorker();
+        private BackgroundWorker bw = new BackgroundWorker();
         AppSettings appSettings = new AppSettings();
+        public static List<string> daysOfWeek = new List<string>()
+        {
+            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Monday)),
+            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Tuesday)),
+            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Wednesday)),
+            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Thursday)),
+            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Friday)),
+            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Saturday))
+        };
 
         // Constructor
         public MainPage()
@@ -39,6 +49,8 @@ namespace Edumenu
             // Set data contexts
             SelectedSchool.DataContext = appSettings;
             this.DataContext = App.RestaurantViewModel;
+            DaysOfWeekItemsControl.DataContext = daysOfWeek;
+            //DietIcon.DataContext = Diet.glutenFree;
             // BackgroundWorker
             bw.WorkerSupportsCancellation = true;
             bw.WorkerReportsProgress = true;

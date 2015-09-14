@@ -41,47 +41,119 @@
                 Background="Transparent"
                 Canvas.Left="-350">
             
+            
+            
+            
+            
             <!--Left view-->
             <Border x:Name="LeftView"
                     Width="350"
+                    Height="{Binding ActualHeight, ElementName=canvas}"
                     CacheMode="BitmapCache"
-                    Background="#FF31363E"
-                    Grid.Column="0"
+                    Background="{StaticResource ResourceKey=ThemeColor5}"
                     VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
-                    Height="{Binding ActualHeight, ElementName=canvas}">
-                <!--Header-->
-                <Grid Style="{StaticResource ResourceKey=HeaderGrid}"
-                      Background="{StaticResource ResourceKey=ThemeColor7}">
+                    HorizontalAlignment="Stretch">
+                <!--Left view: Container-->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--Left view: Big header-->
+                    <!--<Grid Style="{StaticResource ResourceKey=BigHeaderGrid}"
+                          Background="{StaticResource ResourceKey=ThemeColor7}"
+                          Grid.Row="0">
 
                         <TextBlock Text="Edumenu"
-                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                   FontSize="24"
-                                   Padding="25,10,25,10"/>
+                                   Style="{StaticResource BigHeaderText}"
+                                   Foreground="{StaticResource ResourceKey=ThemeColor6}"/>
+                    </Grid>-->
+                    <!--Left view: Content-->
+                    <Grid Grid.Row="1">
+                        <ScrollViewer>
+                            <StackPanel>
+                                <!--Left view: Days of week-->
+                                <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
+                                      Background="{StaticResource ResourceKey=ThemeColor7}"
+                                      Grid.Row="0">
+
+                                    <TextBlock Text="Viikonpäivät"
+                                               Style="{StaticResource SmallHeaderText}"/>
+                                </Grid>
+                                <ItemsControl x:Name="DaysOfWeekItemsControl" ItemsSource="{Binding}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}"
+                                                       Style="{StaticResource MenuText}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <!--Left view: Information-->
+                                <StackPanel Orientation="Horizontal" Margin="20,70,0,0">
+                                    <Image Source="Assets/IconDiets.png"
+                                           Width="25" Height="25"/>
+                                    <TextBlock Text="Erityisruokavaliot"
+                                               Style="{StaticResource MenuText}"
+                                               Margin="20,8,10,10"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+                                    <Image Source="Assets/IconSettings.png"
+                                           Width="25" Height="25"/>
+                                    <TextBlock Text="Asetukset"
+                                               Style="{StaticResource MenuText}"
+                                               Margin="20,8,10,10" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+                                    <Image Source="Assets/IconApp.png"
+                                           Width="25" Height="25"/>
+                                    <TextBlock Text="Tietoa sovelluksesta"
+                                               Style="{StaticResource MenuText}"
+                                               Margin="20,6,10,10"/>
+                                </StackPanel>
+                                
+                                <TextBlock Text="Edumenu"
+                                           Margin="20,70,0,0"
+                                           FontSize="34"
+                                           FontWeight="Light"
+                                           Foreground="{StaticResource ThemeColor1}"/>
+                                <TextBlock Text="Versio 2.0.0.0"
+                                           Margin="20,0,0,0"
+                                           FontSize="20"
+                                           FontWeight="Light"
+                                           Foreground="{StaticResource ThemeColor3}"/>
+                                <!--<Image x:Name="DietIcon" Source="{Binding iconPath}" Width="30" Height="30"/>-->
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
             </Border>
+            
+            
+            
+            
             
             <!--Right view-->
             <Border x:Name="RightView"
                     Width="350"
+                    Height="{Binding ActualHeight, ElementName=canvas}"
                     CacheMode="BitmapCache"
-                    Background="#FF31363E"
+                    Background="{StaticResource ResourceKey=ThemeColor5}"
                     Margin="830,0,0,0"
-                    Grid.Column="2"
                     VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
-                    Height="{Binding ActualHeight, ElementName=canvas}">
-                <Grid Style="{StaticResource ResourceKey=HeaderGrid}"
+                    HorizontalAlignment="Stretch">
+                <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
                       Background="{StaticResource ResourceKey=ThemeColor7}">
 
                     <TextBlock Text="Oppilaitokset"
-                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                   FontSize="24"
-                                   Padding="25,10,25,10"/>
+                               Style="{StaticResource SmallHeaderText}"/>
                 </Grid>
             </Border>
 
-            <!--Middle/main View-->
+            
+            
+            
+            
+            <!--Middle view-->
             <Grid x:Name="MainView"
                   Margin="350,0,0,0"
                   CacheMode="BitmapCache"
@@ -90,44 +162,33 @@
                   Height="{Binding ActualHeight, ElementName=canvas}"
                   Width="480" >
 
-                <!--Content-->
-                <!--Content is defined before header, so that header will be on top of content-->
+                <!--Middle view: Content-->
+                <!--Middle view: Content is defined before header, so that header will be on top of content-->
                 <ScrollViewer x:Name="Scroller"
-                              VerticalScrollBarVisibility="Visible"
-                              Background="{StaticResource ResourceKey=ThemeColor1}"
-                              Loaded="Scroller_Loaded">
+                              Loaded="Scroller_Loaded"
+                              Background="{StaticResource ResourceKey=ThemeColor1}">
                     <StackPanel>
 
-                        <!--Empty space under the header-->
+                        <!--Middle view: Empty space under the header-->
                         <StackPanel Width="58" Height="58" />
-
-                        <Button Content="Alter observablecollection" Click="Button_Click"/>
 
                         <ItemsControl ItemsSource="{Binding restaurantsVisible}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
 
-                                        <!--Restaurant name-->
-                                        <Button x:Name="RestaurantButton"
-                                                Style="{StaticResource RestaurantButtonStyle}"
+                                        <!--Middle view: Restaurant name-->
+                                        <Button Style="{StaticResource RestaurantButton}"
                                                 Click="Button_Tapped">
 
-                                            <TextBlock x:Name="RestaurantName_TB"
-                                                       Text="{Binding name, Mode=OneWay}"
-                                                       Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                                       FontSize="26" Margin="20,5,0,5"
-                                                       FontFamily="Segoe UI" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding name, Mode=OneWay}"
+                                                       Style="{StaticResource RestaurantText}"/>
                                         </Button>
 
-                                        <!--Restaurant menu-->
+                                        <!--Middle view: Restaurant menu-->
                                         <!--<RichTextBox Margin="20,0" Padding="0" />-->
                                         <TextBlock Text="{Binding menu, Mode=OneWay}"
-                                                   TextAlignment="Left"
-                                                   Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                                   TextWrapping="Wrap"
-                                                   FontSize="24"
-                                                   Margin="20,10" />
+                                                   Style="{StaticResource MenuText}"/>
 
                                     </StackPanel>
                                 </DataTemplate>
@@ -136,12 +197,12 @@
                     </StackPanel>
                 </ScrollViewer>
 
-                <!--Header-->
-                <Grid Style="{StaticResource ResourceKey=HeaderGrid}"
+                <!--Middle view: Header-->
+                <Grid Style="{StaticResource ResourceKey=BigHeaderGrid}"
                       Background="{StaticResource ResourceKey=ThemeColor4}"
                       x:Name="HeaderContainer">
 
-                    <!--Hamburger button-->
+                    <!--Middle view: Hamburger button-->
                     <Button HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             x:Name="LeftButtonTapped"
@@ -154,7 +215,7 @@
                         </StackPanel>
                     </Button>
 
-                    <!--School name-->
+                    <!--Middle view: School name-->
                     <Button HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Style="{StaticResource ContentButton}"
@@ -166,6 +227,7 @@
                                    Padding="25,10,25,10"/>
                     </Button>
 
+                    <!--Middle view: ProgressBar-->
                     <ProgressBar x:Name="ProBar"
                                  IsIndeterminate="False"
                                  Foreground="White"
@@ -176,14 +238,12 @@
                                  Padding="0"/>
 
                 </Grid>
-
-
-
-
-
-
-
             </Grid>
+            
+            
+            
+            
+            
         </Canvas>
     </Canvas>
 
