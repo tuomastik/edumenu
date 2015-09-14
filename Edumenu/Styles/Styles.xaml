@@ -2,8 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--Define reusable custom colors -->
-    <!--When theme is changed, these values will be changed in code behind-->
+    <!--Theme colors-->
     <SolidColorBrush x:Key="ThemeColor1" Color="Salmon"/>
     <SolidColorBrush x:Key="ThemeColor2" Color="IndianRed"/>
     <SolidColorBrush x:Key="ThemeColor3" Color="WhiteSmoke"/>
@@ -13,17 +12,54 @@
     <SolidColorBrush x:Key="ThemeColor6" Color="#FF242634"/>
     <SolidColorBrush x:Key="ThemeColor7" Color="#FF181A25"/>
 
-    <Style x:Key="HeaderGrid" TargetType="Grid">
+    <!--Big header-->
+    <Style x:Key="BigHeaderGrid" TargetType="Grid">
         <Setter Property="Height" Value="58"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
     
-    <Style x:Key="RestaurantTextBlockTemplate" TargetType="TextBlock">
-        <Setter Property="Margin" Value="0, 0, 0, 0"/>
-        <Setter Property="FontSize" Value="32"/>
-        <Setter Property="FontFamily" Value="Segoe WP"/>
+    <Style x:Key="BigHeaderText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Padding" Value="20,10"/>
     </Style>
+
+    <!--Small header-->
+    <Style x:Key="SmallHeaderGrid" TargetType="Grid">
+        <Setter Property="VerticalAlignment" Value="Top"/>
+    </Style>
+
+    <Style x:Key="SmallHeaderText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="26"/>
+        <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Margin" Value="20,5,0,5"/>
+    </Style>
+
+    <!--Restaurant name-->
+    <Style x:Key="RestaurantText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="26"/>
+        <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Margin" Value="20,5,0,5"/>
+    </Style>
+    
+    <!--Restaurant menu-->
+    <Style x:Key="MenuText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="20,10"/>
+    </Style>
+    
+    
+    
     <Style x:Key="HeaderBackgroundTemplate" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource ThemeColor2}" />
         <Setter Property="Margin" Value="0, 0, 0, 0"/>
@@ -31,7 +67,7 @@
 
 
 
-
+    <!--Buttons-->
     <Style x:Key="ContentButton" TargetType="Button">
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="0"/>
@@ -50,8 +86,7 @@
         </Setter>
     </Style>
 
-
-    <Style x:Key="RestaurantButtonStyle" TargetType="Button" BasedOn="{StaticResource ContentButton}">
+    <Style x:Key="RestaurantButton" TargetType="Button" BasedOn="{StaticResource ContentButton}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
