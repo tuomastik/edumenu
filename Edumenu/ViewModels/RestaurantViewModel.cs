@@ -1,6 +1,7 @@
 ﻿using Edumenu.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace Edumenu.ViewModels
 {
@@ -15,6 +16,24 @@ namespace Edumenu.ViewModels
             this.restaurantsVisible = new ObservableCollection<Restaurant>();
             this.restaurantsAll = new ObservableCollection<Restaurant>();
 
+
+            //BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly
+            var bindingFlags = BindingFlags.Instance |
+                BindingFlags.NonPublic |
+                BindingFlags.Public;
+            Type myType = typeof(Restaurant);
+            PropertyInfo[] properties = myType.GetProperties(bindingFlags);
+            foreach (PropertyInfo property in properties)
+            {
+                //MyComboBox.Items.Add(property.GetValue(myType, null).ToString());
+            }
+
+
+            //var fieldValues = Restaurant.GetType()
+            //                     .GetFields(bindingFlags)
+            //                     .Select(field => field.GetValue(foo))
+            //                     .ToList();
+
             //-----------------------------
             // TUT
             //-----------------------------
@@ -22,7 +41,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Hertsi",
                 company = Company.Sodexo,
-                school = Schools.tut,
+                school = School.tut,
                 menuUrl = new Uri("http://www.sodexo.fi/ruokalistat/rss/weekly_rss/12812/fi"),
                 homeUrl = new Uri("http://www.sodexo.fi/tty-tietotalo/ravintola-hertsi"),
             });
@@ -30,7 +49,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Reaktori",
                 company = Company.Amica,
-                school = Schools.tut,
+                school = School.tut,
                 menuUrl = new Uri("http://www.amica.fi/modules/MenuRss/MenuRss/CurrentWeek?costNumber=0812&language=fi"),
                 homeUrl = new Uri("http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/tampere/reaktori/"),
             });
@@ -38,7 +57,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Newton",
                 company = Company.Juvenes,
-                school = Schools.tut,
+                school = School.tut,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/337/moduleid/1149/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/newton.aspx"),
             });
@@ -46,7 +65,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Newton - Rohee Xtra",
                 company = Company.Juvenes,
-                school = Schools.tut,
+                school = School.tut,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/348/moduleid/1187/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/newton/roheextra.aspx"),
             });
@@ -81,7 +100,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Yliopiston Ravintola",
                 company = Company.Juvenes,
-                school = Schools.uta,
+                school = School.uta,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/344/moduleid/1147/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola.aspx"),
             });
@@ -89,7 +108,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Minerva",
                 company = Company.Amica,
-                school = Schools.uta,
+                school = School.uta,
                 menuUrl = new Uri("http://www.amica.fi/modules/MenuRss/MenuRss/CurrentWeek?costNumber=0815&language=fi"),
                 homeUrl = new Uri("http://www.amica.fi/minerva"),
             });
@@ -97,7 +116,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Linna",
                 company = Company.Sodexo,
-                school = Schools.uta,
+                school = School.uta,
                 menuUrl = new Uri("http://www.sodexo.fi/ruokalistat/rss/weekly_rss/92/fi"),
                 homeUrl = new Uri("http://www.sodexo.fi/linna"),
             });
@@ -105,7 +124,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Café & Lunch Pinni",
                 company = Company.Juvenes,
-                school = Schools.uta,
+                school = School.uta,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/304/moduleid/1184/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/caf%C3%A9lunchpinni.aspx"),
             });
@@ -113,7 +132,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Salaattibaari",
                 company = Company.Juvenes,
-                school = Schools.uta,
+                school = School.uta,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/346/moduleid/1253/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola/salaattibaari.aspx"),
             });
@@ -121,7 +140,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Fusion Kitchen",
                 company = Company.Juvenes,
-                school = Schools.uta,
+                school = School.uta,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/345/moduleid/1155/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola/fusionkitchen.aspx"),
             });
@@ -129,7 +148,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Rohee Xtra",
                 company = Company.Juvenes,
-                school = Schools.uta,
+                school = School.uta,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/1256/moduleid/3520/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola/roheextra.aspx"),
             });
@@ -137,7 +156,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Intro",
                 company = Company.Juvenes,
-                school = Schools.uta,
+                school = School.uta,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/347/moduleid/1148/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola/intro.aspx"),
             });
@@ -145,7 +164,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Café Alakuppila",
                 company = Company.Juvenes,
-                school = Schools.uta,
+                school = School.uta,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/302/moduleid/1854/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/caf%C3%A9alakuppila.aspx"),
             });
@@ -156,7 +175,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Medica Bio",
                 company = Company.Juvenes,
-                school = Schools.tays,
+                school = School.tays,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/305/moduleid/1185/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/taykaupinkampus/medicabio.aspx"),
             });
@@ -164,7 +183,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Medica Arvo",
                 company = Company.Juvenes,
-                school = Schools.tays,
+                school = School.tays,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/306/moduleid/2223/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/taykaupinkampus/medicaarvo.aspx"),
             });
@@ -172,7 +191,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Medica Arvo - Fusion Kitchen",
                 company = Company.Juvenes,
-                school = Schools.tays,
+                school = School.tays,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/299/moduleid/2226/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/taykaupinkampus/medicaarvo/fusionkitchen.aspx"),
             });
@@ -183,7 +202,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Campusravita",
                 company = Company.Campusravita,
-                school = Schools.tamk,
+                school = School.tamk,
                 menuUrl = new Uri("http://www.campusravita.fi/ruokalista"), //http://www.campusravita.fi/rss/index.php
                 homeUrl = new Uri("http://www.campusravita.fi/"),
             });
@@ -191,7 +210,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Pirteria",
                 company = Company.Amica,
-                school = Schools.tamk,
+                school = School.tamk,
                 menuUrl = new Uri("http://www.amica.fi/modules/MenuRss/MenuRss/CurrentWeek?costNumber=0823&language=fi"),
                 homeUrl = new Uri("http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/tampere/pirteria/"),
             });
@@ -199,7 +218,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Ziberia",
                 company = Company.Juvenes,
-                school = Schools.tamk,
+                school = School.tamk,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/290/moduleid/1853/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/henkil%C3%B6st%C3%B6ravintolat/ziberia.aspx"),
             });
@@ -210,7 +229,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Nasta",
                 company = Company.Amica,
-                school = Schools.takk,
+                school = School.takk,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/788/moduleid/1669/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/takknirva/nasta.aspx"),
             });
@@ -218,7 +237,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Nasta - Fusion Kitchen",
                 company = Company.Juvenes,
-                school = Schools.takk,
+                school = School.takk,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/782/moduleid/1650/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/takknirva/fusionkitchenpaninimeal.aspx"),
             });
@@ -234,7 +253,7 @@ namespace Edumenu.ViewModels
             {
                 name = "Ratamo",
                 company = Company.Juvenes,
-                school = Schools.takk,
+                school = School.takk,
                 menuUrl = new Uri("http://www.juvenes.fi/tabid/1123/moduleid/3173/RSS.aspx"),
                 homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/takkkeskusta/ratamo.aspx"),
             });
