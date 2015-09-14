@@ -110,22 +110,12 @@ namespace Edumenu.Models
             {
                 if (line.Count(f => f == ':').Equals(1))
                 {
-                    menu += FirstCharToUpper(line);
+                    menu += Utils.FirstCharToUpper(line) + Environment.NewLine;
                     continue;
                 }
                 menu += line + Environment.NewLine;
             }
             menu = menu.Trim();
-        }
-
-        public static string FirstCharToUpper(string input)
-        {
-            if (String.IsNullOrEmpty(input))
-            {
-                return input;
-            }
-            return input.First().ToString().ToUpper()
-                + input.Substring(1).ToLower() + Environment.NewLine;
         }
 
         internal void FetchCampusravita(string sourceCode)
@@ -252,15 +242,15 @@ namespace Edumenu.Models
                     continue;
                 }
                 //if (!menu)
-                Schools instance = new Schools();
-                Type type = typeof(Schools);
+                //School instance = new School();
+                //Type type = typeof(School);
 
-                Dictionary<string, object> properties = new Dictionary<string, object>();
-                foreach (System.Reflection.PropertyInfo prop in type.GetProperties())
-                { 
-                    properties.Add(prop.Name, prop.GetValue(instance));
-                    Debug.WriteLine(prop.Name.ToString());
-                }
+                //Dictionary<string, object> properties = new Dictionary<string, object>();
+                //foreach (System.Reflection.PropertyInfo prop in type.GetProperties())
+                //{ 
+                //    properties.Add(prop.Name, prop.GetValue(instance));
+                //    Debug.WriteLine(prop.Name.ToString());
+                //}
             }
 
 
