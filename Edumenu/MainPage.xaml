@@ -40,6 +40,33 @@
                 VerticalAlignment="Stretch"
                 Background="Transparent"
                 Canvas.Left="-350">
+
+
+
+
+
+            <Popup x:Name="my_popup_xaml">
+                <Border Margin="350,200,0,0" VerticalAlignment="Center">
+                    <StackPanel
+                                Background="#1f1f1f"
+                                Width="{Binding ActualWidth, ElementName=MainView}"
+                                VerticalAlignment="Center">
+                        <!--<Image Source="images/exitPrompt.png" Width="120" Height="100" Margin="0 25 0 0"/>-->
+                        <TextBlock Name="navigationPrompt_textblock"
+                                   Text="Haluatko varmasti poistua sovelluksesta ja avata ravintolan verkkosivun selaimessa?"
+                                   TextWrapping="Wrap"
+                                   Foreground="White"
+                                   TextAlignment="Center"
+                                   FontSize="26"
+                                   FontFamily="Segoe WP"
+                                   Margin="10,10,10,20" />
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,28" HorizontalAlignment="Center" >
+                            <Button x:Name="btn_continue"  Content="kyllä" Width="215" Background="Transparent" Foreground="{StaticResource PhoneForegroundBrush}" Click="btn_continue_Click"/>
+                            <Button x:Name="btn_cancel"    Content="en"    Width="215" Background="Transparent" Foreground="{StaticResource PhoneForegroundBrush}"  Click="btn_cancel_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Popup>
             
             
             
@@ -171,13 +198,13 @@
                                         <Button Style="{StaticResource RestaurantButton}"
                                                 Click="Button_Tapped">
 
-                                            <TextBlock Text="{Binding name, Mode=OneWay}"
+                                            <TextBlock Text="{Binding Name, Mode=OneWay}"
                                                        Style="{StaticResource RestaurantText}"/>
                                         </Button>
 
                                         <!--Middle view: Restaurant menu-->
                                         <!--<RichTextBox Margin="20,0" Padding="0" />-->
-                                        <TextBlock Text="{Binding menu, Mode=OneWay}"
+                                        <TextBlock Text="{Binding Menu, Mode=OneWay}"
                                                    Style="{StaticResource MenuText}"/>
 
                                     </StackPanel>

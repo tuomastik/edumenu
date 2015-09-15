@@ -11,28 +11,254 @@ using System.Windows;
 
 namespace Edumenu.Models
 {
-    public enum Company
-    {
-        Sodexo,
-        Juvenes,
-        Amica,
-        Campusravita,
-    }
-
     public class Restaurant
     {
-        public string name { get; set; }
-        public string menu { get; set; }
-        public Company company { get; set; }
-        public School school { get; set; }
-        public Uri menuUrl { get; set; }
-        public Uri homeUrl { get; set; }
+        public enum Company
+        {
+            Sodexo,
+            Juvenes,
+            Amica,
+            Campusravita
+        }
+
+        // Automatic properties
+        public string Name { get; set; }
+        public string Menu { get; set; }
+        public Company Firm { get; set; }
+        public School School { get; set; }
+        public Uri MenuUrl { get; set; }
+        public Uri HomeUrl { get; set; }
+
+        //-----------------------------
+        // TUT
+        //-----------------------------
+        public static Restaurant hertsi = new Restaurant()
+        {
+            Name = "Hertsi",
+            Firm = Restaurant.Company.Sodexo,
+            School = School.tut,
+            MenuUrl = new Uri("http://www.sodexo.fi/ruokalistat/rss/weekly_rss/12812/fi"),
+            HomeUrl = new Uri("http://www.sodexo.fi/tty-tietotalo/ravintola-hertsi"),
+        };
+        public static Restaurant reaktori = new Restaurant()
+        {
+            Name = "Reaktori",
+            Firm = Restaurant.Company.Amica,
+            School = School.tut,
+            MenuUrl = new Uri("http://www.amica.fi/modules/MenuRss/MenuRss/CurrentWeek?costNumber=0812&language=fi"),
+            HomeUrl = new Uri("http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/tampere/reaktori/"),
+        };
+        public static Restaurant newton = new Restaurant()
+        {
+            Name = "Newton",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.tut,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/337/moduleid/1149/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/newton.aspx"),
+        };
+        public static Restaurant newtonRoheeXtra = new Restaurant()
+        {
+            Name = "Newton - Rohee Xtra",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.tut,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/348/moduleid/1187/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/newton/roheextra.aspx"),
+        };
+        //public static Restaurant cafeKonehuoneSaasBar = new Restaurant()
+        //{
+        //    name = "Café Konehuone - Såås Bar",
+        //    company = Restaurant.Company.Juvenes,
+        //    school = School.tut,
+        //    menuUrl = new Uri("RSS FEED NOT PROVIDED (YET)"),
+        //    homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/caf%C3%A9konehuone/s%C3%A5%C3%A5sbar.aspx"),
+        //};
+        //public static Restaurant cafeKonehuoneFusionKitchen = new Restaurant()
+        //{
+        //    name = "Café Konehuone - Fusion Kitchen",
+        //    company = Restaurant.Company.Juvenes,
+        //    school = School.tut,
+        //    menuUrl = new Uri("RSS FEED NOT PROVIDED (YET)"),
+        //    homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/caf%C3%A9konehuone/fusionkitchen.aspx"),
+        //};
+        //public static Restaurant biitti = new Restaurant()
+        //{
+        //    name = "Bitti",
+        //    company = Company.Sodexo,
+        //    school = Restaurant.School.tut,
+        //    menuUrl = new Uri("RSS FEED NOT PROVIDED (YET)"),
+        //    homeUrl = new Uri("http://www.sodexo.fi/tty-tietotalo/kahvila-bitti"),
+        //};
+        //-----------------------------
+        // UTA
+        //-----------------------------
+        public static Restaurant yliopistonRavintola = new Restaurant()
+        {
+            Name = "Yliopiston Ravintola",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.uta,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/344/moduleid/1147/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola.aspx"),
+        };
+        public static Restaurant minerva = new Restaurant()
+        {
+            Name = "Minerva",
+            Firm = Restaurant.Company.Amica,
+            School = School.uta,
+            MenuUrl = new Uri("http://www.amica.fi/modules/MenuRss/MenuRss/CurrentWeek?costNumber=0815&language=fi"),
+            HomeUrl = new Uri("http://www.amica.fi/minerva"),
+        };
+        public static Restaurant linna = new Restaurant()
+        {
+            Name = "Linna",
+            Firm = Restaurant.Company.Sodexo,
+            School = School.uta,
+            MenuUrl = new Uri("http://www.sodexo.fi/ruokalistat/rss/weekly_rss/92/fi"),
+            HomeUrl = new Uri("http://www.sodexo.fi/linna"),
+        };
+        public static Restaurant pinni = new Restaurant()
+        {
+            Name = "Café & Lunch Pinni",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.uta,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/304/moduleid/1184/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/caf%C3%A9lunchpinni.aspx"),
+        };
+        public static Restaurant salaattibaari = new Restaurant()
+        {
+            Name = "Salaattibaari",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.uta,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/346/moduleid/1253/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola/salaattibaari.aspx"),
+        };
+        public static Restaurant utaFusionKitchen = new Restaurant()
+        {
+            Name = "Fusion Kitchen",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.uta,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/345/moduleid/1155/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola/fusionkitchen.aspx"),
+        };
+        public static Restaurant roheeXtra = new Restaurant()
+        {
+            Name = "Rohee Xtra",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.uta,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/1256/moduleid/3520/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola/roheextra.aspx"),
+        };
+        public static Restaurant intro = new Restaurant()
+        {
+            Name = "Intro",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.uta,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/347/moduleid/1148/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/yliopistonravintola/intro.aspx"),
+        };
+        public static Restaurant cafeAlakuppila = new Restaurant()
+        {
+            Name = "Café Alakuppila",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.uta,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/302/moduleid/1854/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/tayp%C3%A4%C3%A4kampus/caf%C3%A9alakuppila.aspx"),
+        };
+        //-----------------------------
+        // TAYS
+        //-----------------------------
+        public static Restaurant medicaBio = new Restaurant()
+        {
+            Name = "Medica Bio",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.tays,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/305/moduleid/1185/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/taykaupinkampus/medicabio.aspx"),
+        };
+        public static Restaurant medicaArvo = new Restaurant()
+        {
+            Name = "Medica Arvo",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.tays,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/306/moduleid/2223/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/taykaupinkampus/medicaarvo.aspx"),
+        };
+        public static Restaurant medicaArvoFusionKitchen = new Restaurant()
+        {
+            Name = "Medica Arvo - Fusion Kitchen",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.tays,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/299/moduleid/2226/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/taykaupinkampus/medicaarvo/fusionkitchen.aspx"),
+        };
+        //-----------------------------
+        // TAMK
+        //-----------------------------
+        public static Restaurant campusravita = new Restaurant()
+        {
+            Name = "Campusravita",
+            Firm = Restaurant.Company.Campusravita,
+            School = School.tamk,
+            MenuUrl = new Uri("http://www.campusravita.fi/ruokalista"), //http://www.campusravita.fi/rss/index.php
+            HomeUrl = new Uri("http://www.campusravita.fi/"),
+        };
+        public static Restaurant pirteria = new Restaurant()
+        {
+            Name = "Pirteria",
+            Firm = Restaurant.Company.Amica,
+            School = School.tamk,
+            MenuUrl = new Uri("http://www.amica.fi/modules/MenuRss/MenuRss/CurrentWeek?costNumber=0823&language=fi"),
+            HomeUrl = new Uri("http://www.amica.fi/ravintolat/ravintolat-kaupungeittain/tampere/pirteria/"),
+        };
+        public static Restaurant ziberia = new Restaurant()
+        {
+            Name = "Ziberia",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.tamk,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/290/moduleid/1853/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/henkil%C3%B6st%C3%B6ravintolat/ziberia.aspx"),
+        };
+        //-----------------------------
+        // TAKK
+        //-----------------------------
+        public static Restaurant nasta = new Restaurant()
+        {
+            Name = "Nasta",
+            Firm = Restaurant.Company.Amica,
+            School = School.takk,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/788/moduleid/1669/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/takknirva/nasta.aspx"),
+        };
+        public static Restaurant nastaFusionKitchen = new Restaurant()
+        {
+            Name = "Nasta - Fusion Kitchen",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.takk,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/782/moduleid/1650/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/takknirva/fusionkitchenpaninimeal.aspx"),
+        };
+        //public static Restaurant saladSoup = new Restaurant()
+        //{
+        //    name = "Salad & Soup",
+        //    company = Restaurant.Company.Juvenes,
+        //    school = School.takk,
+        //    menuUrl = new Uri("RSS FEED NOT PROVIDED (YET)"),
+        //    homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/takknirva/saladsoup.aspx"),
+        //};
+        public static Restaurant ratamo = new Restaurant()
+        {
+            Name = "Ratamo",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.takk,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/1123/moduleid/3173/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/takkkeskusta/ratamo.aspx"),
+        };
+        
 
         internal void ParseMenu(string sourceCode)
         {
             try
             {
-                switch (company)
+                switch (Firm)
                 {
                     // Use correct parser for correct restaurant company
                     case Company.Amica:
@@ -82,15 +308,15 @@ namespace Edumenu.Models
                     // Skip if not the selected day
                     continue;
                 }
-                menu = dayNode.Element("description").Value;
+                Menu = dayNode.Element("description").Value;
                 break;
             }
         }
 
         private void CleanAmica()
         {
-            menu = menu.Replace("&lt;br&gt;", string.Empty);
-            menu = menu.Replace("<br>", string.Empty);
+            Menu = Menu.Replace("&lt;br&gt;", string.Empty);
+            Menu = Menu.Replace("<br>", string.Empty);
 
             // Remove whitespace inside curly and square brackets
             //  \s +     # Match whitespace
@@ -98,24 +324,24 @@ namespace Edumenu.Models
             //  [^ ()] * # any number of characters except parentheses
             //  \)       # and a closing parenthesis
             //  )        # End of lookahead assertion
-            menu = Regex.Replace(menu, "\\s+(?=[^()]*\\))", string.Empty);
+            Menu = Regex.Replace(Menu, "\\s+(?=[^()]*\\))", string.Empty);
             //dirtyMenu = Regex.Replace(dirtyMenu, "\\s+(?=[^[]]*\\])", string.Empty);
 
             // Remove uppercase from menu type title and capitalize the first letter.
             // Split by newlines
-            string[] lines = menu.Split(new string[]
+            string[] lines = Menu.Split(new string[]
                 { "\r\n", "\n" }, StringSplitOptions.None);
-            menu = String.Empty;
+            Menu = String.Empty;
             foreach (string line in lines)
             {
                 if (line.Count(f => f == ':').Equals(1))
                 {
-                    menu += Utils.FirstCharToUpper(line) + Environment.NewLine;
+                    Menu += Utils.FirstCharToUpper(line) + Environment.NewLine;
                     continue;
                 }
-                menu += line + Environment.NewLine;
+                Menu += line + Environment.NewLine;
             }
-            menu = menu.Trim();
+            Menu = Menu.Trim();
         }
 
         internal void FetchCampusravita(string sourceCode)
@@ -154,7 +380,7 @@ namespace Edumenu.Models
                     // Skip if not the selected day
                     continue;
                 }
-                menu = dayOfWeekAndMenu.Substring(
+                Menu = dayOfWeekAndMenu.Substring(
                     dayOfWeekAndMenu.IndexOf(dayOfWeekEndSequence) +
                     dayOfWeekEndSequence.Length);
                 break;
@@ -163,15 +389,15 @@ namespace Edumenu.Models
 
         private void CleanJuvenes()
         {
-            menu = menu.Replace("<ul>", string.Empty).Replace("</ul>", string.Empty);
-            menu = menu.Replace("<strong>", Environment.NewLine);
-            menu = menu.Replace("</strong>", string.Empty);
+            Menu = Menu.Replace("<ul>", string.Empty).Replace("</ul>", string.Empty);
+            Menu = Menu.Replace("<strong>", Environment.NewLine);
+            Menu = Menu.Replace("</strong>", string.Empty);
             // The case when one food consists of multiple elements
-            menu = menu.Replace("</li><li>", Environment.NewLine);
-            menu = menu.Replace("<li>", Environment.NewLine);
-            menu = menu.Replace("</li>", Environment.NewLine);
-            menu = menu.Replace("&nbsp;", " ");
-            menu = menu.Trim();
+            Menu = Menu.Replace("</li><li>", Environment.NewLine);
+            Menu = Menu.Replace("<li>", Environment.NewLine);
+            Menu = Menu.Replace("</li>", Environment.NewLine);
+            Menu = Menu.Replace("&nbsp;", " ");
+            Menu = Menu.Trim();
         }
 
         internal void FetchSodexo(string sourceCode)
@@ -224,9 +450,9 @@ namespace Edumenu.Models
                         itemSymbol = string.Empty;
                     }
                 }
-                menu += item + " " + itemSymbol + Environment.NewLine + Environment.NewLine;
+                Menu += item + " " + itemSymbol + Environment.NewLine + Environment.NewLine;
             }
-            menu += Environment.NewLine;
+            Menu += Environment.NewLine;
         }
 
         private void CleanSodexo()
@@ -235,9 +461,9 @@ namespace Edumenu.Models
             // and thus there were no brackets added around the symbols in ParseSodexo.
             // Find those symbols and put brackets around them so that each company
             // menus are presented consistently.
-            for (int i = 0; i < menu.Length; i++)
+            for (int i = 0; i < Menu.Length; i++)
             {
-                if (!menu[i].Equals(','))
+                if (!Menu[i].Equals(','))
                 {
                     continue;
                 }
@@ -263,7 +489,7 @@ namespace Edumenu.Models
             foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
             {
                 // Count the number of restaurants belonging to the selected school
-                if (restaurant.school.name_fi.Equals(school.name_fi))
+                if (restaurant.School.name_fi.Equals(School.name_fi))
                 {
                     totalSchoolRestaurants += 1;
                 }

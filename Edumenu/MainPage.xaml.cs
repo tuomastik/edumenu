@@ -14,6 +14,8 @@ using System.Globalization;
 using System.Threading;
 using Microsoft.Phone.Shell;
 using System.Collections.Generic;
+using Microsoft.Devices;
+using Microsoft.Phone.Tasks;
 
 namespace Edumenu
 {
@@ -86,7 +88,7 @@ namespace Edumenu
                     e.Cancel = true;
                     break;
                 }
-                if (!appSettings.selectedSchool.Equals(restaurant.school.nameShort_fi))
+                if (!appSettings.selectedSchool.Equals(restaurant.School.nameShort_fi))
                 {
                     // Skip the restaurants which do not belong to the selected school
                     continue;
@@ -97,7 +99,7 @@ namespace Edumenu
                     WebClient client = new WebClient();
                     client.Encoding = Encoding.UTF8;
                     client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(MenuDownloadCompleted);
-                    client.DownloadStringAsync(restaurant.menuUrl, restaurant);
+                    client.DownloadStringAsync(restaurant.MenuUrl, restaurant);
                 }
             }
             // Wait until all restaurant menus have been downloaded and parsed.
@@ -117,7 +119,7 @@ namespace Edumenu
                 else
                 {
                     // Continue sleeping for another 100 ms = 0,1 s
-                    Thread.Sleep(100);
+                    Thread.Sleep(50);
                 }
             }
         }
@@ -134,7 +136,7 @@ namespace Edumenu
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine(e.ProgressPercentage.ToString() + "%");
+            ProBar.Visibility = Visibility.Visible;
             ProBar.Value = ((double)e.ProgressPercentage);
             var progressIndicator = new ProgressIndicator
             {
@@ -157,7 +159,7 @@ namespace Edumenu
             }
             else // Backgroundworker completed successfully
             {
-                ProBar.Value = 0;
+                ProBar.Visibility = Visibility.Collapsed;
                 var progressIndicator = new ProgressIndicator
                 {
                     Text = string.Empty,
@@ -171,7 +173,7 @@ namespace Edumenu
                 foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
                 {
                     // Skip the restaurants which do not correspond to the selected school
-                    if (!appSettings.selectedSchool.Equals(restaurant.school.nameShort_fi))
+                    if (!appSettings.selectedSchool.Equals(restaurant.School.nameShort_fi))
                     {
                         continue;
                     }
@@ -432,9 +434,36 @@ namespace Edumenu
             {
                 return;
             }
+            VibrateController testVibrateController = VibrateController.Default;
+            testVibrateController.Start(TimeSpan.FromSeconds(0.07));
+            my_popup_xaml.IsOpen = true;
             string restaurantName = ((sender as Button).Content as TextBlock).Text;
-            MessageBox.Show("Haluatko varmasti avata ravintolan " + restaurantName +
-                " verkkosivun selaimessa?");
+            //MessageBox.Show("Haluatko varmasti avata ravintolan " + restaurantName +
+            //    " verkkosivun selaimessa?", "Siirry verkkosivulle", MessageBoxButton.OKCancel);
+        }
+
+        // PopUp
+        private void btn_continue_Click(object sender, RoutedEventArgs e)
+        {
+            WebBrowserTask webBrowserTask = new WebBrowserTask();
+            //webBrowserTask.Uri = clickedRestaurant.HomeUrl;
+            //navigationPrompt_textblock.Text = "Haluatko varmasti poistua sovelluksesta " + 
+            //    "ja avata ravintolan " + clickedRestaurant.Name + " verkkosivun selaimessa?";
+            //webBrowserTask.Show();
+            my_popup_xaml.IsOpen = false;
+        }
+        private void btn_cancel_Click(object sender, RoutedEventArgs e)
+        {
+            my_popup_xaml.IsOpen = false;
+        }
+        // Hiding the popup when backkey is pressed
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            if (this.my_popup_xaml.IsOpen)
+            {
+                my_popup_xaml.IsOpen = false;
+                e.Cancel = true;
+            }
         }
 
         //--------------------------------------------------------------------
