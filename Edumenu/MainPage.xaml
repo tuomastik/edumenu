@@ -13,19 +13,19 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-    <Canvas x:Name="canvas"
+    <Canvas x:Name="ParentCanvas"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            ManipulationStarted="canvas_ManipulationStarted"
-            ManipulationDelta="canvas_ManipulationDelta"
-            ManipulationCompleted="canvas_ManipulationCompleted">
-        
+            ManipulationStarted="ParentCanvas_ManipulationStarted"
+            ManipulationDelta="ParentCanvas_ManipulationDelta"
+            ManipulationCompleted="ParentCanvas_ManipulationCompleted">
+
         <Canvas.Resources>
-            <Storyboard x:Name="moveAnimation">
+            <Storyboard x:Name="ChangeViewAnimation">
                 <DoubleAnimation Duration="0:0:0.4"
                                  To="0"
                                  Storyboard.TargetProperty="(Canvas.Left)"
-                                 Storyboard.TargetName="LayoutRoot"
+                                 Storyboard.TargetName="ChildCanvas"
                                  d:IsOptimized="True">
                     <DoubleAnimation.EasingFunction>
                         <ExponentialEase EasingMode="EaseOut"/>
@@ -34,7 +34,7 @@
             </Storyboard>
         </Canvas.Resources>
 
-        <Canvas x:Name="LayoutRoot"
+        <Canvas x:Name="ChildCanvas"
                 CacheMode="BitmapCache"
                 Width="1180"
                 VerticalAlignment="Stretch"
@@ -45,37 +45,35 @@
 
 
 
-            <Popup x:Name="my_popup_xaml">
-                <Border Margin="350,200,0,0" VerticalAlignment="Center">
+
+            <Popup x:Name="WebsitePrompt_PopUp" Height="400">
+                <Border Margin="350,0,0,0" VerticalAlignment="Center">
                     <StackPanel
                                 Background="#1f1f1f"
                                 Width="{Binding ActualWidth, ElementName=MainView}"
                                 VerticalAlignment="Center">
-                        <!--<Image Source="images/exitPrompt.png" Width="120" Height="100" Margin="0 25 0 0"/>-->
+                        <Image HorizontalAlignment="Left" Source="Assets/ExitPrompt.png" Width="120" Height="100" Margin="27 45 0 0"/>
                         <TextBlock Name="navigationPrompt_textblock"
                                    Text="Haluatko varmasti poistua sovelluksesta ja avata ravintolan verkkosivun selaimessa?"
                                    TextWrapping="Wrap"
                                    Foreground="White"
-                                   TextAlignment="Center"
-                                   FontSize="26"
-                                   FontFamily="Segoe WP"
-                                   Margin="10,10,10,20" />
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,28" HorizontalAlignment="Center" >
-                            <Button x:Name="btn_continue"  Content="kyllä" Width="215" Background="Transparent" Foreground="{StaticResource PhoneForegroundBrush}" Click="btn_continue_Click"/>
-                            <Button x:Name="btn_cancel"    Content="en"    Width="215" Background="Transparent" Foreground="{StaticResource PhoneForegroundBrush}"  Click="btn_cancel_Click"/>
+                                   TextAlignment="Left"
+                                   FontSize="24"
+                                   FontFamily="Segoe UI"
+                                   Margin="37,10,40,20" />
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,48" HorizontalAlignment="Center" >
+                            <Button x:Name="PopUpButton_Continue"  FontSize="24" Content="kyllä" Width="215" Background="Transparent" Foreground="{StaticResource PhoneForegroundBrush}" Click="PopUpButton_Continue_Click"/>
+                            <Button x:Name="PopUpButton_Cancel"    FontSize="24" Content="en"    Width="215" Background="Transparent" Foreground="{StaticResource PhoneForegroundBrush}"  Click="PopUpButton_Cancel_Click"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
             </Popup>
-            
-            
-            
-            
-            
+
+
             <!--Left view-->
             <Border x:Name="LeftView"
                     Width="350"
-                    Height="{Binding ActualHeight, ElementName=canvas}"
+                    Height="{Binding ActualHeight, ElementName=ParentCanvas}"
                     CacheMode="BitmapCache"
                     Background="{StaticResource ResourceKey=ThemeColor5}"
                     VerticalAlignment="Stretch"
@@ -152,7 +150,7 @@
             <!--Right view-->
             <Border x:Name="RightView"
                     Width="350"
-                    Height="{Binding ActualHeight, ElementName=canvas}"
+                    Height="{Binding ActualHeight, ElementName=ParentCanvas}"
                     CacheMode="BitmapCache"
                     Background="{StaticResource ResourceKey=ThemeColor5}"
                     Margin="830,0,0,0"
@@ -176,7 +174,7 @@
                   CacheMode="BitmapCache"
                   Grid.Column="1"
                   Background="#FFCFD4E2"
-                  Height="{Binding ActualHeight, ElementName=canvas}"
+                  Height="{Binding ActualHeight, ElementName=ParentCanvas}"
                   Width="480" >
 
                 <!--Middle view: Content-->
@@ -196,7 +194,7 @@
 
                                         <!--Middle view: Restaurant name-->
                                         <Button Style="{StaticResource RestaurantButton}"
-                                                Click="Button_Tapped">
+                                                Click="RestaurantName_Clicked">
 
                                             <TextBlock Text="{Binding Name, Mode=OneWay}"
                                                        Style="{StaticResource RestaurantText}"/>
@@ -256,11 +254,15 @@
 
                 </Grid>
             </Grid>
-            
-            
-            
-            
-            
+
+            <Grid x:Name="PopUpOverlayGrid"
+                  Visibility="Collapsed"
+                  Width="{Binding ActualWidth, ElementName=ChildCanvas}"
+                  Height="{Binding ActualWidth, ElementName=ChildCanvas}"
+                  Background="Black" Opacity="0.5" />
+
+
+
         </Canvas>
     </Canvas>
 

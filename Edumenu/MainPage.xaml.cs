@@ -34,6 +34,7 @@ namespace Edumenu
         // Class level variables
         private BackgroundWorker bw = new BackgroundWorker();
         AppSettings appSettings = new AppSettings();
+        WebBrowserTask webBrowserTask = new WebBrowserTask();
         public static List<string> daysOfWeek = new List<string>()
         {
             Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Monday)),
@@ -44,7 +45,7 @@ namespace Edumenu
             Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Saturday))
         };
 
-        // Constructor
+
         public MainPage()
         {
             InitializeComponent();
@@ -88,7 +89,7 @@ namespace Edumenu
                     e.Cancel = true;
                     break;
                 }
-                if (!appSettings.selectedSchool.Equals(restaurant.School.nameShort_fi))
+                if (!appSettings.SelectedSchool.Equals(restaurant.School.NameShort_FI))
                 {
                     // Skip the restaurants which do not belong to the selected school
                     continue;
@@ -173,7 +174,7 @@ namespace Edumenu
                 foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
                 {
                     // Skip the restaurants which do not correspond to the selected school
-                    if (!appSettings.selectedSchool.Equals(restaurant.School.nameShort_fi))
+                    if (!appSettings.SelectedSchool.Equals(restaurant.School.NameShort_FI))
                     {
                         continue;
                     }
@@ -200,7 +201,7 @@ namespace Edumenu
         public int viewChangeThreshold = 30;
         private void OpenClose_Left(object sender, RoutedEventArgs e)
         {
-            var left = Canvas.GetLeft(LayoutRoot);
+            var left = Canvas.GetLeft(ChildCanvas);
             if (left > -viewChangeThreshold)
             {
                 MoveViewWindow(-LeftView.Width);
@@ -213,7 +214,7 @@ namespace Edumenu
 
         private void OpenClose_Right(object sender, RoutedEventArgs e)
         {
-            var left = Canvas.GetLeft(LayoutRoot);
+            var left = Canvas.GetLeft(ChildCanvas);
             if (left > (-LeftView.Width - viewChangeThreshold))
             {
                 MoveViewWindow(-LeftView.Width - RightView.Width);
@@ -227,29 +228,29 @@ namespace Edumenu
         void MoveViewWindow(double left)
         {
             _viewMoved = true;
-            //((Storyboard)canvas.Resources["moveAnimation"]).SkipToFill();
-            ((DoubleAnimation)((Storyboard)canvas.Resources["moveAnimation"]).Children[0]).To = left;
-            ((Storyboard)canvas.Resources["moveAnimation"]).Begin();
+            //((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).SkipToFill();
+            ((DoubleAnimation)((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).Children[0]).To = left;
+            ((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).Begin();
         }
 
-        private void canvas_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        private void ParentCanvas_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
             if (e.DeltaManipulation.Translation.X != 0)
-                Canvas.SetLeft(LayoutRoot, Math.Min(Math.Max(-(LeftView.Width+RightView.Width),
-                    Canvas.GetLeft(LayoutRoot) + e.DeltaManipulation.Translation.X), 0));  
+                Canvas.SetLeft(ChildCanvas, Math.Min(Math.Max(-(LeftView.Width+RightView.Width),
+                    Canvas.GetLeft(ChildCanvas) + e.DeltaManipulation.Translation.X), 0));  
         }
 
         double initialPosition;
         bool _viewMoved = false;
-        private void canvas_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        private void ParentCanvas_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
         {
             _viewMoved = false;
-            initialPosition = Canvas.GetLeft(LayoutRoot);
+            initialPosition = Canvas.GetLeft(ChildCanvas);
         }
 
-        private void canvas_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+        private void ParentCanvas_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
-            var left = Canvas.GetLeft(LayoutRoot);
+            var left = Canvas.GetLeft(ChildCanvas);
             if (_viewMoved)
                 return;
 
@@ -340,7 +341,10 @@ namespace Edumenu
             {
                 // Scroll Down
                 headerVisible = false;
-                AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
+                Storyboard scrollDown = AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
+                scrollDown.Completed += new EventHandler(HeaderAnimate_Completed);
+                scrollDown.Begin();
+                animationRunning = true;
                 //System.Diagnostics.Debug.WriteLine("User scrolled down!");
             }
             else if (e.NewValue < e.OldValue &&
@@ -348,13 +352,15 @@ namespace Edumenu
             {
                 // Scroll up
                 headerVisible = true;
-                AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
+                Storyboard scrollUp = AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
+                scrollUp.Completed += new EventHandler(HeaderAnimate_Completed);
+                scrollUp.Begin();
                 //System.Diagnostics.Debug.WriteLine("User scrolled up!");
             }
             //System.Diagnostics.Debug.WriteLine("---------------------");
         }
 
-        public void AnimateMove(FrameworkElement fe, double from, double to, int durationMs)
+        public Storyboard AnimateMove(FrameworkElement fe, double from, double to, int durationMs)
         {
             // Initialize a new instance of the CompositeTransform which allows 
             // addition of multiple different transforms
@@ -363,14 +369,20 @@ namespace Edumenu
             // Create the timeline
             var animation = new DoubleAnimationUsingKeyFrames();
 
+            // Define easingfunction
+            ExponentialEase easingFunction = new ExponentialEase();
+            easingFunction.EasingMode = EasingMode.EaseOut;
+
             // Add key frames to the timeline
             animation.KeyFrames.Add(new EasingDoubleKeyFrame
             {
+                EasingFunction = easingFunction,
                 KeyTime = TimeSpan.Zero,
                 Value = from
             });
             animation.KeyFrames.Add(new EasingDoubleKeyFrame
             {
+                EasingFunction = easingFunction,
                 KeyTime = TimeSpan.FromMilliseconds(durationMs),
                 Value = to
             });
@@ -385,16 +397,10 @@ namespace Edumenu
             // Add the timeline to the storyboard
             storyboard.Children.Add(animation);
 
-            // Listen for Completed event
-            storyboard.Completed += new EventHandler(AnimateMove_Completed);
-
-            // Start the animation
-            storyboard.Begin();
-
-            animationRunning = true;
+            return storyboard;
         }
 
-        private void AnimateMove_Completed(object sender, EventArgs e)
+        private void HeaderAnimate_Completed(object sender, EventArgs e)
         {
             animationRunning = false;
         }
@@ -408,70 +414,93 @@ namespace Edumenu
 
 
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // Button clicks
+        // Open restaurant website pop up
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        private void RestaurantName_Clicked(object sender, RoutedEventArgs e)
+        {
+            // Do not fire up the MessageBox if user is scrolling horizontally
+            if (Canvas.GetLeft(ChildCanvas) != -LeftView.Width)
+            {
+                return;
+            }
+            WebsitePrompt_PopUp.IsOpen = true;
+            // Begin animation
+            Storyboard showPopUp = AnimateMove(WebsitePrompt_PopUp, -400, 0, 400);
+            showPopUp.Begin();
+            // Vibrate
+            VibrateController testVibrateController = VibrateController.Default;
+            testVibrateController.Start(TimeSpan.FromSeconds(0.07));
+            // Darken the background
+            PopUpOverlayGrid.Visibility = Visibility.Visible;
+            // Set properties
+            Restaurant clickedRestaurant = (Restaurant)(sender as Button).DataContext;
+            webBrowserTask.Uri = clickedRestaurant.HomeUrl;
+            navigationPrompt_textblock.Text = "Haluatko varmasti poistua sovelluksesta " +
+                "ja avata ravintolan " + clickedRestaurant.Name + " verkkosivun selaimessa?";
+        }
+
+        private void PopUpButton_Continue_Click(object sender, RoutedEventArgs e)
+        {
+            DismissWebsitePrompt();
+            webBrowserTask.Show();
+        }
+
+        private void PopUpButton_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            DismissWebsitePrompt();
+        }
+
+        // Hide the popup when the back key is pressed
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            if (this.WebsitePrompt_PopUp.IsOpen)
+            {
+                DismissWebsitePrompt();
+                e.Cancel = true;
+            }
+        }
+
+        private void HidePopUp_Completed(object sender, EventArgs e)
+        {
+            WebsitePrompt_PopUp.IsOpen = false;
+        }
+
+        private void DismissWebsitePrompt()
+        {
+            // Begin animation
+            Storyboard hidePopUp = AnimateMove(WebsitePrompt_PopUp, 0, -400, 400);
+            hidePopUp.Completed += new EventHandler(HidePopUp_Completed);
+            hidePopUp.Begin();
+            // Remove background darkener
+            PopUpOverlayGrid.Visibility = Visibility.Collapsed;
+        }
+
+        //--------------------------------------------------------------------
+        // Open restaurant website pop up
+        //--------------------------------------------------------------------        
+
+
+
+
+
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (appSettings.selectedSchool == "TAY")
+            if (appSettings.SelectedSchool == "TAY")
             {
-                appSettings.selectedSchool = "TTY";
+                appSettings.SelectedSchool = "TTY";
             }
             else
             {
-                appSettings.selectedSchool = "TAY";
+                appSettings.SelectedSchool = "TAY";
             }
             if (bw.IsBusy != true)
             {
                 bw.RunWorkerAsync();
             }
         }
-
-        private void Button_Tapped(object sender, RoutedEventArgs e)
-        {
-            // Do not fire up the MessageBox if user is scrolling horizontally
-            if (Canvas.GetLeft(LayoutRoot) != -LeftView.Width)
-            {
-                return;
-            }
-            VibrateController testVibrateController = VibrateController.Default;
-            testVibrateController.Start(TimeSpan.FromSeconds(0.07));
-            my_popup_xaml.IsOpen = true;
-            string restaurantName = ((sender as Button).Content as TextBlock).Text;
-            //MessageBox.Show("Haluatko varmasti avata ravintolan " + restaurantName +
-            //    " verkkosivun selaimessa?", "Siirry verkkosivulle", MessageBoxButton.OKCancel);
-        }
-
-        // PopUp
-        private void btn_continue_Click(object sender, RoutedEventArgs e)
-        {
-            WebBrowserTask webBrowserTask = new WebBrowserTask();
-            //webBrowserTask.Uri = clickedRestaurant.HomeUrl;
-            //navigationPrompt_textblock.Text = "Haluatko varmasti poistua sovelluksesta " + 
-            //    "ja avata ravintolan " + clickedRestaurant.Name + " verkkosivun selaimessa?";
-            //webBrowserTask.Show();
-            my_popup_xaml.IsOpen = false;
-        }
-        private void btn_cancel_Click(object sender, RoutedEventArgs e)
-        {
-            my_popup_xaml.IsOpen = false;
-        }
-        // Hiding the popup when backkey is pressed
-        protected override void OnBackKeyPress(CancelEventArgs e)
-        {
-            if (this.my_popup_xaml.IsOpen)
-            {
-                my_popup_xaml.IsOpen = false;
-                e.Cancel = true;
-            }
-        }
-
-        //--------------------------------------------------------------------
-        // Button clicks
-        //--------------------------------------------------------------------        
-
-
-
 
 
 
