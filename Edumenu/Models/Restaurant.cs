@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.ComponentModel;
-using System.Windows;
 
 namespace Edumenu.Models
 {
@@ -489,7 +484,7 @@ namespace Edumenu.Models
             foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
             {
                 // Count the number of restaurants belonging to the selected school
-                if (restaurant.School.name_fi.Equals(School.name_fi))
+                if (restaurant.School.Name_FI.Equals(School.Name_FI))
                 {
                     totalSchoolRestaurants += 1;
                 }
