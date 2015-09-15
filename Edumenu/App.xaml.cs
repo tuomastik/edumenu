@@ -7,7 +7,6 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Edumenu.Resources;
 using Edumenu.ViewModels;
-using Windows.Storage;
 using Edumenu.Models;
 
 namespace Edumenu
@@ -82,11 +81,11 @@ namespace Edumenu
         private void CheckIfFirstLaunch()
         {
             AppSettings appSettings = new AppSettings();
-            if (appSettings.firstLaunch.Equals(true))
+            if (appSettings.FirstLaunch.Equals(true))
             {
-                appSettings.firstLaunch = false;
+                appSettings.FirstLaunch = false;
             }
-            //System.Diagnostics.Debug.WriteLine("Is this the first launch? " + appSettings.firstLaunch.ToString());
+            //System.Diagnostics.Debug.WriteLine("Is this the first launch? " + appSettings.FirstLaunch.ToString());
         }
 
         // Code to execute when a contract activation such as a file open or save picker returns 

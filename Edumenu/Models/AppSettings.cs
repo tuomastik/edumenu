@@ -1,47 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using Windows.Storage;
 
 namespace Edumenu.Models
 {
     class AppSettings : INotifyPropertyChanged
     {
-        // These fields hold the values for the public properties
-        //private string _selectedSchool;
-        //private bool _firstLaunch;
-
-        // Declare the event
         public event PropertyChangedEventHandler PropertyChanged;
         
-
-        public string selectedSchool
+        public string SelectedSchool
         {
             get
             {
-                InitializeIfNotSet("selectedSchool", "TTY");
-                return (string)ApplicationData.Current.LocalSettings.Values["selectedSchool"];
+                InitializeIfNotSet("SelectedSchool", "TTY");
+                return (string)ApplicationData.Current.LocalSettings.Values["SelectedSchool"];
             }
             set
             {
-                ApplicationData.Current.LocalSettings.Values["selectedSchool"] = value;
-                OnPropertyChanged("selectedSchool");
+                ApplicationData.Current.LocalSettings.Values["SelectedSchool"] = value;
+                OnPropertyChanged("SelectedSchool");
             }
         }
-        public bool firstLaunch
+
+        public bool FirstLaunch
         {
             get
             {
-                InitializeIfNotSet("firstLaunch", true);
-                return (bool)ApplicationData.Current.LocalSettings.Values["firstLaunch"];
+                InitializeIfNotSet("FirstLaunch", true);
+                return (bool)ApplicationData.Current.LocalSettings.Values["FirstLaunch"];
             }
             set
             {
-                ApplicationData.Current.LocalSettings.Values["firstLaunch"] = value;
-                OnPropertyChanged("firstLaunch");
+                ApplicationData.Current.LocalSettings.Values["FirstLaunch"] = value;
+                OnPropertyChanged("FirstLaunch");
             }
         }
 
