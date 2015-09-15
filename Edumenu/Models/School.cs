@@ -1,52 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Edumenu.Models
+﻿namespace Edumenu.Models
 {
     public class School
     {
-        public string name_fi { get; set; }
-        public string name_en { get; set; }
-        public string nameShort_en { get; set; }
-        public string nameShort_fi { get; set; }
+        public string Name_FI { get; set; }
+        public string Name_EN { get; set; }
+        public string NameShort_EN { get; set; }
+        public string NameShort_FI { get; set; }
 
         public static School tut = new School
         {
-            name_en = "Tampere University of Technology",
-            name_fi = "Tampereen teknillinen yliopisto",
-            nameShort_en = "TUT",
-            nameShort_fi = "TTY",
+            Name_EN = "Tampere University of Technology",
+            Name_FI = "Tampereen teknillinen yliopisto",
+            NameShort_EN = "TUT",
+            NameShort_FI = "TTY",
         };
         public static School uta = new School
         {
-            name_en = "University of Tampere",
-            name_fi = "Tampereen yliopisto",
-            nameShort_en = "UTA",
-            nameShort_fi = "TAY",
+            Name_EN = "University of Tampere",
+            Name_FI = "Tampereen yliopisto",
+            NameShort_EN = "UTA",
+            NameShort_FI = "TAY",
         };
         public static School tays = new School
         {
-            name_en = "Tampere University Hospital",
-            name_fi = "Tampereen yliopistollinen sairaala",
-            nameShort_en = "TAYS",
-            nameShort_fi = "TAYS",
+            Name_EN = "Tampere University Hospital",
+            Name_FI = "Tampereen yliopistollinen sairaala",
+            NameShort_EN = "TAYS",
+            NameShort_FI = "TAYS",
         };
         public static School tamk = new School
         {
-            name_en = "Tampere University of Applied Sciences",
-            name_fi = "Tampereen ammattikorkeakoulu",
-            nameShort_en = "TAMK",
-            nameShort_fi = "TAMK",
+            Name_EN = "Tampere University of Applied Sciences",
+            Name_FI = "Tampereen ammattikorkeakoulu",
+            NameShort_EN = "TAMK",
+            NameShort_FI = "TAMK",
         };
         public static School takk = new School
         {
-            name_en = "Tampere Adult Education Centre",
-            name_fi = "Tampereen Aikuiskoulutuskeskus",
-            nameShort_en = "TAKK",
-            nameShort_fi = "TAKK",
+            Name_EN = "Tampere Adult Education Centre",
+            Name_FI = "Tampereen Aikuiskoulutuskeskus",
+            NameShort_EN = "TAKK",
+            NameShort_FI = "TAKK",
         };
     }
 }
