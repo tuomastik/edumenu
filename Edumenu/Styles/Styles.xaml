@@ -20,7 +20,7 @@
     
     <Style x:Key="BigHeaderText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="30"/>
-        <Setter Property="FontFamily" Value="Segoe WP"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Padding" Value="20,10"/>
     </Style>
@@ -33,7 +33,7 @@
     <Style x:Key="SmallHeaderText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="26"/>
         <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
-        <Setter Property="FontFamily" Value="Segoe WP"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Margin" Value="20,5,0,5"/>
     </Style>
@@ -42,7 +42,7 @@
     <Style x:Key="RestaurantText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="26"/>
         <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
-        <Setter Property="FontFamily" Value="Segoe WP"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Margin" Value="20,5,0,5"/>
     </Style>
@@ -51,7 +51,7 @@
     <Style x:Key="MenuText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
-        <Setter Property="FontFamily" Value="Segoe WP"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="TextAlignment" Value="Left"/>
