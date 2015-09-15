@@ -11,7 +11,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">  <!--shell:SystemTray.Opacity="0"-->
+    shell:SystemTray.IsVisible="True">
 
     <Canvas x:Name="canvas"
             VerticalAlignment="Stretch"
@@ -59,15 +59,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <!--Left view: Big header-->
-                    <!--<Grid Style="{StaticResource ResourceKey=BigHeaderGrid}"
-                          Background="{StaticResource ResourceKey=ThemeColor7}"
-                          Grid.Row="0">
-
-                        <TextBlock Text="Edumenu"
-                                   Style="{StaticResource BigHeaderText}"
-                                   Foreground="{StaticResource ResourceKey=ThemeColor6}"/>
-                    </Grid>-->
                     <!--Left view: Content-->
                     <Grid Grid.Row="1">
                         <ScrollViewer>
@@ -76,7 +67,6 @@
                                 <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
                                       Background="{StaticResource ResourceKey=ThemeColor7}"
                                       Grid.Row="0">
-
                                     <TextBlock Text="Viikonpäivät"
                                                Style="{StaticResource SmallHeaderText}"/>
                                 </Grid>
@@ -223,7 +213,7 @@
                         <TextBlock Text="{Binding selectedSchool}"
                                    x:Name="SelectedSchool"
                                    Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                                   FontSize="24"
+                                   FontSize="26"
                                    Padding="25,10,25,10"/>
                     </Button>
 
