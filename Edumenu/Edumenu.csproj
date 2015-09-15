@@ -157,6 +157,7 @@
     <Content Include="Assets\DietIcons\VE.png" />
     <Content Include="Assets\DietIcons\VL.png" />
     <Content Include="Assets\DietIcons\VS.png" />
+    <Content Include="Assets\ExitPrompt.png" />
     <Content Include="Assets\IconApp.png" />
     <Content Include="Assets\IconDiets.png" />
     <Content Include="Assets\IconSettings.png" />
