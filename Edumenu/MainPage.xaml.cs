@@ -19,16 +19,6 @@ using Microsoft.Phone.Tasks;
 
 namespace Edumenu
 {
-    public static class Globals
-    {
-        public static string selectedDay = (new CultureInfo("fi-FI")).
-            DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek);
-
-        public static int progress; // Total progress 0...1
-        public static int nRestaurantsProcessed; // Restaurants processed per school
-        public static bool allRestaurantsProcessed; // Can we exit the background thread?
-    }
-
     public partial class MainPage : PhoneApplicationPage
     {
         // Class level variables
@@ -50,7 +40,7 @@ namespace Edumenu
         {
             InitializeComponent();
             // Set data contexts
-            SelectedSchool.DataContext = appSettings;
+            SelectedSchoolHeader.DataContext = appSettings;
             this.DataContext = App.RestaurantViewModel;
             DaysOfWeekItemsControl.DataContext = daysOfWeek;
             //DietIcon.DataContext = Diet.glutenFree;
@@ -484,6 +474,19 @@ namespace Edumenu
 
 
 
+        private void DayOfWeek_Clicked(object sender, RoutedEventArgs e)
+        {
+            string clickedDay = (string)(sender as Button).DataContext;
+            Globals.SelectedDay = clickedDay;
+            if (bw.IsBusy != true)
+            {
+                bw.RunWorkerAsync();
+            }
+        }
+
+
+
+
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -501,6 +504,8 @@ namespace Edumenu
                 bw.RunWorkerAsync();
             }
         }
+
+
 
 
 

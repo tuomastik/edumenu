@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="clr-namespace:Edumenu"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -88,18 +89,24 @@
                     <Grid Grid.Row="1">
                         <ScrollViewer>
                             <StackPanel>
-                                <!--Left view: Days of week-->
+                                <!--Left view: Days of week, Title-->
                                 <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
                                       Background="{StaticResource ResourceKey=ThemeColor7}"
                                       Grid.Row="0">
                                     <TextBlock Text="Viikonpäivät"
                                                Style="{StaticResource SmallHeaderText}"/>
                                 </Grid>
+                                <!--Left view: Days of week, Days-->
                                 <ItemsControl x:Name="DaysOfWeekItemsControl" ItemsSource="{Binding}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding}"
-                                                       Style="{StaticResource MenuText}"/>
+                                            <Button Style="{StaticResource ContentButton}"
+                                                    Click="DayOfWeek_Clicked">
+                                                <TextBlock Text="{Binding}"
+                                                       Style="{StaticResource MenuText}"
+                                                       Foreground="{Binding Converter={StaticResource selectedDayToForeground}}">
+                                                </TextBlock>
+                                            </Button>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -195,7 +202,6 @@
                                         <!--Middle view: Restaurant name-->
                                         <Button Style="{StaticResource RestaurantButton}"
                                                 Click="RestaurantName_Clicked">
-
                                             <TextBlock Text="{Binding Name, Mode=OneWay}"
                                                        Style="{StaticResource RestaurantText}"/>
                                         </Button>
@@ -235,8 +241,8 @@
                             VerticalAlignment="Center"
                             Style="{StaticResource ContentButton}"
                             Click="OpenClose_Right">
-                        <TextBlock Text="{Binding selectedSchool}"
-                                   x:Name="SelectedSchool"
+                        <TextBlock Text="{Binding SelectedSchool}"
+                                   x:Name="SelectedSchoolHeader"
                                    Foreground="{StaticResource ResourceKey=ThemeColor3}"
                                    FontSize="26"
                                    Padding="25,10,25,10"/>
