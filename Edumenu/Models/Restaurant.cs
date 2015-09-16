@@ -253,6 +253,9 @@ namespace Edumenu.Models
         {
             try
             {
+                // Initialize
+                Menu = "Ei ruokalistaa saatavilla";
+
                 switch (Firm)
                 {
                     // Use correct parser for correct restaurant company
@@ -291,19 +294,24 @@ namespace Edumenu.Models
 
         internal void FetchAmica(string sourceCode)
         {
+            string menu = string.Empty;
             string dayOfWeek = string.Empty;
             XElement rss = XElement.Parse(sourceCode);
             var dayNodes = rss.Element("channel").Elements("item");
             foreach (XElement dayNode in dayNodes)
             {
                 dayOfWeek = dayNode.Element("title").ToString().ToLower();
-                if (dayOfWeek.IndexOf(Globals.selectedDay,
+                if (dayOfWeek.IndexOf(Globals.SelectedDay,
                     StringComparison.OrdinalIgnoreCase) < 0)
                 {
                     // Skip if not the selected day
                     continue;
                 }
-                Menu = dayNode.Element("description").Value;
+                menu = dayNode.Element("description").Value;
+                if (!string.IsNullOrWhiteSpace(menu))
+                {
+                    Menu = menu;
+                }
                 break;
             }
         }
@@ -351,6 +359,7 @@ namespace Edumenu.Models
 
         internal void FetchJuvenes(string sourceCode)
         {
+            string menu = string.Empty;
             string dayOfWeek = string.Empty;
             string dayOfWeekAndMenu = string.Empty;
             string dayOfWeekEndSequence = "</strong></p>";
@@ -369,15 +378,19 @@ namespace Edumenu.Models
                 dayOfWeek = dayOfWeekAndMenu.Substring(0,
                     dayOfWeekAndMenu.IndexOf(dayOfWeekEndSequence) +
                     dayOfWeekEndSequence.Length);
-                if (dayOfWeek.IndexOf(Globals.selectedDay,
+                if (dayOfWeek.IndexOf(Globals.SelectedDay,
                     StringComparison.OrdinalIgnoreCase) < 0)
                 {
                     // Skip if not the selected day
                     continue;
                 }
-                Menu = dayOfWeekAndMenu.Substring(
+                menu = dayOfWeekAndMenu.Substring(
                     dayOfWeekAndMenu.IndexOf(dayOfWeekEndSequence) +
                     dayOfWeekEndSequence.Length);
+                if (!string.IsNullOrWhiteSpace(menu))
+                {
+                    Menu = menu;
+                }
                 break;
             }
         }
@@ -392,11 +405,14 @@ namespace Edumenu.Models
             Menu = Menu.Replace("<li>", Environment.NewLine);
             Menu = Menu.Replace("</li>", Environment.NewLine);
             Menu = Menu.Replace("&nbsp;", " ");
+            // Replace 3 or more newlines with 2 newlines
+            Menu = Regex.Replace(Menu, @"(\r\n){3,}", Environment.NewLine + Environment.NewLine);
             Menu = Menu.Trim();
         }
 
         internal void FetchSodexo(string sourceCode)
         {
+            string menu = string.Empty;
             string dayOfWeekAndMenu = string.Empty;
 
             XElement rss = XElement.Parse(sourceCode);
@@ -406,7 +422,7 @@ namespace Edumenu.Models
                 new string[] { "<h2>" }, StringSplitOptions.RemoveEmptyEntries));
             foreach (string daySplit in daySplits)
             {
-                if (daySplit.IndexOf(Globals.selectedDay.ToString(),
+                if (daySplit.IndexOf(Globals.SelectedDay.ToString(),
                     StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     // Selected day found
@@ -431,6 +447,7 @@ namespace Edumenu.Models
             {
                 return;
             }
+            
             for (int a = 1; a < menuItems.Count(); a += 2)
             {
                 item = menuItems[a].Substring(0, menuItems[a].IndexOf(
@@ -445,9 +462,10 @@ namespace Edumenu.Models
                         itemSymbol = string.Empty;
                     }
                 }
-                Menu += item + " " + itemSymbol + Environment.NewLine + Environment.NewLine;
+                menu += item + " " + itemSymbol + Environment.NewLine + Environment.NewLine;
             }
-            Menu += Environment.NewLine;
+            menu += Environment.NewLine;
+            Menu = menu;
         }
 
         private void CleanSodexo()
@@ -473,6 +491,8 @@ namespace Edumenu.Models
                 //    Debug.WriteLine(prop.Name.ToString());
                 //}
             }
+            Menu = Menu.Replace("amp;", "");
+            Menu = Menu.Trim();
 
 
         }
