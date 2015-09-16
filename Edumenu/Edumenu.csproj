@@ -93,12 +93,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AppSettings.cs" />
     <Compile Include="Models\Diet.cs" />
+    <Compile Include="Models\Globals.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\School.cs" />
     <Compile Include="Models\Utils.cs" />
