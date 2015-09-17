@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:src="clr-namespace:Edumenu">
 
-    <src:SelectedDayToForeground x:Key="selectedDayToForeground"/>
+    <src:SelectedDayToForeground x:Key="SelectedDayToForeground"/>
+    <src:SelectedDayToFontWeight x:Key="SelectedDayToFontWeight"/>
 
     <!--Theme colors-->
     <SolidColorBrush x:Key="ThemeColor1" Color="Salmon"/>
