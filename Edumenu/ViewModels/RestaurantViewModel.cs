@@ -88,7 +88,7 @@ namespace Edumenu.ViewModels
                 {
                     restaurant.Menu = "Ei ruokalistaa saatavilla";
                 }
-                UpdateProgress(restaurant);
+                MainPage.UpdateProgress(restaurant);
             }
         }
 
@@ -305,27 +305,5 @@ namespace Edumenu.ViewModels
             return menu.Trim();
         }
 
-        private void UpdateProgress(Restaurant currentRestaurant)
-        {
-            Globals.nRestaurantsProcessed += 1;
-            int totalSchoolRestaurants = 0;
-            foreach (Restaurant r in App.RestaurantViewModel.restaurantsAll)
-            {
-                // Count the number of restaurants belonging to the selected school
-                if (r.School.Name_FI.Equals(currentRestaurant.School.Name_FI))
-                {
-                    totalSchoolRestaurants += 1;
-                }
-            }
-            if (totalSchoolRestaurants != 0) // Do not divide by zero
-            {
-                Globals.progress = (int)((double)Globals.nRestaurantsProcessed /
-                    (double)totalSchoolRestaurants * 100);
-            }
-            if (Globals.nRestaurantsProcessed.Equals(totalSchoolRestaurants))
-            {
-                Globals.allRestaurantsProcessed = true;
-            }
-        }
     }
 }
