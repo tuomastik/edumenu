@@ -5,18 +5,11 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
 
-    <!--Application Resources-->
-    <!--<Application.Resources>
-        <local:LocalizedStrings xmlns:local="clr-namespace:Edumenu" x:Key="LocalizedStrings"/>
-    </Application.Resources>-->
-
-
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <local:LocalizedStrings xmlns:local="clr-namespace:Edumenu" x:Key="LocalizedStrings"/>
         </ResourceDictionary>
     </Application.Resources>
 
