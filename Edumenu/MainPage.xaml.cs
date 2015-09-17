@@ -122,7 +122,7 @@ namespace Edumenu
                 return;
             }
             Restaurant restaurant = e.UserState as Restaurant;
-            restaurant.ParseMenu(e.Result);
+            App.RestaurantViewModel.ParseMenu(e.Result, restaurant);
         }
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
