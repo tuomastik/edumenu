@@ -243,8 +243,5 @@ namespace Edumenu.Models
             MenuUrl = new Uri("http://www.juvenes.fi/tabid/1123/moduleid/3173/RSS.aspx"),
             HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/takkkeskusta/ratamo.aspx"),
         };
-        
-
-
     }
 }
