@@ -101,7 +101,7 @@ namespace Edumenu.ViewModels
             foreach (XElement dayNode in dayNodes)
             {
                 dayOfWeek = dayNode.Element("title").ToString().ToLower();
-                if (dayOfWeek.IndexOf(Globals.SelectedDay,
+                if (dayOfWeek.IndexOf(App.DayViewModel.GetSelectedDay(),
                     StringComparison.OrdinalIgnoreCase) < 0)
                 {
                     // Skip if not the selected day
@@ -187,7 +187,7 @@ namespace Edumenu.ViewModels
                 dayOfWeek = dayOfWeekAndMenu.Substring(0,
                     dayOfWeekAndMenu.IndexOf(dayOfWeekEndSequence) +
                     dayOfWeekEndSequence.Length);
-                if (dayOfWeek.IndexOf(Globals.SelectedDay,
+                if (dayOfWeek.IndexOf(App.DayViewModel.GetSelectedDay(),
                     StringComparison.OrdinalIgnoreCase) < 0)
                 {
                     // Skip if not the selected day
@@ -232,7 +232,7 @@ namespace Edumenu.ViewModels
                 new string[] { "<h2>" }, StringSplitOptions.RemoveEmptyEntries));
             foreach (string daySplit in daySplits)
             {
-                if (daySplit.IndexOf(Globals.SelectedDay.ToString(),
+                if (daySplit.IndexOf(App.DayViewModel.GetSelectedDay(),
                     StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     // Selected day found
