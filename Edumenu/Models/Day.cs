@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 
 namespace Edumenu.Models
 {
-    class Day : INotifyPropertyChanged
+    public class Day : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-        //private static string selected = Utils.FirstCharToUpper(new CultureInfo("fi-FI").
-        //    DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek));
 
         private string name = string.Empty;
         private bool isSelected = false;

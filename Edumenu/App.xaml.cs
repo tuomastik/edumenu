@@ -13,11 +13,6 @@ namespace Edumenu
     public partial class App : Application
     {
         private static RestaurantViewModel _restaurantViewModel { get; set; }
-
-        /// <summary>
-        /// A static ViewModel used by the views to bind against.
-        /// </summary>
-        /// <returns>The RestaurantViewModel object.</returns>
         public static RestaurantViewModel RestaurantViewModel
         {
             get
@@ -27,6 +22,19 @@ namespace Edumenu
                     _restaurantViewModel = new RestaurantViewModel();
 
                 return _restaurantViewModel;
+            }
+        }
+
+        private static DayViewModel _dayViewModel { get; set; }
+        public static DayViewModel DayViewModel
+        {
+            get
+            {
+                // Delay creation of the view model until necessary
+                if (_dayViewModel == null)
+                    _dayViewModel = new DayViewModel();
+
+                return _dayViewModel;
             }
         }
 
