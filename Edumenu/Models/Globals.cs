@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace Edumenu.Models
 {
-    public class Globals : INotifyPropertyChanged
+    public class Globals
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private static string selectedDay = Utils.FirstCharToUpper(new CultureInfo("fi-FI").
             DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek));
 
@@ -24,21 +22,9 @@ namespace Edumenu.Models
             set
             {
                 selectedDay = value;
-                OnPropertyChanged("SelectedDay");
+             
             }
         }
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-
-        
-
 
         public static int progress; // Total progress 0...1
         public static int nRestaurantsProcessed; // Restaurants processed per school
