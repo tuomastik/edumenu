@@ -25,6 +25,11 @@ namespace Edumenu
         private BackgroundWorker bw = new BackgroundWorker();
         AppSettings appSettings = new AppSettings();
         WebBrowserTask webBrowserTask = new WebBrowserTask();
+        // Progress
+        public static int progress; // Total progress 0...1
+        public static int nRestaurantsProcessed; // Restaurants processed per school
+        public static bool allRestaurantsProcessed; // Can we exit the background thread?
+
         public static List<string> daysOfWeek = new List<string>()
         {
             Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Monday)),
@@ -67,9 +72,9 @@ namespace Edumenu
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
-            Globals.nRestaurantsProcessed = 0;
-            Globals.allRestaurantsProcessed = false;
-            Globals.progress = 0;
+            nRestaurantsProcessed = 0;
+            allRestaurantsProcessed = false;
+            progress = 0;
             worker.ReportProgress(0);
 
             foreach(Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
@@ -94,22 +99,22 @@ namespace Edumenu
                 }
             }
             // Wait until all restaurant menus have been downloaded and parsed.
-            int lastProgress = Globals.progress;
-            for (int i = 1; i <= 1000; i++) // Max sleep time 100 * 0,1 s = 10 s
+            int lastProgress = progress;
+            for (int i = 1; i <= 200; i++) // Max sleep time 200 * 0,05 s = 10 s
             {
-                if (!lastProgress.Equals(Globals.progress))
+                if (!lastProgress.Equals(progress))
                 {
-                    worker.ReportProgress(Globals.progress);
-                    lastProgress = Globals.progress;
+                    worker.ReportProgress(progress);
+                    lastProgress = progress;
                 }
-                if (Globals.allRestaurantsProcessed)
+                if (allRestaurantsProcessed)
                 {
                     worker.ReportProgress(100);
                     break;
                 }
                 else
                 {
-                    // Continue sleeping for another 100 ms = 0,1 s
+                    // Continue sleeping for another 100 ms = 0,05 s
                     Thread.Sleep(50);
                 }
             }
@@ -123,6 +128,29 @@ namespace Edumenu
             }
             Restaurant restaurant = e.UserState as Restaurant;
             App.RestaurantViewModel.ParseMenu(e.Result, restaurant);
+        }
+
+        public static void UpdateProgress(Restaurant currentRestaurant)
+        {
+            nRestaurantsProcessed += 1;
+            int totalSchoolRestaurants = 0;
+            foreach (Restaurant r in App.RestaurantViewModel.restaurantsAll)
+            {
+                // Count the number of restaurants belonging to the selected school
+                if (r.School.Name_FI.Equals(currentRestaurant.School.Name_FI))
+                {
+                    totalSchoolRestaurants += 1;
+                }
+            }
+            if (totalSchoolRestaurants != 0) // Do not divide by zero
+            {
+                progress = (int)((double)nRestaurantsProcessed /
+                    (double)totalSchoolRestaurants * 100);
+            }
+            if (nRestaurantsProcessed.Equals(totalSchoolRestaurants))
+            {
+                allRestaurantsProcessed = true;
+            }
         }
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -148,7 +176,7 @@ namespace Edumenu
             {
                 System.Diagnostics.Debug.WriteLine("Error: " + e.Error.Message);
             }
-            else // Backgroundworker completed successfully
+            else // Background worker completed successfully
             {
                 ProBar.Visibility = Visibility.Collapsed;
                 var progressIndicator = new ProgressIndicator
