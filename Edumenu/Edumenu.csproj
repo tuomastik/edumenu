@@ -94,6 +94,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters.cs" />
+    <Compile Include="Diets.xaml.cs">
+      <DependentUpon>Diets.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -114,6 +117,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Diets.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -140,24 +147,29 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\BadgeLogo.png" />
+    <Content Include="Assets\DietIcons\A.png" />
     <Content Include="Assets\DietIcons\G.png" />
     <Content Include="Assets\DietIcons\HOT.png" />
     <Content Include="Assets\DietIcons\K.png" />
     <Content Include="Assets\DietIcons\KA.png" />
+    <Content Include="Assets\DietIcons\Kal.png" />
     <Content Include="Assets\DietIcons\L.png" />
     <Content Include="Assets\DietIcons\Lite.png" />
     <Content Include="Assets\DietIcons\M.png" />
+    <Content Include="Assets\DietIcons\Nau.png" />
     <Content Include="Assets\DietIcons\pahkina.png" />
     <Content Include="Assets\DietIcons\PAPR.png" />
     <Content Include="Assets\DietIcons\SE.png" />
     <Content Include="Assets\DietIcons\SI.png" />
     <Content Include="Assets\DietIcons\SITRUS.png" />
+    <Content Include="Assets\DietIcons\SM.png" />
     <Content Include="Assets\DietIcons\SOIJA.png" />
     <Content Include="Assets\DietIcons\VE.png" />
     <Content Include="Assets\DietIcons\VL.png" />
     <Content Include="Assets\DietIcons\VS.png" />
     <Content Include="Assets\ExitPrompt.png" />
     <Content Include="Assets\IconApp.png" />
+    <Content Include="Assets\IconBack.png" />
     <Content Include="Assets\IconDiets.png" />
     <Content Include="Assets\IconSettings.png" />
     <Content Include="Assets\Logo.png" />
