@@ -23,8 +23,8 @@ namespace Edumenu
     {
         // Class level variables
         private BackgroundWorker bw = new BackgroundWorker();
-        AppSettings appSettings = new AppSettings();
-        WebBrowserTask webBrowserTask = new WebBrowserTask();
+        private AppSettings appSettings = new AppSettings();
+        private WebBrowserTask webBrowserTask = new WebBrowserTask();
         // Progress
         public static int progress; // Total progress 0...1
         public static int nRestaurantsProcessed; // Restaurants processed per school
@@ -37,8 +37,8 @@ namespace Edumenu
             Scroller.DataContext = App.RestaurantViewModel;
             DaysOfWeekItemsControl.DataContext = App.DayViewModel;
             SchoolsItemsControl.DataContext = App.SchoolViewModel;
-            SelectedSchoolHeader.DataContext = appSettings;
-            // BackgroundWorker
+            SelectedSchoolHeader.DataContext = App.SchoolViewModel;
+            // Define and launch BackgroundWorker
             bw.WorkerSupportsCancellation = true;
             bw.WorkerReportsProgress = true;
             bw.DoWork += new DoWorkEventHandler(bw_DoWork);
@@ -367,32 +367,52 @@ namespace Edumenu
             //System.Diagnostics.Debug.WriteLine("---------------------");
         }
 
-        public Storyboard AnimateMove(FrameworkElement fe, double from, double to, int durationMs)
+        public Storyboard AnimateMove(FrameworkElement fe, double from, double to, int durationMs,
+            string easingType="exponential")
         {
             // Initialize a new instance of the CompositeTransform which allows 
             // addition of multiple different transforms
             fe.RenderTransform = new CompositeTransform();
 
             // Create the timeline
-            var animation = new DoubleAnimationUsingKeyFrames();
-
-            // Define easingfunction
-            ExponentialEase easingFunction = new ExponentialEase();
-            easingFunction.EasingMode = EasingMode.EaseOut;
+            var animation = new DoubleAnimationUsingKeyFrames();            
 
             // Add key frames to the timeline
+            // Start
             animation.KeyFrames.Add(new EasingDoubleKeyFrame
             {
-                EasingFunction = easingFunction,
                 KeyTime = TimeSpan.Zero,
                 Value = from
             });
-            animation.KeyFrames.Add(new EasingDoubleKeyFrame
+            // Stop
+            if (easingType.Equals("elastic"))
             {
-                EasingFunction = easingFunction,
-                KeyTime = TimeSpan.FromMilliseconds(durationMs),
-                Value = to
-            });
+                ElasticEase elasticEase = new ElasticEase()
+                {
+                    Oscillations = 1,
+                    Springiness = 7,
+                    EasingMode = EasingMode.EaseOut
+                };
+                animation.KeyFrames.Add(new EasingDoubleKeyFrame
+                {
+                    EasingFunction = elasticEase,
+                    KeyTime = TimeSpan.FromMilliseconds(durationMs),
+                    Value = to
+                });
+            }
+            else
+            {
+                ExponentialEase expEase = new ExponentialEase()
+                {
+                    EasingMode = EasingMode.EaseOut
+                };
+                animation.KeyFrames.Add(new EasingDoubleKeyFrame
+                {
+                    EasingFunction = expEase,
+                    KeyTime = TimeSpan.FromMilliseconds(durationMs),
+                    Value = to
+                });
+            }
 
             Storyboard.SetTargetProperty(animation,
                 new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.TranslateY)"));
@@ -433,7 +453,8 @@ namespace Edumenu
             }
             WebsitePrompt_PopUp.IsOpen = true;
             // Begin animation
-            Storyboard showPopUp = AnimateMove(WebsitePrompt_PopUp, -400, 0, 400);
+            // Animation stops before reaching 
+            Storyboard showPopUp = AnimateMove(WebsitePrompt_PopUp, -450, -60, 800, "elastic");
             showPopUp.Begin();
             // Vibrate
             VibrateController testVibrateController = VibrateController.Default;
@@ -476,7 +497,7 @@ namespace Edumenu
         private void DismissWebsitePrompt()
         {
             // Begin animation
-            Storyboard hidePopUp = AnimateMove(WebsitePrompt_PopUp, 0, -400, 400);
+            Storyboard hidePopUp = AnimateMove(WebsitePrompt_PopUp, -60, -450, 300);
             hidePopUp.Completed += new EventHandler(HidePopUp_Completed);
             hidePopUp.Begin();
             // Remove background darkener
@@ -493,6 +514,11 @@ namespace Edumenu
 
         private void DayOfWeek_Clicked(object sender, RoutedEventArgs e)
         {
+            // Do not fire up the event if user is scrolling horizontally
+            if (Canvas.GetLeft(ChildCanvas) != 0)
+            {
+                return;
+            }
             Day clickedDay = (Day)(sender as Button).DataContext;
             if (clickedDay.Name.ToLower().Equals(App.DayViewModel.GetSelectedDay().ToLower()))
             {
@@ -507,13 +533,18 @@ namespace Edumenu
 
         private void School_Clicked(object sender, RoutedEventArgs e)
         {
+            // Do not fire up the event if user is scrolling horizontally
+            if (Canvas.GetLeft(ChildCanvas) != -(LeftView.Width+RightView.Width))
+            {
+                return;
+            }
             School clickedSchool = (School)(sender as Button).DataContext;
             if (clickedSchool.NameShort_FI.ToLower().Equals(App.SchoolViewModel.GetSelectedSchool().ToLower()) ||
                 clickedSchool.NameShort_EN.ToLower().Equals(App.SchoolViewModel.GetSelectedSchool().ToLower()))
             {
                 return;
             }
-            App.SchoolViewModel.SelectSchool(App.SchoolViewModel.GetSelectedSchool());
+            App.SchoolViewModel.SelectedSchool = clickedSchool.NameShort_FI;
             if (bw.IsBusy != true)
             {
                 bw.RunWorkerAsync();
