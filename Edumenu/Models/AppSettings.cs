@@ -3,10 +3,8 @@ using Windows.Storage;
 
 namespace Edumenu.Models
 {
-    class AppSettings : INotifyPropertyChanged
+    class AppSettings
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        
         public string SelectedSchool
         {
             get
@@ -17,10 +15,8 @@ namespace Edumenu.Models
             set
             {
                 ApplicationData.Current.LocalSettings.Values["SelectedSchool"] = value;
-                OnPropertyChanged("SelectedSchool");
             }
         }
-
         public bool FirstLaunch
         {
             get
@@ -31,10 +27,8 @@ namespace Edumenu.Models
             set
             {
                 ApplicationData.Current.LocalSettings.Values["FirstLaunch"] = value;
-                OnPropertyChanged("FirstLaunch");
             }
         }
-
         // Initialize setting if it has not been set already
         private void InitializeIfNotSet(string settingName, object settingVal)
         {
@@ -43,16 +37,6 @@ namespace Edumenu.Models
             if (!localSettings.Values.ContainsKey(settingName))
             {
                 localSettings.Values[settingName] = settingVal;
-            }
-        }
-
-        // OnPropertyChanged notifies the view of the changes made
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
             }
         }
     }
