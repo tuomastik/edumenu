@@ -116,13 +116,16 @@
                                                Style="{StaticResource SmallHeaderText}"/>
                                 </Grid>
                                 <!--Left view: Information-->
-                                <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
-                                    <Image Source="Assets/IconDiets.png"
+                                <Button Style="{StaticResource ContentButton}"
+                                        Click="Diets_Clicked">
+                                    <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+                                        <Image Source="Assets/IconDiets.png"
                                            Width="25" Height="25"/>
-                                    <TextBlock Text="Erityisruokavaliot"
+                                        <TextBlock Text="Erityisruokavaliot"
                                                Style="{StaticResource MenuText}"
                                                Margin="20,8,10,10"/>
-                                </StackPanel>
+                                    </StackPanel>
+                                </Button>
                                 <!--<StackPanel Orientation="Horizontal" Margin="20,10,0,0">
                                     <Image Source="Assets/IconSettings.png"
                                            Width="25" Height="25"/>
@@ -137,7 +140,7 @@
                                                Style="{StaticResource MenuText}"
                                                Margin="20,6,10,10"/>
                                 </StackPanel>
-                                <!--<Image x:Name="DietIcon" Source="{Binding iconPath}" Width="30" Height="30"/>-->
+                                
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>

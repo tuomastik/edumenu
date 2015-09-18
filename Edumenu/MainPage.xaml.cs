@@ -481,7 +481,7 @@ namespace Edumenu
             WebsitePrompt_PopUp.IsOpen = true;
 
             // Begin animation
-            Storyboard showPopUp = this.AnimateMove(WebsitePrompt_PopUp, -450, -60, 800, "elastic");
+            Storyboard showPopUp = this.AnimateMove(WebsitePrompt_PopUp, -450, -60, 900, "elastic");
             showPopUp.Begin();
 
             // Vibrate
@@ -581,6 +581,18 @@ namespace Edumenu
             {
                 this.backgroundWorker.RunWorkerAsync();
             }
+        }
+
+        private void Diets_Clicked(object sender, RoutedEventArgs e)
+        {
+            Storyboard hideMainPage = this.AnimateMove(ParentCanvas, 0, 800, 150);
+            hideMainPage.Begin();
+            hideMainPage.Completed += new EventHandler(this.HideMainPage_Completed);
+        }
+
+        private void HideMainPage_Completed(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Diets.xaml", UriKind.Relative));
         }
     }
 }
