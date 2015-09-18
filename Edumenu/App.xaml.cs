@@ -12,12 +12,35 @@ namespace Edumenu
 {
     public partial class App : Application
     {
+        private static DayViewModel _dayViewModel { get; set; }
+        public static DayViewModel DayViewModel
+        {
+            get
+            {
+                if (_dayViewModel == null)
+                    _dayViewModel = new DayViewModel();
+
+                return _dayViewModel;
+            }
+        }
+
+        private static DietViewModel _dietViewModel { get; set; }
+        public static DietViewModel DietViewModel
+        {
+            get
+            {
+                if (_dietViewModel == null)
+                    _dietViewModel = new DietViewModel();
+
+                return _dietViewModel;
+            }
+        }
+
         private static RestaurantViewModel _restaurantViewModel { get; set; }
         public static RestaurantViewModel RestaurantViewModel
         {
             get
             {
-                // Delay creation of the view model until necessary
                 if (_restaurantViewModel == null)
                     _restaurantViewModel = new RestaurantViewModel();
 
@@ -25,16 +48,15 @@ namespace Edumenu
             }
         }
 
-        private static DayViewModel _dayViewModel { get; set; }
-        public static DayViewModel DayViewModel
+        private static SchoolViewModel _schoolViewModel { get; set; }
+        public static SchoolViewModel SchoolViewModel
         {
             get
             {
-                // Delay creation of the view model until necessary
-                if (_dayViewModel == null)
-                    _dayViewModel = new DayViewModel();
+                if (_schoolViewModel == null)
+                    _schoolViewModel = new SchoolViewModel();
 
-                return _dayViewModel;
+                return _schoolViewModel;
             }
         }
 
