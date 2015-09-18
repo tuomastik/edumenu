@@ -82,6 +82,20 @@ namespace Edumenu.Models
             NameShort = new List<string>() { "SI", "Sia" },
             IconPath = new Uri("Assets/DietIcons/SI.png", UriKind.Relative)
         };
+        public static Diet withBeef = new Diet
+        {
+            Name_EN = "With beef",
+            Name_FI = "Sisältää naudanlihaa",
+            NameShort = new List<string>() { "Nau" },
+            IconPath = new Uri("Assets/DietIcons/Nau.png", UriKind.Relative)
+        };
+        public static Diet withFish = new Diet
+        {
+            Name_EN = "With fish",
+            Name_FI = "Sisältää kalaa",
+            NameShort = new List<string>() { "Kal" },
+            IconPath = new Uri("Assets/DietIcons/Kal.png", UriKind.Relative)
+        };
         public static Diet withGarlic = new Diet
         {
             Name_EN = "With garlic",
@@ -129,28 +143,14 @@ namespace Edumenu.Models
             Name_EN = "According nutritional guidelines",
             Name_FI = "Suositusten mukainen",
             NameShort = new List<string>() { "SM", "*" },
-            //IconPath = new Uri("Assets/DietIcons/SM.png", UriKind.Relative)
-        };
-        public static Diet withBeef = new Diet
-        {
-            Name_EN = "With beef",
-            Name_FI = "Sisältää naudanlihaa",
-            NameShort = new List<string>() { "Nau" },
-            //IconPath = new Uri("Assets/DietIcons/Nau.png", UriKind.Relative)
-        };
-        public static Diet withFish = new Diet
-        {
-            Name_EN = "With fish",
-            Name_FI = "Sisältää kalaa",
-            NameShort = new List<string>() { "Kal" },
-            //IconPath = new Uri("Assets/DietIcons/Kal.png", UriKind.Relative)
+            IconPath = new Uri("Assets/DietIcons/SM.png", UriKind.Relative)
         };
         public static Diet withAllergens = new Diet
         {
-            Name_EN = "With allergens",
-            Name_FI = "Sisältää allergeeneja",
+            Name_EN = "Generally with allergens",
+            Name_FI = "Sisältää yleisimpiä allergeeneja",
             NameShort = new List<string>() { "A" },
-            //IconPath = new Uri("Assets/DietIcons/A.png", UriKind.Relative)
+            IconPath = new Uri("Assets/DietIcons/A.png", UriKind.Relative)
         };
     }
 }
