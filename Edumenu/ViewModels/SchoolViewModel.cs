@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +10,33 @@ using Windows.Storage;
 
 namespace Edumenu.ViewModels
 {
-    public class SchoolViewModel
+    public class SchoolViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ObservableCollection<School> schools { get; set; }
         AppSettings appSettings = new AppSettings();
+        public string SelectedSchool
+        {
+            get
+            {
+                return GetSelectedSchool();
+            }
+            set
+            {
+                SelectSchool(value);
+                OnPropertyChanged("SelectedSchool");
+            }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
 
         public SchoolViewModel()
         {
@@ -25,7 +49,7 @@ namespace Edumenu.ViewModels
                 School.takk
             };
 
-            SelectSchool(appSettings.SelectedSchool);
+            SelectedSchool = appSettings.SelectedSchool;
         }
 
         public void SelectSchool(string selectThisSchool)
