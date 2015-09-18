@@ -90,40 +90,46 @@
                             <StackPanel>
                                 <!--Left view: Days of week, Title-->
                                 <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
-                                      Background="{StaticResource ResourceKey=ThemeColor7}"
-                                      Grid.Row="0">
+                                      Background="{StaticResource ResourceKey=ThemeColor7}">
                                     <TextBlock Text="Viikonpäivät"
                                                Style="{StaticResource SmallHeaderText}"/>
                                 </Grid>
                                 <!--Left view: Days of week, Days-->
-                                <ItemsControl x:Name="DaysOfWeekItemsControl" ItemsSource="{Binding}">
+                                <ItemsControl x:Name="DaysOfWeekItemsControl" ItemsSource="{Binding daysOfWeek}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Button Style="{StaticResource ContentButton}"
                                                     Click="DayOfWeek_Clicked">
-                                                <TextBlock Text="{Binding}"
+                                                <TextBlock Text="{Binding Path=Name}"
                                                        Style="{StaticResource MenuText}"
-                                                       Foreground="{Binding Converter={StaticResource selectedDayToForeground}}">
+                                                       Foreground="{Binding Path=IsSelected, Converter={StaticResource SelectedDayToForeground}}"
+                                                       FontWeight="{Binding Path=IsSelected, Converter={StaticResource SelectedDayToFontWeight}}">
                                                 </TextBlock>
                                             </Button>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
+                                <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
+                                      Background="{StaticResource ResourceKey=ThemeColor7}"
+                                      Margin="0,10,0,0">
+                                    <TextBlock Text="Tietoa"
+                                               Style="{StaticResource SmallHeaderText}"/>
+                                </Grid>
                                 <!--Left view: Information-->
-                                <StackPanel Orientation="Horizontal" Margin="20,70,0,0">
+                                <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
                                     <Image Source="Assets/IconDiets.png"
                                            Width="25" Height="25"/>
                                     <TextBlock Text="Erityisruokavaliot"
                                                Style="{StaticResource MenuText}"
                                                Margin="20,8,10,10"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+                                <!--<StackPanel Orientation="Horizontal" Margin="20,10,0,0">
                                     <Image Source="Assets/IconSettings.png"
                                            Width="25" Height="25"/>
                                     <TextBlock Text="Asetukset"
                                                Style="{StaticResource MenuText}"
                                                Margin="20,8,10,10" />
-                                </StackPanel>
+                                </StackPanel>-->
                                 <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
                                     <Image Source="Assets/IconApp.png"
                                            Width="25" Height="25"/>
@@ -131,17 +137,6 @@
                                                Style="{StaticResource MenuText}"
                                                Margin="20,6,10,10"/>
                                 </StackPanel>
-                                
-                                <TextBlock Text="Edumenu"
-                                           Margin="20,70,0,0"
-                                           FontSize="34"
-                                           FontWeight="Light"
-                                           Foreground="{StaticResource ThemeColor1}"/>
-                                <TextBlock Text="Versio 2.0.0.0"
-                                           Margin="20,0,0,0"
-                                           FontSize="20"
-                                           FontWeight="Light"
-                                           Foreground="{StaticResource ThemeColor3}"/>
                                 <!--<Image x:Name="DietIcon" Source="{Binding iconPath}" Width="30" Height="30"/>-->
                             </StackPanel>
                         </ScrollViewer>
@@ -162,11 +157,40 @@
                     Margin="830,0,0,0"
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch">
-                <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
-                      Background="{StaticResource ResourceKey=ThemeColor7}">
-
-                    <TextBlock Text="Oppilaitokset"
-                               Style="{StaticResource SmallHeaderText}"/>
+                <!--Right view: Container-->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--Right view: Content-->
+                    <Grid Grid.Row="1">
+                        <ScrollViewer>
+                            <StackPanel>
+                                <!--Right view: Schools, Title-->
+                                <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
+                                      Background="{StaticResource ResourceKey=ThemeColor7}">
+                                    <TextBlock Text="Oppilaitokset"
+                                               Style="{StaticResource SmallHeaderText}"/>
+                                </Grid>
+                                <!---Right view: Schools, Content-->
+                                <ItemsControl x:Name="SchoolsItemsControl" ItemsSource="{Binding schools}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource ContentButton}"
+                                                    Click="School_Clicked">
+                                                <TextBlock Text="{Binding Path=Name_FI}"
+                                                       Style="{StaticResource MenuText}"
+                                                       Foreground="{Binding Path=IsSelected, Converter={StaticResource SelectedDayToForeground}}"
+                                                       FontWeight="{Binding Path=IsSelected, Converter={StaticResource SelectedDayToFontWeight}}">
+                                                </TextBlock>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
             </Border>
 
