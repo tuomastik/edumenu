@@ -1,78 +1,103 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using Microsoft.Phone.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Animation;
-using System.Windows.Media;
-using System.Windows.Controls.Primitives;
-using System.ComponentModel;
-using Edumenu.Models;
-using System.Text;
-using System.Globalization;
-using System.Threading;
-using Microsoft.Phone.Shell;
-using System.Collections.Generic;
-using Microsoft.Devices;
-using Microsoft.Phone.Tasks;
+﻿// <copyright file="MainPage.xaml.cs" company="Tuomas Tikkanen">
+//     Copyright (c) Tuomas Tikkanen. All rights reserved.
+// </copyright>
 
 namespace Edumenu
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Globalization;
+    using System.Net;
+    using System.Text;
+    using System.Threading;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Media.Animation;
+    using Edumenu.Models;
+    using Microsoft.Devices;
+    using Microsoft.Phone.Controls;
+    using Microsoft.Phone.Shell;
+    using Microsoft.Phone.Tasks;
+
     public partial class MainPage : PhoneApplicationPage
     {
-        // Class level variables
-        private BackgroundWorker bw = new BackgroundWorker();
+        /*
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        Class level variables
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        */
+
+        // Progress tracking
+        private static int progress; // Total progress 0...1
+        private static int restaurantsProcessed; // Restaurants processed per school
+        private static bool allRestaurantsProcessed; // Can we exit the background thread?
+
+        // Moving between views
+        private int viewChangeThreshold = 30;
+        private double initialPosition;
+        private bool viewMoved = false;
+
+        // Hiding header when scrolling down
+        private bool headerVisible = true;
+        private bool animationRunning = false;
+
+        // Other
+        private BackgroundWorker backgroundWorker = new BackgroundWorker();
         private AppSettings appSettings = new AppSettings();
         private WebBrowserTask webBrowserTask = new WebBrowserTask();
-        // Progress
-        public static int progress; // Total progress 0...1
-        public static int nRestaurantsProcessed; // Restaurants processed per school
-        public static bool allRestaurantsProcessed; // Can we exit the background thread?
 
+        /*
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        Constructor
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        */
         public MainPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
+
             // Set data contexts
             Scroller.DataContext = App.RestaurantViewModel;
             DaysOfWeekItemsControl.DataContext = App.DayViewModel;
             SchoolsItemsControl.DataContext = App.SchoolViewModel;
             SelectedSchoolHeader.DataContext = App.SchoolViewModel;
+
             // Define and launch BackgroundWorker
-            bw.WorkerSupportsCancellation = true;
-            bw.WorkerReportsProgress = true;
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
-            if (bw.IsBusy != true)
+            this.backgroundWorker.WorkerSupportsCancellation = true;
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.DoWork += new DoWorkEventHandler(this.BackgroundWorker_DoWork);
+            this.backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(this.BackgroundWorker_ProgressChanged);
+            this.backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(this.BackgroundWorker_RunWorkerCompleted);
+            if (this.backgroundWorker.IsBusy != true)
             {
-                bw.RunWorkerAsync();
+                this.backgroundWorker.RunWorkerAsync();
             }
         }
 
-
-
-
-
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // Fetching restaurant menus with BackgroundWorker
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        /*
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        Fetching restaurant menus with BackgroundWorker
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        */
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
-            nRestaurantsProcessed = 0;
+            restaurantsProcessed = 0;
             allRestaurantsProcessed = false;
             progress = 0;
             worker.ReportProgress(0);
 
-            foreach(Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
+            foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
             {
-                if ((worker.CancellationPending == true))
+                if (worker.CancellationPending == true)
                 {
                     e.Cancel = true;
                     break;
                 }
+
                 if (!App.SchoolViewModel.GetSelectedSchool().Equals(restaurant.School.NameShort_FI))
                 {
                     // Skip the restaurants which do not belong to the selected school
@@ -83,19 +108,23 @@ namespace Edumenu
                     // Restaurant belongs to the selected school
                     WebClient client = new WebClient();
                     client.Encoding = Encoding.UTF8;
-                    client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(MenuDownloadCompleted);
+                    client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(this.MenuDownloadCompleted);
                     client.DownloadStringAsync(restaurant.MenuUrl, restaurant);
                 }
             }
+
             // Wait until all restaurant menus have been downloaded and parsed.
             int lastProgress = progress;
-            for (int i = 1; i <= 200; i++) // Max sleep time 200 * 0,05 s = 10 s
+
+            // Max sleep time 200 * 0,05 s = 10 s
+            for (int i = 1; i <= 200; i++)
             {
                 if (!lastProgress.Equals(progress))
                 {
                     worker.ReportProgress(progress);
                     lastProgress = progress;
                 }
+
                 if (allRestaurantsProcessed)
                 {
                     worker.ReportProgress(100);
@@ -111,17 +140,18 @@ namespace Edumenu
 
         private void MenuDownloadCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            if ((e.Error != null) || (string.IsNullOrEmpty(e.Result)))
+            if (e.Error != null || string.IsNullOrEmpty(e.Result))
             {
                 return;
             }
+
             Restaurant restaurant = e.UserState as Restaurant;
             App.RestaurantViewModel.ParseMenu(e.Result, restaurant);
         }
 
         public static void UpdateProgress(Restaurant currentRestaurant)
         {
-            nRestaurantsProcessed += 1;
+            restaurantsProcessed += 1;
             int totalSchoolRestaurants = 0;
             foreach (Restaurant r in App.RestaurantViewModel.restaurantsAll)
             {
@@ -131,21 +161,24 @@ namespace Edumenu
                     totalSchoolRestaurants += 1;
                 }
             }
-            if (totalSchoolRestaurants != 0) // Do not divide by zero
+
+            // Do not divide by zero
+            if (totalSchoolRestaurants != 0) 
             {
-                progress = (int)((double)nRestaurantsProcessed /
+                progress = (int)((double)restaurantsProcessed /
                     (double)totalSchoolRestaurants * 100);
             }
-            if (nRestaurantsProcessed.Equals(totalSchoolRestaurants))
+
+            if (restaurantsProcessed.Equals(totalSchoolRestaurants))
             {
                 allRestaurantsProcessed = true;
             }
         }
 
-        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             ProBar.Visibility = Visibility.Visible;
-            ProBar.Value = ((double)e.ProgressPercentage);
+            ProBar.Value = (double)e.ProgressPercentage;
             var progressIndicator = new ProgressIndicator
             {
                 Text = "Ladataan ruokalistoja...",
@@ -155,7 +188,7 @@ namespace Edumenu
             SystemTray.SetProgressIndicator(this, progressIndicator);
         }
 
-        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled == true)
             {
@@ -165,8 +198,9 @@ namespace Edumenu
             {
                 System.Diagnostics.Debug.WriteLine("Error: " + e.Error.Message);
             }
-            else // Background worker completed successfully
+            else
             {
+                // Background worker completed successfully
                 ProBar.Visibility = Visibility.Collapsed;
                 var progressIndicator = new ProgressIndicator
                 {
@@ -176,7 +210,6 @@ namespace Edumenu
                 };
                 SystemTray.SetProgressIndicator(this, progressIndicator);
 
-                
                 App.RestaurantViewModel.restaurantsVisible.Clear();
                 foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
                 {
@@ -193,49 +226,41 @@ namespace Edumenu
             }
         }
 
-        //--------------------------------------------------------------------
-        // Fetching restaurant menus with BackgroundWorker
-        //--------------------------------------------------------------------
-
-
-
-
-
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // The code implementing moving between left, middle and right view
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-        public int viewChangeThreshold = 30;
+        /*
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        The code implementing moving between left, middle and right view
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        */
         private void OpenClose_Left(object sender, RoutedEventArgs e)
         {
             var left = Canvas.GetLeft(ChildCanvas);
-            if (left > -viewChangeThreshold)
+            if (left > -this.viewChangeThreshold)
             {
-                MoveViewWindow(-LeftView.Width);
+                this.MoveViewWindow(-LeftView.Width);
             }
             else
             {
-                MoveViewWindow(0);
+                this.MoveViewWindow(0);
             }
         }
 
         private void OpenClose_Right(object sender, RoutedEventArgs e)
         {
             var left = Canvas.GetLeft(ChildCanvas);
-            if (left > (-LeftView.Width - viewChangeThreshold))
+            if (left > (-LeftView.Width - this.viewChangeThreshold))
             {
-                MoveViewWindow(-LeftView.Width - RightView.Width);
+                this.MoveViewWindow(-LeftView.Width - RightView.Width);
             }
             else
             {
-                MoveViewWindow(-LeftView.Width);
+                this.MoveViewWindow(-LeftView.Width);
             }
         }
 
-        void MoveViewWindow(double left)
+        private void MoveViewWindow(double left)
         {
-            _viewMoved = true;
-            //((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).SkipToFill();
+            this.viewMoved = true;
+            ////((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).SkipToFill();
             ((DoubleAnimation)((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).Children[0]).To = left;
             ((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).Begin();
         }
@@ -243,74 +268,76 @@ namespace Edumenu
         private void ParentCanvas_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
             if (e.DeltaManipulation.Translation.X != 0)
-                Canvas.SetLeft(ChildCanvas, Math.Min(Math.Max(-(LeftView.Width+RightView.Width),
-                    Canvas.GetLeft(ChildCanvas) + e.DeltaManipulation.Translation.X), 0));  
+            {
+                Canvas.SetLeft(
+                    this.ChildCanvas,
+                    Math.Min(Math.Max(-(LeftView.Width + RightView.Width), Canvas.GetLeft(this.ChildCanvas) + e.DeltaManipulation.Translation.X), 0));
+            }
         }
 
-        double initialPosition;
-        bool _viewMoved = false;
         private void ParentCanvas_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
         {
-            _viewMoved = false;
-            initialPosition = Canvas.GetLeft(ChildCanvas);
+            this.viewMoved = false;
+            this.initialPosition = Canvas.GetLeft(this.ChildCanvas);
         }
 
         private void ParentCanvas_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
             var left = Canvas.GetLeft(ChildCanvas);
-            if (_viewMoved)
-                return;
-
-            if (Math.Abs(initialPosition - left) < viewChangeThreshold)
-            {
-                // Bouncing back
-                MoveViewWindow(initialPosition);
+            if (this.viewMoved)
+            { 
                 return;
             }
+
+            if (Math.Abs(this.initialPosition - left) < this.viewChangeThreshold)
+            {
+                // Bouncing back
+                this.MoveViewWindow(this.initialPosition);
+                return;
+            }
+
             // Change of state
-            if (initialPosition - left > 0)
+            if (this.initialPosition - left > 0)
             {
                 // Slide to the left
-                if (initialPosition > -LeftView.Width)
-                    MoveViewWindow(-LeftView.Width);
+                if (this.initialPosition > -LeftView.Width)
+                {
+                    this.MoveViewWindow(-LeftView.Width);
+                }
                 else
-                    MoveViewWindow(-(LeftView.Width+RightView.Width));
+                {
+                    this.MoveViewWindow(-(LeftView.Width + RightView.Width));
+                }
             }
             else
             {
                 // Slide to the right
-                if (initialPosition < -RightView.Width)
-                    MoveViewWindow(-RightView.Width);
+                if (this.initialPosition < -RightView.Width)
+                {
+                    this.MoveViewWindow(-RightView.Width);
+                }
                 else
-                    MoveViewWindow(0);
+                {
+                    this.MoveViewWindow(0);
+                }
             }
-
         }
 
-        //--------------------------------------------------------------------
-        // The code implementing moving between left, middle and right view
-        //--------------------------------------------------------------------
-
-
-
-
-
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // ScrollViewer - Header interactions
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-        // When the ScrollViewer is loaded, start to listen its scrollbar's events.
-        // Hide the header when scrolling down, and show the header when scrolling up.
-
-        private bool headerVisible = true;
-        private bool animationRunning = false;
-
+        /*
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        ScrollViewer - Header interactions
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        
+        When the ScrollViewer is loaded, start to listen its scrollbar's events.
+        Hide the header when scrolling down, and show the header when scrolling up.
+        
+        */
         private void Scroller_Loaded(object sender, RoutedEventArgs e)
         {
-            GetScrollBar(Scroller);
+            this.GetScrollBar(this.Scroller);
         }
 
-        void GetScrollBar(DependencyObject parent)
+        private void GetScrollBar(DependencyObject parent)
         {
             int count = VisualTreeHelper.GetChildrenCount(parent);
 
@@ -321,7 +348,7 @@ namespace Edumenu
                 ScrollBar scrollBar = child as ScrollBar;
                 if (scrollBar == null)
                 {
-                    GetScrollBar(child);
+                    this.GetScrollBar(child);
                 }
                 else
                 {
@@ -329,7 +356,7 @@ namespace Edumenu
 
                     if (name == "VerticalScrollBar")
                     {
-                        scrollBar.ValueChanged += OnScrollbarValueChanged;
+                        scrollBar.ValueChanged += this.OnScrollbarValueChanged;
                     }
                 }
             }
@@ -337,38 +364,42 @@ namespace Edumenu
 
         private void OnScrollbarValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            //System.Diagnostics.Debug.WriteLine(e.OldValue.ToString());
-            //System.Diagnostics.Debug.WriteLine(e.NewValue.ToString());
-            //System.Diagnostics.Debug.WriteLine("Animation running: " + animationRunning.ToString());
-            //System.Diagnostics.Debug.WriteLine("Header visible: " + headerVisible.ToString());
+            ////System.Diagnostics.Debug.WriteLine(e.OldValue.ToString());
+            ////System.Diagnostics.Debug.WriteLine(e.NewValue.ToString());
+            ////System.Diagnostics.Debug.WriteLine("Animation running: " + animationRunning.ToString());
+            ////System.Diagnostics.Debug.WriteLine("Header visible: " + headerVisible.ToString());
 
             if (e.NewValue > e.OldValue &&
                 e.NewValue > HeaderContainer.Height &&
-                !animationRunning && headerVisible)
+                !this.animationRunning && this.headerVisible)
             {
                 // Scroll Down
-                headerVisible = false;
-                Storyboard scrollDown = AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
-                scrollDown.Completed += new EventHandler(HeaderAnimate_Completed);
+                this.headerVisible = false;
+                Storyboard scrollDown = this.AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
+                scrollDown.Completed += new EventHandler(this.HeaderAnimate_Completed);
                 scrollDown.Begin();
-                animationRunning = true;
-                //System.Diagnostics.Debug.WriteLine("User scrolled down!");
+                this.animationRunning = true;
+                ////System.Diagnostics.Debug.WriteLine("User scrolled down!");
             }
             else if (e.NewValue < e.OldValue &&
-                     !animationRunning && !headerVisible)
+                     !this.animationRunning && !this.headerVisible)
             {
                 // Scroll up
-                headerVisible = true;
-                Storyboard scrollUp = AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
-                scrollUp.Completed += new EventHandler(HeaderAnimate_Completed);
+                this.headerVisible = true;
+                Storyboard scrollUp = this.AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
+                scrollUp.Completed += new EventHandler(this.HeaderAnimate_Completed);
                 scrollUp.Begin();
-                //System.Diagnostics.Debug.WriteLine("User scrolled up!");
+                ////System.Diagnostics.Debug.WriteLine("User scrolled up!");
             }
-            //System.Diagnostics.Debug.WriteLine("---------------------");
+            ////System.Diagnostics.Debug.WriteLine("---------------------");
         }
 
-        public Storyboard AnimateMove(FrameworkElement fe, double from, double to, int durationMs,
-            string easingType="exponential")
+        private Storyboard AnimateMove(
+            FrameworkElement fe,
+            double from,
+            double to,
+            int durationMs,
+            string easingType = "exponential")
         {
             // Initialize a new instance of the CompositeTransform which allows 
             // addition of multiple different transforms
@@ -384,6 +415,7 @@ namespace Edumenu
                 KeyTime = TimeSpan.Zero,
                 Value = from
             });
+
             // Stop
             if (easingType.Equals("elastic"))
             {
@@ -414,7 +446,8 @@ namespace Edumenu
                 });
             }
 
-            Storyboard.SetTargetProperty(animation,
+            Storyboard.SetTargetProperty(
+                animation,
                 new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.TranslateY)"));
             Storyboard.SetTarget(animation, fe);
 
@@ -429,54 +462,51 @@ namespace Edumenu
 
         private void HeaderAnimate_Completed(object sender, EventArgs e)
         {
-            animationRunning = false;
+            this.animationRunning = false;
         }
 
-        //--------------------------------------------------------------------
-        // ScrollViewer - Header interactions
-        //--------------------------------------------------------------------
-
-
-
-
-
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // Open restaurant website pop up
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+        /*
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        Open restaurant website pop up
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        */
         private void RestaurantName_Clicked(object sender, RoutedEventArgs e)
         {
             // Do not fire up the MessageBox if user is scrolling horizontally
-            if (Canvas.GetLeft(ChildCanvas) != -LeftView.Width)
+            if (Canvas.GetLeft(this.ChildCanvas) != -LeftView.Width)
             {
                 return;
             }
+
             WebsitePrompt_PopUp.IsOpen = true;
+
             // Begin animation
-            // Animation stops before reaching 
-            Storyboard showPopUp = AnimateMove(WebsitePrompt_PopUp, -450, -60, 800, "elastic");
+            Storyboard showPopUp = this.AnimateMove(WebsitePrompt_PopUp, -450, -60, 800, "elastic");
             showPopUp.Begin();
+
             // Vibrate
             VibrateController testVibrateController = VibrateController.Default;
             testVibrateController.Start(TimeSpan.FromSeconds(0.07));
+
             // Darken the background
             PopUpOverlayGrid.Visibility = Visibility.Visible;
+
             // Set properties
             Restaurant clickedRestaurant = (Restaurant)(sender as Button).DataContext;
-            webBrowserTask.Uri = clickedRestaurant.HomeUrl;
+            this.webBrowserTask.Uri = clickedRestaurant.HomeUrl;
             navigationPrompt_textblock.Text = "Haluatko varmasti poistua sovelluksesta " +
                 "ja avata ravintolan " + clickedRestaurant.Name + " verkkosivun selaimessa?";
         }
 
         private void PopUpButton_Continue_Click(object sender, RoutedEventArgs e)
         {
-            DismissWebsitePrompt();
-            webBrowserTask.Show();
+            this.DismissWebsitePrompt();
+            this.webBrowserTask.Show();
         }
 
         private void PopUpButton_Cancel_Click(object sender, RoutedEventArgs e)
         {
-            DismissWebsitePrompt();
+            this.DismissWebsitePrompt();
         }
 
         // Hide the popup when the back key is pressed
@@ -484,7 +514,7 @@ namespace Edumenu
         {
             if (this.WebsitePrompt_PopUp.IsOpen)
             {
-                DismissWebsitePrompt();
+                this.DismissWebsitePrompt();
                 e.Cancel = true;
             }
         }
@@ -497,57 +527,59 @@ namespace Edumenu
         private void DismissWebsitePrompt()
         {
             // Begin animation
-            Storyboard hidePopUp = AnimateMove(WebsitePrompt_PopUp, -60, -450, 300);
-            hidePopUp.Completed += new EventHandler(HidePopUp_Completed);
+            Storyboard hidePopUp = this.AnimateMove(WebsitePrompt_PopUp, -60, -450, 300);
+            hidePopUp.Completed += new EventHandler(this.HidePopUp_Completed);
             hidePopUp.Begin();
+
             // Remove background darkener
             PopUpOverlayGrid.Visibility = Visibility.Collapsed;
         }
 
-        //--------------------------------------------------------------------
-        // Open restaurant website pop up
-        //--------------------------------------------------------------------        
-
-
-
-
-
+        /*
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        Other click events
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        */
         private void DayOfWeek_Clicked(object sender, RoutedEventArgs e)
         {
             // Do not fire up the event if user is scrolling horizontally
-            if (Canvas.GetLeft(ChildCanvas) != 0)
+            if (Canvas.GetLeft(this.ChildCanvas) != 0)
             {
                 return;
             }
+
             Day clickedDay = (Day)(sender as Button).DataContext;
             if (clickedDay.Name.ToLower().Equals(App.DayViewModel.GetSelectedDay().ToLower()))
             {
                 return;
             }
+
             App.DayViewModel.SelectDay(clickedDay.Name);
-            if (bw.IsBusy != true)
+            if (this.backgroundWorker.IsBusy != true)
             {
-                bw.RunWorkerAsync();
+                this.backgroundWorker.RunWorkerAsync();
             }
         }
 
         private void School_Clicked(object sender, RoutedEventArgs e)
         {
             // Do not fire up the event if user is scrolling horizontally
-            if (Canvas.GetLeft(ChildCanvas) != -(LeftView.Width+RightView.Width))
+            if (Canvas.GetLeft(this.ChildCanvas) != -(LeftView.Width + RightView.Width))
             {
                 return;
             }
+
             School clickedSchool = (School)(sender as Button).DataContext;
             if (clickedSchool.NameShort_FI.ToLower().Equals(App.SchoolViewModel.GetSelectedSchool().ToLower()) ||
                 clickedSchool.NameShort_EN.ToLower().Equals(App.SchoolViewModel.GetSelectedSchool().ToLower()))
             {
                 return;
             }
+
             App.SchoolViewModel.SelectedSchool = clickedSchool.NameShort_FI;
-            if (bw.IsBusy != true)
+            if (this.backgroundWorker.IsBusy != true)
             {
-                bw.RunWorkerAsync();
+                this.backgroundWorker.RunWorkerAsync();
             }
         }
     }
