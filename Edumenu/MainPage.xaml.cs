@@ -30,25 +30,14 @@ namespace Edumenu
         public static int nRestaurantsProcessed; // Restaurants processed per school
         public static bool allRestaurantsProcessed; // Can we exit the background thread?
 
-        public static List<string> daysOfWeek = new List<string>()
-        {
-            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Monday)),
-            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Tuesday)),
-            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Wednesday)),
-            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Thursday)),
-            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Friday)),
-            Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Saturday))
-        };
-
-
         public MainPage()
         {
             InitializeComponent();
             // Set data contexts
+            Scroller.DataContext = App.RestaurantViewModel;
+            DaysOfWeekItemsControl.DataContext = App.DayViewModel;
+            SchoolsItemsControl.DataContext = App.SchoolViewModel;
             SelectedSchoolHeader.DataContext = appSettings;
-            this.DataContext = App.RestaurantViewModel;
-            DaysOfWeekItemsControl.DataContext = daysOfWeek;
-            //DietIcon.DataContext = Diet.glutenFree;
             // BackgroundWorker
             bw.WorkerSupportsCancellation = true;
             bw.WorkerReportsProgress = true;
@@ -84,7 +73,7 @@ namespace Edumenu
                     e.Cancel = true;
                     break;
                 }
-                if (!appSettings.SelectedSchool.Equals(restaurant.School.NameShort_FI))
+                if (!App.SchoolViewModel.GetSelectedSchool().Equals(restaurant.School.NameShort_FI))
                 {
                     // Skip the restaurants which do not belong to the selected school
                     continue;
@@ -192,7 +181,7 @@ namespace Edumenu
                 foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
                 {
                     // Skip the restaurants which do not correspond to the selected school
-                    if (!appSettings.SelectedSchool.Equals(restaurant.School.NameShort_FI))
+                    if (!App.SchoolViewModel.GetSelectedSchool().Equals(restaurant.School.NameShort_FI))
                     {
                         continue;
                     }
@@ -504,39 +493,31 @@ namespace Edumenu
 
         private void DayOfWeek_Clicked(object sender, RoutedEventArgs e)
         {
-            string clickedDay = (string)(sender as Button).DataContext;
-            Globals.SelectedDay = clickedDay;
+            Day clickedDay = (Day)(sender as Button).DataContext;
+            if (clickedDay.Name.ToLower().Equals(App.DayViewModel.GetSelectedDay().ToLower()))
+            {
+                return;
+            }
+            App.DayViewModel.SelectDay(clickedDay.Name);
             if (bw.IsBusy != true)
             {
                 bw.RunWorkerAsync();
             }
         }
 
-
-
-
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void School_Clicked(object sender, RoutedEventArgs e)
         {
-            if (appSettings.SelectedSchool == "TAY")
+            School clickedSchool = (School)(sender as Button).DataContext;
+            if (clickedSchool.NameShort_FI.ToLower().Equals(App.SchoolViewModel.GetSelectedSchool().ToLower()) ||
+                clickedSchool.NameShort_EN.ToLower().Equals(App.SchoolViewModel.GetSelectedSchool().ToLower()))
             {
-                appSettings.SelectedSchool = "TTY";
+                return;
             }
-            else
-            {
-                appSettings.SelectedSchool = "TAY";
-            }
+            App.SchoolViewModel.SelectSchool(App.SchoolViewModel.GetSelectedSchool());
             if (bw.IsBusy != true)
             {
                 bw.RunWorkerAsync();
             }
         }
-
-
-
-
-
-
     }
 }
