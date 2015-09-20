@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest"
-         xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest"
-         xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest"
-         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
 
-  <Identity Name="680ea247-f8c4-4365-89ec-186e0510fad2"
+  <Identity Name="34a529a2-b28c-4331-aa93-480ba02416d3"
             Publisher="CN=Tuomas"
             Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="66785808-03b8-492f-b489-2082ba3a7b78"
-                    PhonePublisherId="7541533c-1a56-46b5-b6bb-53f1f333f9fd"/>
+  <mp:PhoneIdentity PhoneProductId="34a529a2-b28c-4331-aa93-480ba02416d3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Edumenu</DisplayName>
@@ -21,46 +17,28 @@
     <OSMinVersion>6.3.1</OSMinVersion>
     <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
   </Prerequisites>
-
+  
   <Resources>
     <Resource Language="x-generate"/>
   </Resources>
 
   <Applications>
     <Application Id="App"
-                 Executable="AGHost.exe"
-                 EntryPoint="MainPage.xaml">
-      <m3:VisualElements
-          DisplayName="Edumenu"
-          Square150x150Logo="Assets\SquareTile150x150.png"
-          Square44x44Logo="Assets\Logo.png"
-          Description="Edumenu"
-          ForegroundText="light"
-          BackgroundColor="#464646">
-        <m3:DefaultTile Square71x71Logo="Assets\SquareTile71x71.png"/>
-        <m3:SplashScreen Image="Assets\SplashScreen.png" />
-      </m3:VisualElements>
-
-      <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="AgHost.BackgroundTask">
-          <BackgroundTasks>
-          <Task Type="systemEvent" />
-          </BackgroundTasks>
-        </Extension>
-      </Extensions>
-
+        Executable="$targetnametoken$.exe"
+        EntryPoint="Edumenu.App">
+        <m3:VisualElements
+            DisplayName="Edumenu"
+            Square150x150Logo="Assets\Logo.png"
+            Square44x44Logo="Assets\SmallLogo.png"
+            Description="Edumenu"
+            ForegroundText="light"
+            BackgroundColor="transparent">
+            <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png"/>
+            <m3:SplashScreen Image="Assets\SplashScreen.png"/>
+        </m3:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
+    <Capability Name="internetClientServer" />
   </Capabilities>
-
-  <Extensions>
-    <Extension Category="windows.activatableClass.inProcessServer">
-      <InProcessServer>
-        <Path>AgHostSvcs.dll</Path>
-        <ActivatableClass ActivatableClassId="AgHost.BackgroundTask" ThreadingModel="both" />
-      </InProcessServer>
-    </Extension>
-  </Extensions>
-
 </Package>

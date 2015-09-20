@@ -1,21 +1,24 @@
-﻿<phone:PhoneApplicationPage
+﻿<Page
     x:Class="Edumenu.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:local="using:Edumenu"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Models="using:Edumenu.Models"
     mc:Ignorable="d"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <Models:SelectedDayToForeground x:Key="SelectedDayToForeground"/>
+        <Models:SelectedDayToFontWeight x:Key="SelectedDayToFontWeight"/>
+    </Page.Resources>
+    
     <Canvas x:Name="ParentCanvas"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
+            Height="{Binding ScreenHeight}"
+            ManipulationMode="TranslateX"
             ManipulationStarted="ParentCanvas_ManipulationStarted"
             ManipulationDelta="ParentCanvas_ManipulationDelta"
             ManipulationCompleted="ParentCanvas_ManipulationCompleted">
@@ -35,24 +38,22 @@
         </Canvas.Resources>
 
         <Canvas x:Name="ChildCanvas"
-                CacheMode="BitmapCache"
-                Width="1180"
+                Width="{Binding ChildCanvasWidth}"
                 VerticalAlignment="Stretch"
                 Background="Transparent"
-                Canvas.Left="-350">
-
-
-
-
-
+                Canvas.Left="{Binding CanvasLeft}">
 
             <Popup x:Name="WebsitePrompt_PopUp" Height="400">
-                <Border Margin="350,0,0,0" VerticalAlignment="Center">
-                    <StackPanel
-                                Background="#1f1f1f"
+                <Border Margin="{Binding MainViewMargin}" VerticalAlignment="Center">
+                    <StackPanel Background="#1f1f1f"
                                 Width="{Binding ActualWidth, ElementName=MainView}"
                                 VerticalAlignment="Center">
-                        <Image HorizontalAlignment="Left" Source="Assets/ExitPrompt.png" Width="120" Height="100" Margin="27 100 0 0"/>
+                        <Image HorizontalAlignment="Left"
+                               Source="Assets/Icons/ExitPrompt.png"
+                               Width="120"
+                               Height="100"
+                               Margin="27 100 0 0">
+                        </Image>
                         <TextBlock Name="navigationPrompt_textblock"
                                    Text="Haluatko varmasti poistua sovelluksesta ja avata ravintolan verkkosivun selaimessa?"
                                    TextWrapping="Wrap"
@@ -60,7 +61,8 @@
                                    TextAlignment="Left"
                                    FontSize="24"
                                    FontFamily="Segoe UI"
-                                   Margin="37,10,40,20" />
+                                   Margin="37,10,40,20">
+                        </TextBlock>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,48" HorizontalAlignment="Center" >
                             <Button x:Name="PopUpButton_Continue"  FontSize="24" Content="kyllä" Width="215" Background="Transparent" Foreground="{StaticResource PhoneForegroundBrush}" Click="PopUpButton_Continue_Click"/>
                             <Button x:Name="PopUpButton_Cancel"    FontSize="24" Content="en"    Width="215" Background="Transparent" Foreground="{StaticResource PhoneForegroundBrush}"  Click="PopUpButton_Cancel_Click"/>
@@ -69,10 +71,9 @@
                 </Border>
             </Popup>
 
-
             <!--Left view-->
             <Border x:Name="LeftView"
-                    Width="350"
+                    Width="{Binding LeftViewWidth}"
                     Height="{Binding ActualHeight, ElementName=ParentCanvas}"
                     CacheMode="BitmapCache"
                     Background="{StaticResource ResourceKey=ThemeColor5}"
@@ -113,51 +114,52 @@
                                       Background="{StaticResource ResourceKey=ThemeColor7}"
                                       Margin="0,10,0,0">
                                     <TextBlock Text="Tietoa"
-                                               Style="{StaticResource SmallHeaderText}"/>
+                                               Style="{StaticResource SmallHeaderText}">
+                                    </TextBlock>
                                 </Grid>
                                 <!--Left view: Information-->
                                 <Button Style="{StaticResource ContentButton}"
                                         Click="Diets_Clicked">
                                     <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
-                                        <Image Source="Assets/IconDiets.png"
-                                           Width="25" Height="25"/>
+                                        <Image Source="Assets/Icons/IconDiets.png"
+                                           Width="25" Height="25">
+                                        </Image>
                                         <TextBlock Text="Erityisruokavaliot"
                                                Style="{StaticResource MenuText}"
-                                               Margin="20,8,10,10"/>
+                                               Margin="20,8,10,10">
+                                        </TextBlock>
                                     </StackPanel>
                                 </Button>
                                 <!--<StackPanel Orientation="Horizontal" Margin="20,10,0,0">
-                                    <Image Source="Assets/IconSettings.png"
+                                    <Image Source="Assets/Icons/IconSettings.png"
                                            Width="25" Height="25"/>
                                     <TextBlock Text="Asetukset"
                                                Style="{StaticResource MenuText}"
                                                Margin="20,8,10,10" />
                                 </StackPanel>-->
                                 <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
-                                    <Image Source="Assets/IconApp.png"
-                                           Width="25" Height="25"/>
+                                    <Image Source="Assets/Icons/IconApp.png"
+                                           Width="25" Height="25">
+                                    </Image>
                                     <TextBlock Text="Tietoa sovelluksesta"
                                                Style="{StaticResource MenuText}"
-                                               Margin="20,6,10,10"/>
+                                               Margin="20,6,10,10">
+                                        
+                                    </TextBlock>
                                 </StackPanel>
-                                
+
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>
                 </Grid>
             </Border>
-            
-            
-            
-            
-            
+
             <!--Right view-->
             <Border x:Name="RightView"
-                    Width="350"
+                    Width="{Binding RightViewWidth}"
                     Height="{Binding ActualHeight, ElementName=ParentCanvas}"
-                    CacheMode="BitmapCache"
                     Background="{StaticResource ResourceKey=ThemeColor5}"
-                    Margin="830,0,0,0"
+                    Margin="{Binding RightViewMargin}"
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch">
                 <!--Right view: Container-->
@@ -174,7 +176,9 @@
                                 <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
                                       Background="{StaticResource ResourceKey=ThemeColor7}">
                                     <TextBlock Text="Oppilaitokset"
-                                               Style="{StaticResource SmallHeaderText}"/>
+                                               Style="{StaticResource SmallHeaderText}">
+                                        
+                                    </TextBlock>
                                 </Grid>
                                 <!---Right view: Schools, Content-->
                                 <ItemsControl x:Name="SchoolsItemsControl" ItemsSource="{Binding schools}">
@@ -197,25 +201,19 @@
                 </Grid>
             </Border>
 
-            
-            
-            
-            
             <!--Middle view-->
             <Grid x:Name="MainView"
-                  Margin="350,0,0,0"
-                  CacheMode="BitmapCache"
+                  Margin="{Binding MainViewMargin}"
                   Grid.Column="1"
                   Background="#FFCFD4E2"
                   Height="{Binding ActualHeight, ElementName=ParentCanvas}"
-                  Width="480" >
-
+                  Width="{Binding ActualWidth, ElementName=ParentCanvas}">
                 <!--Middle view: Content-->
                 <!--Middle view: Content is defined before header, so that header will be on top of content-->
                 <ScrollViewer x:Name="Scroller"
                               Loaded="Scroller_Loaded"
                               Background="{StaticResource ResourceKey=ThemeColor1}">
-                    <StackPanel>
+                    <StackPanel ManipulationMode="System,TranslateX">
 
                         <!--Middle view: Empty space under the header-->
                         <StackPanel Width="58" Height="58" />
@@ -253,7 +251,7 @@
                     <Button HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             x:Name="LeftButtonTapped"
-                            Click="OpenClose_Left"
+                            Click="HamburgerButton_Clicked"
                             Style="{StaticResource ContentButton}">
                         <StackPanel Margin="20">
                             <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" />
@@ -266,12 +264,13 @@
                     <Button HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Style="{StaticResource ContentButton}"
-                            Click="OpenClose_Right">
+                            Click="SelectedSchool_Clicked">
                         <TextBlock Text="{Binding SelectedSchool}"
                                    x:Name="SelectedSchoolHeader"
                                    Foreground="{StaticResource ResourceKey=ThemeColor3}"
                                    FontSize="26"
-                                   Padding="25,10,25,10"/>
+                                   Padding="25,10,25,10">
+                        </TextBlock>
                     </Button>
 
                     <!--Middle view: ProgressBar-->
@@ -282,7 +281,8 @@
                                  HorizontalAlignment="Stretch"
                                  HorizontalContentAlignment="Stretch"
                                  Margin="0"
-                                 Padding="0"/>
+                                 Padding="0">
+                    </ProgressBar>
 
                 </Grid>
             </Grid>
@@ -291,11 +291,11 @@
                   Visibility="Collapsed"
                   Width="{Binding ActualWidth, ElementName=ChildCanvas}"
                   Height="{Binding ActualWidth, ElementName=ChildCanvas}"
-                  Background="Black" Opacity="0.5" />
-
-
-
+                  Background="Black" Opacity="0.5">
+                
+            </Grid>
+            
         </Canvas>
     </Canvas>
-
-</phone:PhoneApplicationPage>
+    
+</Page>

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Windows.Storage;
+﻿using Windows.Storage;
 
 namespace Edumenu.Models
 {

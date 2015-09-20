@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -91,7 +90,7 @@ namespace Edumenu.ViewModels
                 {
                     restaurant.Menu = "Ei ruokalistaa saatavilla";
                 }
-                MainPage.UpdateProgress(restaurant);
+                //MainPage.UpdateProgress(restaurant);
             }
         }
 

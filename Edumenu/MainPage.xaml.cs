@@ -1,29 +1,27 @@
-﻿// <copyright file="MainPage.xaml.cs" company="Tuomas Tikkanen">
-//     Copyright (c) Tuomas Tikkanen. All rights reserved.
-// </copyright>
+﻿using Edumenu.Models;
+using System;
+using System.ComponentModel;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Windows.Phone.Devices.Notification;
+using Windows.Phone.UI.Input;
+using Windows.System;
+using Windows.UI;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 namespace Edumenu
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Globalization;
-    using System.Net;
-    using System.Text;
-    using System.Threading;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Animation;
-    using Edumenu.Models;
-    using Microsoft.Devices;
-    using Microsoft.Phone.Controls;
-    using Microsoft.Phone.Shell;
-    using Microsoft.Phone.Tasks;
-
-    public partial class MainPage : PhoneApplicationPage
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class MainPage : Page
     {
         /*
         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -37,7 +35,6 @@ namespace Edumenu
         private static bool allRestaurantsProcessed; // Can we exit the background thread?
 
         // Moving between views
-        private int viewChangeThreshold = 30;
         private double initialPosition;
         private bool viewMoved = false;
 
@@ -45,10 +42,12 @@ namespace Edumenu
         private bool headerVisible = true;
         private bool animationRunning = false;
 
+        // Opening restaurant website
+        private Uri uriToLaunch = null;
+
         // Other
-        private BackgroundWorker backgroundWorker = new BackgroundWorker();
         private AppSettings appSettings = new AppSettings();
-        private WebBrowserTask webBrowserTask = new WebBrowserTask();
+        MainPageProperties mainPageProperties = new MainPageProperties();
 
         /*
         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -59,22 +58,54 @@ namespace Edumenu
         {
             this.InitializeComponent();
 
+            this.NavigationCacheMode = NavigationCacheMode.Required;
+
             // Set data contexts
+            ParentCanvas.DataContext = mainPageProperties;
             Scroller.DataContext = App.RestaurantViewModel;
             DaysOfWeekItemsControl.DataContext = App.DayViewModel;
             SchoolsItemsControl.DataContext = App.SchoolViewModel;
             SelectedSchoolHeader.DataContext = App.SchoolViewModel;
 
-            // Define and launch BackgroundWorker
-            this.backgroundWorker.WorkerSupportsCancellation = true;
-            this.backgroundWorker.WorkerReportsProgress = true;
-            this.backgroundWorker.DoWork += new DoWorkEventHandler(this.BackgroundWorker_DoWork);
-            this.backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(this.BackgroundWorker_ProgressChanged);
-            this.backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(this.BackgroundWorker_RunWorkerCompleted);
-            if (this.backgroundWorker.IsBusy != true)
-            {
-                this.backgroundWorker.RunWorkerAsync();
-            }
+            //// Define and launch BackgroundWorker
+            //this.backgroundWorker.WorkerSupportsCancellation = true;
+            //this.backgroundWorker.WorkerReportsProgress = true;
+            //this.backgroundWorker.DoWork += new DoWorkEventHandler(this.BackgroundWorker_DoWork);
+            //this.backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(this.BackgroundWorker_ProgressChanged);
+            //this.backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(this.BackgroundWorker_RunWorkerCompleted);
+            //if (this.backgroundWorker.IsBusy != true)
+            //{
+            //    this.backgroundWorker.RunWorkerAsync();
+            //}
+
+            // StatusBar
+            var statusBar = StatusBar.GetForCurrentView();
+            statusBar.BackgroundOpacity = 1;
+            statusBar.BackgroundColor = Colors.Black;
+            statusBar.ForegroundColor = Colors.White;
+
+            //ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+            //ApplicationView.GetForCurrentView().SuppressSystemOverlays = false;
+
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
+            GetRestaurantMenus();
+        }
+
+        /// <summary>
+        /// Invoked when this page is about to be displayed in a Frame.
+        /// </summary>
+        /// <param name="e">Event data that describes how this page was reached.
+        /// This parameter is typically used to configure the page.</param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // TODO: Prepare page for display here.
+
+            // TODO: If your application contains multiple pages, ensure that you are
+            // handling the hardware Back button by registering for the
+            // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
+            // If you are using the NavigationHelper provided by some templates,
+            // this event is handled for you.
         }
 
         /*
@@ -82,22 +113,15 @@ namespace Edumenu
         Fetching restaurant menus with BackgroundWorker
         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         */
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private async void GetRestaurantMenus()
         {
-            BackgroundWorker worker = sender as BackgroundWorker;
-            restaurantsProcessed = 0;
-            allRestaurantsProcessed = false;
-            progress = 0;
-            worker.ReportProgress(0);
+            //restaurantsProcessed = 0;
+            //allRestaurantsProcessed = false;
+            //progress = 0;
+            //worker.ReportProgress(0);
 
             foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
             {
-                if (worker.CancellationPending == true)
-                {
-                    e.Cancel = true;
-                    break;
-                }
-
                 if (!App.SchoolViewModel.GetSelectedSchool().Equals(restaurant.School.NameShort_FI))
                 {
                     // Skip the restaurants which do not belong to the selected school
@@ -106,47 +130,58 @@ namespace Edumenu
                 else
                 {
                     // Restaurant belongs to the selected school
-                    WebClient client = new WebClient();
-                    client.Encoding = Encoding.UTF8;
-                    client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(this.MenuDownloadCompleted);
-                    client.DownloadStringAsync(restaurant.MenuUrl, restaurant);
+                    HttpClient httpClient = new HttpClient();
+                    HttpResponseMessage response = await httpClient.GetAsync(restaurant.MenuUrl);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return;
+                    }
+                    string sourceCode = await response.Content.ReadAsStringAsync();
+                    if (string.IsNullOrEmpty(sourceCode))
+                    {
+                        return;
+                    }
+                    App.RestaurantViewModel.ParseMenu(sourceCode, restaurant);
                 }
             }
 
             // Wait until all restaurant menus have been downloaded and parsed.
-            int lastProgress = progress;
+            //int lastProgress = progress;
 
-            // Max sleep time 200 * 0,05 s = 10 s
-            for (int i = 1; i <= 200; i++)
+            //// Max sleep time 200 * 0,05 s = 10 s
+            //for (int i = 1; i <= 200; i++)
+            //{
+            //    if (!lastProgress.Equals(progress))
+            //    {
+            //        worker.ReportProgress(progress);
+            //        lastProgress = progress;
+            //    }
+
+            //    if (allRestaurantsProcessed)
+            //    {
+            //        worker.ReportProgress(100);
+            //        break;
+            //    }
+            //    else
+            //    {
+            //        // Continue sleeping for another 100 ms = 0,10 s
+            //        await Task.Delay(TimeSpan.FromMilliseconds(100));
+            //    }
+            //}
+
+            App.RestaurantViewModel.restaurantsVisible.Clear();
+            foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
             {
-                if (!lastProgress.Equals(progress))
+                // Skip the restaurants which do not correspond to the selected school
+                if (!App.SchoolViewModel.GetSelectedSchool().Equals(restaurant.School.NameShort_FI))
                 {
-                    worker.ReportProgress(progress);
-                    lastProgress = progress;
-                }
-
-                if (allRestaurantsProcessed)
-                {
-                    worker.ReportProgress(100);
-                    break;
+                    continue;
                 }
                 else
                 {
-                    // Continue sleeping for another 100 ms = 0,05 s
-                    Thread.Sleep(50);
+                    App.RestaurantViewModel.restaurantsVisible.Add(restaurant);
                 }
             }
-        }
-
-        private void MenuDownloadCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Error != null || string.IsNullOrEmpty(e.Result))
-            {
-                return;
-            }
-
-            Restaurant restaurant = e.UserState as Restaurant;
-            App.RestaurantViewModel.ParseMenu(e.Result, restaurant);
         }
 
         public static void UpdateProgress(Restaurant currentRestaurant)
@@ -163,7 +198,7 @@ namespace Edumenu
             }
 
             // Do not divide by zero
-            if (totalSchoolRestaurants != 0) 
+            if (totalSchoolRestaurants != 0)
             {
                 progress = (int)((double)restaurantsProcessed /
                     (double)totalSchoolRestaurants * 100);
@@ -177,17 +212,17 @@ namespace Edumenu
 
         private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            ProBar.Visibility = Visibility.Visible;
-            ProBar.Value = (double)e.ProgressPercentage;
-            var progressIndicator = new ProgressIndicator
-            {
-                Text = "Ladataan ruokalistoja...",
-                IsVisible = true,
-                IsIndeterminate = false,        
-            };
-            SystemTray.SetProgressIndicator(this, progressIndicator);
+            //ProBar.Visibility = Visibility.Visible;
+            //ProBar.Value = (double)e.ProgressPercentage;
+            //var progressIndicator = new ProgressIndicator
+            //{
+            //    Text = "Ladataan ruokalistoja...",
+            //    IsVisible = true,
+            //    IsIndeterminate = false,
+            //};
+            //SystemTray.SetProgressIndicator(this, progressIndicator);
         }
-
+        /*
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled == true)
@@ -225,7 +260,8 @@ namespace Edumenu
                 }
             }
         }
-
+        */
+        
         /*
         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         The code implementing moving between left, middle and right view
@@ -234,9 +270,9 @@ namespace Edumenu
         private void OpenClose_Left(object sender, RoutedEventArgs e)
         {
             var left = Canvas.GetLeft(ChildCanvas);
-            if (left > -this.viewChangeThreshold)
+            if (left > -mainPageProperties.ViewChangeThreshold)
             {
-                this.MoveViewWindow(-LeftView.Width);
+                this.MoveViewWindow(-mainPageProperties.LeftViewWidth);
             }
             else
             {
@@ -247,13 +283,13 @@ namespace Edumenu
         private void OpenClose_Right(object sender, RoutedEventArgs e)
         {
             var left = Canvas.GetLeft(ChildCanvas);
-            if (left > (-LeftView.Width - this.viewChangeThreshold))
+            if (left > -(mainPageProperties.LeftViewWidth + mainPageProperties.ViewChangeThreshold))
             {
-                this.MoveViewWindow(-LeftView.Width - RightView.Width);
+                this.MoveViewWindow(-(mainPageProperties.LeftViewWidth + mainPageProperties.RightViewWidth));
             }
             else
             {
-                this.MoveViewWindow(-LeftView.Width);
+                this.MoveViewWindow(-mainPageProperties.LeftViewWidth);
             }
         }
 
@@ -265,31 +301,31 @@ namespace Edumenu
             ((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).Begin();
         }
 
-        private void ParentCanvas_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        private void ParentCanvas_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (e.DeltaManipulation.Translation.X != 0)
+            if (e.Delta.Translation.X != 0)
             {
                 Canvas.SetLeft(
                     this.ChildCanvas,
-                    Math.Min(Math.Max(-(LeftView.Width + RightView.Width), Canvas.GetLeft(this.ChildCanvas) + e.DeltaManipulation.Translation.X), 0));
+                    Math.Min(Math.Max(-(mainPageProperties.LeftViewWidth + mainPageProperties.RightViewWidth), Canvas.GetLeft(this.ChildCanvas) + e.Delta.Translation.X), 0));
             }
         }
 
-        private void ParentCanvas_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        private void ParentCanvas_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             this.viewMoved = false;
             this.initialPosition = Canvas.GetLeft(this.ChildCanvas);
         }
 
-        private void ParentCanvas_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+        private void ParentCanvas_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             var left = Canvas.GetLeft(ChildCanvas);
             if (this.viewMoved)
-            { 
+            {
                 return;
             }
 
-            if (Math.Abs(this.initialPosition - left) < this.viewChangeThreshold)
+            if (Math.Abs(this.initialPosition - left) < mainPageProperties.ViewChangeThreshold)
             {
                 // Bouncing back
                 this.MoveViewWindow(this.initialPosition);
@@ -300,21 +336,21 @@ namespace Edumenu
             if (this.initialPosition - left > 0)
             {
                 // Slide to the left
-                if (this.initialPosition > -LeftView.Width)
+                if (this.initialPosition > -mainPageProperties.LeftViewWidth)
                 {
-                    this.MoveViewWindow(-LeftView.Width);
+                    this.MoveViewWindow(-mainPageProperties.LeftViewWidth);
                 }
                 else
                 {
-                    this.MoveViewWindow(-(LeftView.Width + RightView.Width));
+                    this.MoveViewWindow(-(mainPageProperties.LeftViewWidth + mainPageProperties.RightViewWidth));
                 }
             }
             else
             {
                 // Slide to the right
-                if (this.initialPosition < -RightView.Width)
+                if (this.initialPosition < -mainPageProperties.RightViewWidth)
                 {
-                    this.MoveViewWindow(-RightView.Width);
+                    this.MoveViewWindow(-mainPageProperties.RightViewWidth);
                 }
                 else
                 {
@@ -356,13 +392,13 @@ namespace Edumenu
 
                     if (name == "VerticalScrollBar")
                     {
-                        scrollBar.ValueChanged += this.OnScrollbarValueChanged;
+                        scrollBar.ValueChanged += this.ScrollBar_ValueChanged;
                     }
                 }
             }
         }
 
-        private void OnScrollbarValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void ScrollBar_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             ////System.Diagnostics.Debug.WriteLine(e.OldValue.ToString());
             ////System.Diagnostics.Debug.WriteLine(e.NewValue.ToString());
@@ -376,7 +412,7 @@ namespace Edumenu
                 // Scroll Down
                 this.headerVisible = false;
                 Storyboard scrollDown = this.AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
-                scrollDown.Completed += new EventHandler(this.HeaderAnimate_Completed);
+                scrollDown.Completed += this.HeaderAnimate_Completed;
                 scrollDown.Begin();
                 this.animationRunning = true;
                 ////System.Diagnostics.Debug.WriteLine("User scrolled down!");
@@ -387,13 +423,13 @@ namespace Edumenu
                 // Scroll up
                 this.headerVisible = true;
                 Storyboard scrollUp = this.AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
-                scrollUp.Completed += new EventHandler(this.HeaderAnimate_Completed);
+                scrollUp.Completed += this.HeaderAnimate_Completed;
                 scrollUp.Begin();
                 ////System.Diagnostics.Debug.WriteLine("User scrolled up!");
             }
             ////System.Diagnostics.Debug.WriteLine("---------------------");
         }
-
+        
         private Storyboard AnimateMove(
             FrameworkElement fe,
             double from,
@@ -406,7 +442,7 @@ namespace Edumenu
             fe.RenderTransform = new CompositeTransform();
 
             // Create the timeline
-            var animation = new DoubleAnimationUsingKeyFrames();            
+            var animation = new DoubleAnimationUsingKeyFrames();
 
             // Add key frames to the timeline
             // Start
@@ -446,9 +482,12 @@ namespace Edumenu
                 });
             }
 
+            //Storyboard.SetTargetProperty(
+            //    animation,
+            //    new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.TranslateY)"));
             Storyboard.SetTargetProperty(
                 animation,
-                new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.TranslateY)"));
+                "(UIElement.RenderTransform).(CompositeTransform.TranslateY)");
             Storyboard.SetTarget(animation, fe);
 
             // Create the storyboard
@@ -460,11 +499,11 @@ namespace Edumenu
             return storyboard;
         }
 
-        private void HeaderAnimate_Completed(object sender, EventArgs e)
+        private void HeaderAnimate_Completed(object sender, object e)
         {
             this.animationRunning = false;
         }
-
+        
         /*
         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         Open restaurant website pop up
@@ -485,23 +524,23 @@ namespace Edumenu
             showPopUp.Begin();
 
             // Vibrate
-            VibrateController testVibrateController = VibrateController.Default;
-            testVibrateController.Start(TimeSpan.FromSeconds(0.07));
+            var vibrationDevice = VibrationDevice.GetDefault();
+            vibrationDevice.Vibrate(TimeSpan.FromMilliseconds(200));
 
             // Darken the background
             PopUpOverlayGrid.Visibility = Visibility.Visible;
 
             // Set properties
             Restaurant clickedRestaurant = (Restaurant)(sender as Button).DataContext;
-            this.webBrowserTask.Uri = clickedRestaurant.HomeUrl;
+            this.uriToLaunch = clickedRestaurant.HomeUrl;
             navigationPrompt_textblock.Text = "Haluatko varmasti poistua sovelluksesta " +
                 "ja avata ravintolan " + clickedRestaurant.Name + " verkkosivun selaimessa?";
         }
 
-        private void PopUpButton_Continue_Click(object sender, RoutedEventArgs e)
+        private async void PopUpButton_Continue_Click(object sender, RoutedEventArgs e)
         {
             this.DismissWebsitePrompt();
-            this.webBrowserTask.Show();
+            await Launcher.LaunchUriAsync(this.uriToLaunch);
         }
 
         private void PopUpButton_Cancel_Click(object sender, RoutedEventArgs e)
@@ -509,30 +548,31 @@ namespace Edumenu
             this.DismissWebsitePrompt();
         }
 
-        // Hide the popup when the back key is pressed
-        protected override void OnBackKeyPress(CancelEventArgs e)
+
+        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
+            // Hide the popup when the back key is pressed
             if (this.WebsitePrompt_PopUp.IsOpen)
             {
                 this.DismissWebsitePrompt();
-                e.Cancel = true;
+                e.Handled = true;
             }
-        }
-
-        private void HidePopUp_Completed(object sender, EventArgs e)
-        {
-            WebsitePrompt_PopUp.IsOpen = false;
         }
 
         private void DismissWebsitePrompt()
         {
             // Begin animation
             Storyboard hidePopUp = this.AnimateMove(WebsitePrompt_PopUp, -60, -450, 300);
-            hidePopUp.Completed += new EventHandler(this.HidePopUp_Completed);
+            hidePopUp.Completed += HidePopUp_Completed;
             hidePopUp.Begin();
 
             // Remove background darkener
             PopUpOverlayGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void HidePopUp_Completed(object sender, object e)
+        {
+            WebsitePrompt_PopUp.IsOpen = false;
         }
 
         /*
@@ -542,8 +582,7 @@ namespace Edumenu
         */
         private void DayOfWeek_Clicked(object sender, RoutedEventArgs e)
         {
-            // Do not fire up the event if user is scrolling horizontally
-            if (Canvas.GetLeft(this.ChildCanvas) != 0)
+            if (this.IsScrollingHorizontally())
             {
                 return;
             }
@@ -555,16 +594,15 @@ namespace Edumenu
             }
 
             App.DayViewModel.SelectDay(clickedDay.Name);
-            if (this.backgroundWorker.IsBusy != true)
-            {
-                this.backgroundWorker.RunWorkerAsync();
-            }
+            GetRestaurantMenus();
+
+            // Go back to the main view
+            OpenClose_Left(sender, e);
         }
 
         private void School_Clicked(object sender, RoutedEventArgs e)
         {
-            // Do not fire up the event if user is scrolling horizontally
-            if (Canvas.GetLeft(this.ChildCanvas) != -(LeftView.Width + RightView.Width))
+            if (this.IsScrollingHorizontally())
             {
                 return;
             }
@@ -577,22 +615,55 @@ namespace Edumenu
             }
 
             App.SchoolViewModel.SelectedSchool = clickedSchool.NameShort_FI;
-            if (this.backgroundWorker.IsBusy != true)
-            {
-                this.backgroundWorker.RunWorkerAsync();
-            }
+            GetRestaurantMenus();
+
+            // Go back to the main view
+            OpenClose_Right(sender, e);
         }
 
         private void Diets_Clicked(object sender, RoutedEventArgs e)
         {
-            Storyboard hideMainPage = this.AnimateMove(ParentCanvas, 0, 800, 150);
-            hideMainPage.Begin();
-            hideMainPage.Completed += new EventHandler(this.HideMainPage_Completed);
+            if (this.IsScrollingHorizontally())
+            {
+                return;
+            }
+
+            Frame.Navigate(typeof(DietsPage));
         }
 
-        private void HideMainPage_Completed(object sender, EventArgs e)
+        private void SelectedSchool_Clicked(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Diets.xaml", UriKind.Relative));
+            if (this.IsScrollingHorizontally())
+            {
+                return;
+            }
+
+            OpenClose_Right(sender, e);
         }
+
+        private void HamburgerButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (this.IsScrollingHorizontally())
+            {
+                return;
+            }
+
+            OpenClose_Left(sender, e);
+        }
+
+        private bool IsScrollingHorizontally()
+        {
+            // Do not fire up the event if user is scrolling horizontally
+            if (Canvas.GetLeft(this.ChildCanvas) != 0 &&
+                Canvas.GetLeft(this.ChildCanvas) != -(mainPageProperties.LeftViewWidth) &&
+                Canvas.GetLeft(this.ChildCanvas) != -(mainPageProperties.LeftViewWidth + mainPageProperties.RightViewWidth))
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }
+
+
