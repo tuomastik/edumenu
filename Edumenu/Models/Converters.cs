@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Edumenu.Models
 {
-    public class SelectedDayToForeground : IValueConverter
+    public class IsSelectedToForeground : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
@@ -33,7 +33,7 @@ namespace Edumenu.Models
             return null;
         }
     }
-    public class SelectedDayToFontWeight : IValueConverter
+    public class IsSelectedToFontWeight : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
