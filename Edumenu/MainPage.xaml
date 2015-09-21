@@ -60,14 +60,16 @@
                                    FontFamily="Segoe UI"
                                    Margin="36,10,40,20">
                         </TextBlock>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,48" HorizontalAlignment="Center" >
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,0,0,48"
+                                    HorizontalAlignment="Left">
                             <Button x:Name="PopUpButton_Continue"
                                     HorizontalAlignment="Left"
                                     FontSize="24"
                                     Content="kyllä"
                                     Width="148"
                                     Background="Transparent"
-                                    Margin="0,0,0,0"
+                                    Margin="37,0,0,0"
                                     Padding="0,10"
                                     Style="{StaticResource ButtonStyle2}"
                                     Foreground="{StaticResource PhoneForegroundBrush}"
