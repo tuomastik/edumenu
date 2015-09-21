@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Windows.UI.Xaml;
 
 namespace Edumenu.Models
@@ -20,22 +21,23 @@ namespace Edumenu.Models
         public MainPageProperties()
         {
             Window.Current.SizeChanged += Current_SizeChanged;
-            this.UpdateProperties();
+            this.UpdateProperties(Window.Current.Bounds.Width,
+                Window.Current.Bounds.Height);
         }
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
-            this.UpdateProperties();
+            this.UpdateProperties(e.Size.Width, e.Size.Height);
         }
-        
-        private void UpdateProperties()
+
+        private void UpdateProperties(double width, double height)
         {
-            ScreenWidth = Window.Current.Bounds.Width;
-            ScreenHeight = Window.Current.Bounds.Height;
+            ScreenWidth = width; ////Window.Current.Bounds.Width;
+            ScreenHeight = height; //// Window.Current.Bounds.Height;
             double sideViewWidthPortion;
             if (ScreenHeight > ScreenWidth)
             {
-                sideViewWidthPortion = 0.8;
+                sideViewWidthPortion = 0.75;
             }
             else
             {
