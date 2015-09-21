@@ -1,18 +1,64 @@
-﻿using Windows.UI.Xaml;
+﻿using System.ComponentModel;
+using Windows.UI.Xaml;
 
 namespace Edumenu.Models
 {
-    class MainPageProperties
+    class MainPageProperties : INotifyPropertyChanged
     {
-        private static double screenWidth = Window.Current.Bounds.Width;
-        private static double screenHeight = Window.Current.Bounds.Height;
-        private static double leftViewWidth = 0.75 * screenWidth;
-        private static double rightViewWidth = 0.75 * screenWidth;
-        private static double viewChangeThreshold = 0.1 * leftViewWidth;
-        private static double canvasLeft = -leftViewWidth;
-        private static double childCanvasWidth = leftViewWidth + screenWidth + rightViewWidth;
-        private Thickness rightViewMargin = new Thickness(leftViewWidth + screenWidth, 0, 0, 0);
-        private Thickness mainViewMargin = new Thickness(leftViewWidth, 0, 0, 0);
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private static double screenWidth;
+        private static double screenHeight;
+        private static double leftViewWidth;
+        private static double rightViewWidth;
+        private static double viewChangeThreshold;
+        private static double canvasLeft;
+        private static double childCanvasWidth;
+        private Thickness rightViewMargin;
+        private Thickness mainViewMargin;
+
+        public MainPageProperties()
+        {
+            Window.Current.SizeChanged += Current_SizeChanged;
+            this.UpdateProperties();
+        }
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            this.UpdateProperties();
+        }
+        
+        private void UpdateProperties()
+        {
+            ScreenWidth = Window.Current.Bounds.Width;
+            ScreenHeight = Window.Current.Bounds.Height;
+            double sideViewWidthPortion;
+            if (ScreenHeight > ScreenWidth)
+            {
+                sideViewWidthPortion = 0.8;
+            }
+            else
+            {
+                sideViewWidthPortion = 0.5;
+            }
+            LeftViewWidth = sideViewWidthPortion * ScreenWidth;
+            RightViewWidth = sideViewWidthPortion * ScreenWidth;
+            ViewChangeThreshold = 0.15 * LeftViewWidth;
+            CanvasLeft = -LeftViewWidth;
+            ChildCanvasWidth = LeftViewWidth + ScreenWidth + RightViewWidth;
+            RightViewMargin = new Thickness(LeftViewWidth + ScreenWidth, 0, 0, 0);
+            MainViewMargin = new Thickness(LeftViewWidth, 0, 0, 0);
+            System.Diagnostics.Debug.WriteLine("ScreenWidth: " + ScreenWidth.ToString());
+            System.Diagnostics.Debug.WriteLine("ScreenHeight: " + ScreenHeight.ToString());
+            System.Diagnostics.Debug.WriteLine("LeftViewWidth: " + LeftViewWidth.ToString());
+            System.Diagnostics.Debug.WriteLine("RightViewWidth: " + RightViewWidth.ToString());
+            System.Diagnostics.Debug.WriteLine("ViewChangeThreshold: " + ViewChangeThreshold.ToString());
+            System.Diagnostics.Debug.WriteLine("CanvasLeft: " + CanvasLeft.ToString());
+            System.Diagnostics.Debug.WriteLine("ChildCanvasWidth: " + ChildCanvasWidth.ToString());
+            System.Diagnostics.Debug.WriteLine("RightViewMargin: " + RightViewMargin.ToString());
+            System.Diagnostics.Debug.WriteLine("MainViewMargin: " + MainViewMargin.ToString());
+            System.Diagnostics.Debug.WriteLine("-----------------------------------");
+        }
 
         public double ScreenWidth
         {
@@ -23,6 +69,7 @@ namespace Edumenu.Models
             set
             {
                 screenWidth = value;
+                OnPropertyChanged("ScreenWidth");
             }
         }
         public double ScreenHeight
@@ -34,6 +81,7 @@ namespace Edumenu.Models
             set
             {
                 screenHeight = value;
+                OnPropertyChanged("ScreenHeight");
             }
         }
         public double LeftViewWidth
@@ -45,6 +93,7 @@ namespace Edumenu.Models
             set
             {
                 leftViewWidth = value;
+                OnPropertyChanged("LeftViewWidth");
             }
         }
         public double RightViewWidth
@@ -56,6 +105,7 @@ namespace Edumenu.Models
             set
             {
                 rightViewWidth = value;
+                OnPropertyChanged("RightViewWidth");
             }
         }
         public double CanvasLeft
@@ -67,6 +117,7 @@ namespace Edumenu.Models
             set
             {
                 canvasLeft = value;
+                OnPropertyChanged("CanvasLeft");
             }
         }
         public double ChildCanvasWidth
@@ -78,6 +129,7 @@ namespace Edumenu.Models
             set
             {
                 childCanvasWidth = value;
+                OnPropertyChanged("ChildCanvasWidth");
             }
         }
         public Thickness RightViewMargin
@@ -89,6 +141,7 @@ namespace Edumenu.Models
             set
             {
                 rightViewMargin = value;
+                OnPropertyChanged("RightViewMargin");
             }
         }
         public Thickness MainViewMargin
@@ -100,6 +153,7 @@ namespace Edumenu.Models
             set
             {
                 mainViewMargin = value;
+                OnPropertyChanged("MainViewMargin");
             }
         }
         public double ViewChangeThreshold
@@ -111,6 +165,16 @@ namespace Edumenu.Models
             set
             {
                 viewChangeThreshold = value;
+                OnPropertyChanged("ViewChangeThreshold");
+            }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
             }
         }
     }
