@@ -10,14 +10,15 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <Models:SelectedDayToForeground x:Key="SelectedDayToForeground"/>
-        <Models:SelectedDayToFontWeight x:Key="SelectedDayToFontWeight"/>
+        <Models:IsSelectedToForeground x:Key="IsSelectedToForeground"/>
+        <Models:IsSelectedToFontWeight x:Key="IsSelectedToFontWeight"/>
     </Page.Resources>
     
     <Canvas x:Name="ParentCanvas"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Height="{Binding ScreenHeight}"
+            Width="{Binding ChildCanvasWidth}"
             ManipulationMode="TranslateX"
             ManipulationStarted="ParentCanvas_ManipulationStarted"
             ManipulationDelta="ParentCanvas_ManipulationDelta"
@@ -46,7 +47,7 @@
             <Popup x:Name="WebsitePrompt_PopUp" Height="400">
                 <Border Margin="{Binding MainViewMargin}" VerticalAlignment="Center">
                     <StackPanel Background="#1f1f1f"
-                                Width="{Binding ActualWidth, ElementName=MainView}"
+                                Width="{Binding ScreenWidth}"
                                 VerticalAlignment="Center">
                         <Image HorizontalAlignment="Left"
                                Source="Assets/Icons/ExitPrompt.png"
@@ -74,7 +75,7 @@
             <!--Left view-->
             <Border x:Name="LeftView"
                     Width="{Binding LeftViewWidth}"
-                    Height="{Binding ActualHeight, ElementName=ParentCanvas}"
+                    Height="{Binding ScreenHeight}"
                     CacheMode="BitmapCache"
                     Background="{StaticResource ResourceKey=ThemeColor5}"
                     VerticalAlignment="Stretch"
@@ -103,8 +104,8 @@
                                                     Click="DayOfWeek_Clicked">
                                                 <TextBlock Text="{Binding Path=Name}"
                                                        Style="{StaticResource MenuText}"
-                                                       Foreground="{Binding Path=IsSelected, Converter={StaticResource SelectedDayToForeground}}"
-                                                       FontWeight="{Binding Path=IsSelected, Converter={StaticResource SelectedDayToFontWeight}}">
+                                                       Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForeground}}"
+                                                       FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeight}}">
                                                 </TextBlock>
                                             </Button>
                                         </DataTemplate>
@@ -157,7 +158,7 @@
             <!--Right view-->
             <Border x:Name="RightView"
                     Width="{Binding RightViewWidth}"
-                    Height="{Binding ActualHeight, ElementName=ParentCanvas}"
+                    Height="{Binding ScreenHeight}"
                     Background="{StaticResource ResourceKey=ThemeColor5}"
                     Margin="{Binding RightViewMargin}"
                     VerticalAlignment="Stretch"
@@ -188,8 +189,8 @@
                                                     Click="School_Clicked">
                                                 <TextBlock Text="{Binding Path=Name_FI}"
                                                        Style="{StaticResource MenuText}"
-                                                       Foreground="{Binding Path=IsSelected, Converter={StaticResource SelectedDayToForeground}}"
-                                                       FontWeight="{Binding Path=IsSelected, Converter={StaticResource SelectedDayToFontWeight}}">
+                                                       Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForeground}}"
+                                                       FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeight}}">
                                                 </TextBlock>
                                             </Button>
                                         </DataTemplate>
@@ -204,10 +205,9 @@
             <!--Middle view-->
             <Grid x:Name="MainView"
                   Margin="{Binding MainViewMargin}"
-                  Grid.Column="1"
                   Background="#FFCFD4E2"
-                  Height="{Binding ActualHeight, ElementName=ParentCanvas}"
-                  Width="{Binding ActualWidth, ElementName=ParentCanvas}">
+                  Height="{Binding ScreenHeight}"
+                  Width="{Binding ScreenWidth}">
                 <!--Middle view: Content-->
                 <!--Middle view: Content is defined before header, so that header will be on top of content-->
                 <ScrollViewer x:Name="Scroller"
@@ -289,8 +289,8 @@
 
             <Grid x:Name="PopUpOverlayGrid"
                   Visibility="Collapsed"
-                  Width="{Binding ActualWidth, ElementName=ChildCanvas}"
-                  Height="{Binding ActualWidth, ElementName=ChildCanvas}"
+                  Width="{Binding ChildCanvasWidth}"
+                  Height="{Binding ScreenHeight}"
                   Background="Black" Opacity="0.5">
                 
             </Grid>
