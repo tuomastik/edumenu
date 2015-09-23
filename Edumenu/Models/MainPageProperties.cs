@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using Windows.Graphics.Display;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
 namespace Edumenu.Models
@@ -20,20 +22,23 @@ namespace Edumenu.Models
 
         public MainPageProperties()
         {
-            Window.Current.SizeChanged += Current_SizeChanged;
+            ApplicationView.GetForCurrentView().VisibleBoundsChanged += 
+                MainPageProperties_VisibleBoundsChanged;
+
             this.UpdateProperties(Window.Current.Bounds.Width,
                 Window.Current.Bounds.Height);
         }
 
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        private void MainPageProperties_VisibleBoundsChanged(ApplicationView sender, object args)
         {
-            this.UpdateProperties(e.Size.Width, e.Size.Height);
+            this.UpdateProperties(ApplicationView.GetForCurrentView().VisibleBounds.Width,
+                ApplicationView.GetForCurrentView().VisibleBounds.Height);
         }
 
         private void UpdateProperties(double width, double height)
         {
-            ScreenWidth = width; ////Window.Current.Bounds.Width;
-            ScreenHeight = height; //// Window.Current.Bounds.Height;
+            ScreenWidth = ApplicationView.GetForCurrentView().VisibleBounds.Width;
+            ScreenHeight = ApplicationView.GetForCurrentView().VisibleBounds.Height;
             double sideViewWidthPortion;
             if (ScreenHeight > ScreenWidth)
             {
@@ -50,16 +55,16 @@ namespace Edumenu.Models
             ChildCanvasWidth = LeftViewWidth + ScreenWidth + RightViewWidth;
             RightViewMargin = new Thickness(LeftViewWidth + ScreenWidth, 0, 0, 0);
             MainViewMargin = new Thickness(LeftViewWidth, 0, 0, 0);
-            System.Diagnostics.Debug.WriteLine("ScreenWidth: " + ScreenWidth.ToString());
-            System.Diagnostics.Debug.WriteLine("ScreenHeight: " + ScreenHeight.ToString());
-            System.Diagnostics.Debug.WriteLine("LeftViewWidth: " + LeftViewWidth.ToString());
-            System.Diagnostics.Debug.WriteLine("RightViewWidth: " + RightViewWidth.ToString());
-            System.Diagnostics.Debug.WriteLine("ViewChangeThreshold: " + ViewChangeThreshold.ToString());
-            System.Diagnostics.Debug.WriteLine("CanvasLeft: " + CanvasLeft.ToString());
-            System.Diagnostics.Debug.WriteLine("ChildCanvasWidth: " + ChildCanvasWidth.ToString());
-            System.Diagnostics.Debug.WriteLine("RightViewMargin: " + RightViewMargin.ToString());
-            System.Diagnostics.Debug.WriteLine("MainViewMargin: " + MainViewMargin.ToString());
-            System.Diagnostics.Debug.WriteLine("-----------------------------------");
+            ////System.Diagnostics.Debug.WriteLine("ScreenWidth: " + ScreenWidth.ToString());
+            ////System.Diagnostics.Debug.WriteLine("ScreenHeight: " + ScreenHeight.ToString());
+            ////System.Diagnostics.Debug.WriteLine("LeftViewWidth: " + LeftViewWidth.ToString());
+            ////System.Diagnostics.Debug.WriteLine("RightViewWidth: " + RightViewWidth.ToString());
+            ////System.Diagnostics.Debug.WriteLine("ViewChangeThreshold: " + ViewChangeThreshold.ToString());
+            ////System.Diagnostics.Debug.WriteLine("CanvasLeft: " + CanvasLeft.ToString());
+            ////System.Diagnostics.Debug.WriteLine("ChildCanvasWidth: " + ChildCanvasWidth.ToString());
+            ////System.Diagnostics.Debug.WriteLine("RightViewMargin: " + RightViewMargin.ToString());
+            ////System.Diagnostics.Debug.WriteLine("MainViewMargin: " + MainViewMargin.ToString());
+            ////System.Diagnostics.Debug.WriteLine("-----------------------------------");
         }
 
         public double ScreenWidth
