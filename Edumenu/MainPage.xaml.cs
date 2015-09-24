@@ -359,26 +359,36 @@ namespace Edumenu
                 !this.animationRunning && this.headerVisible)
             {
                 // Scroll Down
-                this.headerVisible = false;
-                Storyboard scrollDown = this.AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
-                scrollDown.Completed += this.HeaderAnimate_Completed;
-                scrollDown.Begin();
-                this.animationRunning = true;
-                ////System.Diagnostics.Debug.WriteLine("User scrolled down!");
+                HideHeader();
             }
             else if (e.NewValue < e.OldValue &&
                      !this.animationRunning && !this.headerVisible)
             {
                 // Scroll up
-                this.headerVisible = true;
-                Storyboard scrollUp = this.AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
-                scrollUp.Completed += this.HeaderAnimate_Completed;
-                scrollUp.Begin();
-                ////System.Diagnostics.Debug.WriteLine("User scrolled up!");
+                ShowHeader();
             }
             ////System.Diagnostics.Debug.WriteLine("---------------------");
         }
-        
+
+        private void HideHeader()
+        {
+            this.headerVisible = false;
+            Storyboard scrollDown = this.AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
+            scrollDown.Completed += this.HeaderAnimate_Completed;
+            scrollDown.Begin();
+            this.animationRunning = true;
+            ////System.Diagnostics.Debug.WriteLine("User scrolled down!");
+        }
+
+        private void ShowHeader()
+        {
+            this.headerVisible = true;
+            Storyboard scrollUp = this.AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
+            scrollUp.Completed += this.HeaderAnimate_Completed;
+            scrollUp.Begin();
+            ////System.Diagnostics.Debug.WriteLine("User scrolled up!");
+        }
+
         private Storyboard AnimateMove(
             FrameworkElement fe,
             double from,
@@ -543,6 +553,7 @@ namespace Edumenu
             GetRestaurantMenus();
 
             // Go back to the main view
+            ShowHeader();
             OpenClose_Left(sender, e);
         }
 
@@ -564,6 +575,7 @@ namespace Edumenu
             GetRestaurantMenus();
 
             // Go back to the main view
+            ShowHeader();
             OpenClose_Right(sender, e);
         }
 
