@@ -33,7 +33,6 @@ namespace Edumenu
         */
 
         // Progress tracking
-        private static int progress; // Total progress 0...1
         private static int restaurantsProcessed; // Restaurants processed per school
         private static bool allRestaurantsProcessed; // Can we exit the background thread?
 
@@ -44,6 +43,7 @@ namespace Edumenu
         // Hiding header when scrolling down
         private bool headerVisible = true;
         private bool animationRunning = false;
+        private bool scrollerLoaded = false;
 
         // Opening restaurant website
         private Uri uriToLaunch = null;
@@ -70,25 +70,11 @@ namespace Edumenu
             SchoolsItemsControl.DataContext = App.SchoolViewModel;
             SelectedSchoolHeader.DataContext = App.SchoolViewModel;
 
-            //// Define and launch BackgroundWorker
-            //this.backgroundWorker.WorkerSupportsCancellation = true;
-            //this.backgroundWorker.WorkerReportsProgress = true;
-            //this.backgroundWorker.DoWork += new DoWorkEventHandler(this.BackgroundWorker_DoWork);
-            //this.backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(this.BackgroundWorker_ProgressChanged);
-            //this.backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(this.BackgroundWorker_RunWorkerCompleted);
-            //if (this.backgroundWorker.IsBusy != true)
-            //{
-            //    this.backgroundWorker.RunWorkerAsync();
-            //}
-
             // StatusBar
             var statusBar = StatusBar.GetForCurrentView();
-            statusBar.BackgroundOpacity = 1;
+            statusBar.BackgroundOpacity = 1.0;
             statusBar.BackgroundColor = Colors.Black;
             statusBar.ForegroundColor = Colors.White;
-
-            //ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
-            //ApplicationView.GetForCurrentView().SuppressSystemOverlays = false;
 
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
@@ -121,7 +107,7 @@ namespace Edumenu
             if (!NetworkInterface.GetIsNetworkAvailable())
             {
                 /*
-                 TODO: Create custom PopUp containing buttons "OK", "Open cellular settings" and "open "WiFi settings".
+                 TODO: Create custom PopUp containing buttons "OK", "Open cellular settings" and "Open "WiFi settings".
                        There is not enough room for three buttons in the traditional MessageDialog.
                        Code for opening the settings:
                  await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings-wifi://", UriKind.Absolute));
@@ -135,10 +121,16 @@ namespace Edumenu
                 return;
             }
 
-            //restaurantsProcessed = 0;
-            //allRestaurantsProcessed = false;
-            //progress = 0;
-            //worker.ReportProgress(0);
+            // Hide menus and show loading
+            if (this.scrollerLoaded)
+            { 
+                Scroller.Visibility = Visibility.Collapsed;
+            }
+            LoadingStackPanel.Visibility = Visibility.Visible;
+
+            // Initialize progress tracking variables
+            restaurantsProcessed = 0;
+            allRestaurantsProcessed = false;
 
             foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
             {
@@ -166,28 +158,20 @@ namespace Edumenu
             }
 
             // Wait until all restaurant menus have been downloaded and parsed.
-            //int lastProgress = progress;
-
-            //// Max sleep time 200 * 0,05 s = 10 s
-            //for (int i = 1; i <= 200; i++)
-            //{
-            //    if (!lastProgress.Equals(progress))
-            //    {
-            //        worker.ReportProgress(progress);
-            //        lastProgress = progress;
-            //    }
-
-            //    if (allRestaurantsProcessed)
-            //    {
-            //        worker.ReportProgress(100);
-            //        break;
-            //    }
-            //    else
-            //    {
-            //        // Continue sleeping for another 100 ms = 0,10 s
-            //        await Task.Delay(TimeSpan.FromMilliseconds(100));
-            //    }
-            //}
+            // Max sleep time 100 * 0.10 s = 10 s
+            for (int i = 1; i <= 100; i++)
+            {
+                // Show loading text at least 0,5 seconds in order to avoid flickering
+                if (allRestaurantsProcessed && i >= 5)
+                {
+                    break;
+                }
+                else
+                {
+                    // Continue sleeping for another 100 ms = 0.10 s
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+                }
+            }
 
             App.RestaurantViewModel.restaurantsVisible.Clear();
             foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
@@ -202,6 +186,10 @@ namespace Edumenu
                     App.RestaurantViewModel.restaurantsVisible.Add(restaurant);
                 }
             }
+
+            // Hide loading and show menus
+            Scroller.Visibility = Visibility.Visible;
+            LoadingStackPanel.Visibility = Visibility.Collapsed;
         }
 
         public static void UpdateProgress(Restaurant currentRestaurant)
@@ -217,70 +205,11 @@ namespace Edumenu
                 }
             }
 
-            // Do not divide by zero
-            if (totalSchoolRestaurants != 0)
-            {
-                progress = (int)((double)restaurantsProcessed /
-                    (double)totalSchoolRestaurants * 100);
-            }
-
             if (restaurantsProcessed.Equals(totalSchoolRestaurants))
             {
                 allRestaurantsProcessed = true;
             }
         }
-
-        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            //ProBar.Visibility = Visibility.Visible;
-            //ProBar.Value = (double)e.ProgressPercentage;
-            //var progressIndicator = new ProgressIndicator
-            //{
-            //    Text = "Ladataan ruokalistoja...",
-            //    IsVisible = true,
-            //    IsIndeterminate = false,
-            //};
-            //SystemTray.SetProgressIndicator(this, progressIndicator);
-        }
-        /*
-        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled == true)
-            {
-                System.Diagnostics.Debug.WriteLine("Canceled!");
-            }
-            else if (!(e.Error == null))
-            {
-                System.Diagnostics.Debug.WriteLine("Error: " + e.Error.Message);
-            }
-            else
-            {
-                // Background worker completed successfully
-                ProBar.Visibility = Visibility.Collapsed;
-                var progressIndicator = new ProgressIndicator
-                {
-                    Text = string.Empty,
-                    IsVisible = false,
-                    Value = 0.0,
-                };
-                SystemTray.SetProgressIndicator(this, progressIndicator);
-
-                App.RestaurantViewModel.restaurantsVisible.Clear();
-                foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
-                {
-                    // Skip the restaurants which do not correspond to the selected school
-                    if (!App.SchoolViewModel.GetSelectedSchool().Equals(restaurant.School.NameShort_FI))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        App.RestaurantViewModel.restaurantsVisible.Add(restaurant);
-                    }
-                }
-            }
-        }
-        */
         
         /*
         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -316,7 +245,6 @@ namespace Edumenu
         private void MoveViewWindow(double left)
         {
             this.viewMoved = true;
-            ////((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).SkipToFill();
             ((DoubleAnimation)((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).Children[0]).To = left;
             ((Storyboard)ParentCanvas.Resources["ChangeViewAnimation"]).Begin();
         }
@@ -391,6 +319,7 @@ namespace Edumenu
         private void Scroller_Loaded(object sender, RoutedEventArgs e)
         {
             this.GetScrollBar(this.Scroller);
+            this.scrollerLoaded = true;
         }
 
         private void GetScrollBar(DependencyObject parent)
@@ -502,9 +431,6 @@ namespace Edumenu
                 });
             }
 
-            //Storyboard.SetTargetProperty(
-            //    animation,
-            //    new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.TranslateY)"));
             Storyboard.SetTargetProperty(
                 animation,
                 "(UIElement.RenderTransform).(CompositeTransform.TranslateY)");

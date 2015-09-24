@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Models="using:Edumenu.Models"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    RequestedTheme="Dark"
+    Background="{StaticResource ThemeColor1}">
 
   <Page.Resources>
     <Models:IsSelectedToForeground x:Key="IsSelectedToForeground"/>
@@ -22,25 +23,25 @@
           ManipulationDelta="ParentCanvas_ManipulationDelta"
           ManipulationCompleted="ParentCanvas_ManipulationCompleted">
 
-    <Canvas.Resources>
-      <Storyboard x:Name="ChangeViewAnimation">
-        <DoubleAnimation Duration="0:0:0.4"
-                         To="0"
-                         Storyboard.TargetProperty="(Canvas.Left)"
-                         Storyboard.TargetName="ChildCanvas"
-                         d:IsOptimized="True">
-          <DoubleAnimation.EasingFunction>
-            <ExponentialEase EasingMode="EaseOut"/>
-          </DoubleAnimation.EasingFunction>
-        </DoubleAnimation>
-      </Storyboard>
-    </Canvas.Resources>
+  <Canvas.Resources>
+    <Storyboard x:Name="ChangeViewAnimation">
+      <DoubleAnimation Duration="0:0:0.4"
+                       To="0"
+                       Storyboard.TargetProperty="(Canvas.Left)"
+                       Storyboard.TargetName="ChildCanvas"
+                       d:IsOptimized="True">
+        <DoubleAnimation.EasingFunction>
+          <ExponentialEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+    </Storyboard>
+  </Canvas.Resources>
 
     <Canvas x:Name="ChildCanvas"
             Width="{Binding ChildCanvasWidth}"
-            VerticalAlignment="Stretch"
             Height="{Binding ScreenHeight}"
-            Background="Blue"
+            VerticalAlignment="Stretch"
+            Background="{StaticResource ResourceKey=ThemeColor1}"
             Canvas.Left="{Binding CanvasLeft, Mode=TwoWay}">
 
       <Popup x:Name="WebsitePrompt_PopUp"
@@ -68,21 +69,21 @@
                         HorizontalAlignment="Left">
               <Button HorizontalAlignment="Left"
                       FontSize="24"
+                      Foreground="White"
                       Content="kyllä"
                       Width="148"
                       Margin="37,0,0,0"
                       Padding="0,10"
                       Style="{StaticResource ButtonStyle2}"
-                      Foreground="{StaticResource PhoneForegroundBrush}"
                       Click="PopUpButton_Continue_Click"/>
               <Button HorizontalAlignment="Left"
                       FontSize="24"
+                      Foreground="White"
                       Content="en"
                       Width="148"
                       Margin="30,0,0,0"
                       Padding="0,10"
                       Style="{StaticResource ButtonStyle2}"
-                      Foreground="{StaticResource PhoneForegroundBrush}"
                       Click="PopUpButton_Cancel_Click"/>
             </StackPanel>
           </StackPanel>
@@ -209,11 +210,25 @@
             Margin="{Binding MainViewMargin}"
             Height="{Binding ScreenHeight}"
             Width="{Binding ScreenWidth}">
+          
+        <!--Middle view: Loading-->
+        <StackPanel x:Name="LoadingStackPanel"
+                    Visibility="Collapsed">
+          <!--Middle view: Loading, Empty space under the header-->
+          <StackPanel Width="58" Height="58" />
+          <!--Middle view: Loading, Title-->
+          <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
+                Background="{StaticResource ResourceKey=ThemeColor2}">
+            <TextBlock Text="Ladataan ruokalistoja..."
+                       Style="{StaticResource SmallHeaderText}"/>
+          </Grid>
+          <ProgressBar IsIndeterminate="True"
+                       Background="Transparent"/>
+        </StackPanel>
         
         <!--Middle view: Content is defined before header, so that header will be on top of content-->
         <ScrollViewer x:Name="Scroller"
-                      Loaded="Scroller_Loaded"
-                      Background="{StaticResource ResourceKey=ThemeColor1}">
+                      Loaded="Scroller_Loaded">
           <StackPanel ManipulationMode="System,TranslateX">
 
             <!--Middle view: Empty space under the header-->
