@@ -90,7 +90,7 @@ namespace Edumenu.ViewModels
                 {
                     restaurant.Menu = "Ei ruokalistaa saatavilla";
                 }
-                //MainPage.UpdateProgress(restaurant);
+                MainPage.UpdateProgress(restaurant);
             }
         }
 
