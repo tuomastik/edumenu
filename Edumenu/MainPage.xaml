@@ -37,52 +37,48 @@
     </Canvas.Resources>
 
     <Canvas x:Name="ChildCanvas"
-            Width="{Binding ChildCanvasWidth, Mode=TwoWay}"
+            Width="{Binding ChildCanvasWidth}"
             VerticalAlignment="Stretch"
             Height="{Binding ScreenHeight}"
             Background="Blue"
             Canvas.Left="{Binding CanvasLeft, Mode=TwoWay}">
 
-      <Popup x:Name="WebsitePrompt_PopUp" Height="400">
-        <Border Margin="{Binding MainViewMargin, Mode=TwoWay}" VerticalAlignment="Center">
+      <Popup x:Name="WebsitePrompt_PopUp"
+             Height="400">
+        <Border Margin="{Binding MainViewMargin}"
+                VerticalAlignment="Center">
           <StackPanel Background="#1f1f1f"
-                      Width="{Binding ScreenWidth, Mode=TwoWay}"
+                      Width="{Binding ScreenWidth}"
                       VerticalAlignment="Center">
             <Image HorizontalAlignment="Left"
                    Source="Assets/Icons/ExitPrompt.png"
                    Width="120"
                    Height="100"
-                   Margin="27 100 0 0">
-            </Image>
-            <TextBlock Name="navigationPrompt_textblock"
+                   Margin="27,100,0,0"/>
+            <TextBlock x:Name="NavigationPrompt_Textblock"
                        Text="Haluatko varmasti poistua sovelluksesta ja avata ravintolan verkkosivun selaimessa?"
                        TextWrapping="Wrap"
                        Foreground="White"
                        TextAlignment="Left"
                        FontSize="24"
                        FontFamily="Segoe UI"
-                       Margin="36,10,40,20">
-            </TextBlock>
+                       Margin="36,10,40,20"/>
             <StackPanel Orientation="Horizontal"
                         Margin="0,0,0,48"
                         HorizontalAlignment="Left">
-              <Button x:Name="PopUpButton_Continue"
-                      HorizontalAlignment="Left"
+              <Button HorizontalAlignment="Left"
                       FontSize="24"
                       Content="kyllä"
                       Width="148"
-                      Background="Transparent"
                       Margin="37,0,0,0"
                       Padding="0,10"
                       Style="{StaticResource ButtonStyle2}"
                       Foreground="{StaticResource PhoneForegroundBrush}"
-                      Click="PopUpButton_Continue_Click" />
-              <Button x:Name="PopUpButton_Cancel"
-                      HorizontalAlignment="Left"
+                      Click="PopUpButton_Continue_Click"/>
+              <Button HorizontalAlignment="Left"
                       FontSize="24"
                       Content="en"
                       Width="148"
-                      Background="Transparent"
                       Margin="30,0,0,0"
                       Padding="0,10"
                       Style="{StaticResource ButtonStyle2}"
@@ -120,8 +116,7 @@
                     <TextBlock Text="{Binding Path=Name}"
                                Style="{StaticResource MenuText}"
                                Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForeground}}"
-                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeight}}">
-                    </TextBlock>
+                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeight}}"/>
                   </Button>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
@@ -132,8 +127,7 @@
                   Background="{StaticResource ResourceKey=ThemeColor7}"
                   Margin="0,10,0,0">
               <TextBlock Text="Tietoa"
-                         Style="{StaticResource SmallHeaderText}">
-              </TextBlock>
+                         Style="{StaticResource SmallHeaderText}"/>
             </Grid>
             <!--Left view: Information, Diets-->
             <Button Style="{StaticResource ContentButton}"
@@ -142,12 +136,10 @@
                           Margin="20,10,0,0">
                 <Image Source="Assets/Icons/IconDiets.png"
                        Width="25"
-                       Height="25">
-                </Image>
+                       Height="25"/>
                 <TextBlock Text="Erityisruokavaliot"
                            Style="{StaticResource MenuText}"
-                           Margin="20,8,10,10">
-                </TextBlock>
+                           Margin="20,8,10,10"/>
               </StackPanel>
             </Button>
             <!--Left view: Information, Settings-->
@@ -163,12 +155,11 @@
             <!--Left view: Information, App-->
             <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
               <Image Source="Assets/Icons/IconApp.png"
-                     Width="25" Height="25">
-              </Image>
+                     Width="25"
+                     Height="25"/>
               <TextBlock Text="Tietoa sovelluksesta"
                          Style="{StaticResource MenuText}"
-                         Margin="20,6,10,10">
-              </TextBlock>
+                         Margin="20,6,10,10"/>
             </StackPanel>
 
           </StackPanel>
@@ -192,8 +183,7 @@
             <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
                   Background="{StaticResource ResourceKey=ThemeColor7}">
               <TextBlock Text="Oppilaitokset"
-                         Style="{StaticResource SmallHeaderText}">
-              </TextBlock>
+                         Style="{StaticResource SmallHeaderText}"/>
             </Grid>
             <!---Right view: Schools, Content-->
             <ItemsControl x:Name="SchoolsItemsControl"
@@ -205,8 +195,7 @@
                     <TextBlock Text="{Binding Path=Name_FI}"
                                Style="{StaticResource MenuText}"
                                Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForeground}}"
-                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeight}}">
-                    </TextBlock>
+                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeight}}"/>
                   </Button>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
@@ -280,8 +269,7 @@
                        x:Name="SelectedSchoolHeader"
                        Foreground="{StaticResource ResourceKey=ThemeColor3}"
                        FontSize="26"
-                       Padding="25,10,25,10">
-            </TextBlock>
+                       Padding="25,10,25,10"/>
           </Button>
 
         </Grid>
@@ -292,8 +280,7 @@
             Visibility="Collapsed"
             Width="{Binding ChildCanvasWidth}"
             Height="{Binding ScreenHeight}"
-            Background="Black" Opacity="0.5">
-      </Grid>
+            Background="Black" Opacity="0.5"/>
 
     </Canvas>
   </Canvas>
