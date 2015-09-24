@@ -2,11 +2,14 @@
 using System;
 using System.ComponentModel;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Windows.Networking.Connectivity;
 using Windows.Phone.Devices.Notification;
 using Windows.Phone.UI.Input;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -115,6 +118,23 @@ namespace Edumenu
         */
         private async void GetRestaurantMenus()
         {
+            if (!NetworkInterface.GetIsNetworkAvailable())
+            {
+                /*
+                 TODO: Create custom PopUp containing buttons "OK", "Open cellular settings" and "open "WiFi settings".
+                       There is not enough room for three buttons in the traditional MessageDialog.
+                       Code for opening the settings:
+                 await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings-wifi://", UriKind.Absolute));
+                 await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings-cellular://", UriKind.Absolute));
+                */
+                string content = "Yhteyden muodostaminen internetiin epäonnistui. Tarkista yhteysasetuksesi tai yritä hetken kuluttua uudelleen.";
+                string title = "Yhteysvirhe";
+                MessageDialog msgDialog = new MessageDialog(content, title);
+                msgDialog.Commands.Add(new UICommand("Asia selvä", null));
+                await msgDialog.ShowAsync();
+                return;
+            }
+
             //restaurantsProcessed = 0;
             //allRestaurantsProcessed = false;
             //progress = 0;
@@ -134,12 +154,12 @@ namespace Edumenu
                     HttpResponseMessage response = await httpClient.GetAsync(restaurant.MenuUrl);
                     if (!response.IsSuccessStatusCode)
                     {
-                        return;
+                        continue;
                     }
                     string sourceCode = await response.Content.ReadAsStringAsync();
                     if (string.IsNullOrEmpty(sourceCode))
                     {
-                        return;
+                        continue;
                     }
                     App.RestaurantViewModel.ParseMenu(sourceCode, restaurant);
                 }
@@ -533,7 +553,7 @@ namespace Edumenu
             // Set properties
             Restaurant clickedRestaurant = (Restaurant)(sender as Button).DataContext;
             this.uriToLaunch = clickedRestaurant.HomeUrl;
-            navigationPrompt_textblock.Text = "Haluatko varmasti poistua sovelluksesta " +
+            NavigationPrompt_Textblock.Text = "Haluatko varmasti poistua sovelluksesta " +
                 "ja avata ravintolan " + clickedRestaurant.Name + " verkkosivun selaimessa?";
         }
 
