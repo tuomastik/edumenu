@@ -7,12 +7,13 @@
     <SolidColorBrush x:Key="ThemeColor1" Color="Salmon"/>
     <SolidColorBrush x:Key="ThemeColor2" Color="IndianRed"/>
     <SolidColorBrush x:Key="ThemeColor3" Color="White"/>
+    <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="White" />
     <SolidColorBrush x:Key="ThemeColor4" Color="CadetBlue"/>
 
     <SolidColorBrush x:Key="ThemeColor5" Color="#FF2F313E"/>
     <SolidColorBrush x:Key="ThemeColor6" Color="#FF242634"/>
     <SolidColorBrush x:Key="ThemeColor7" Color="#FF181A25"/>
-
+    
     <!--Big header-->
     <Style x:Key="BigHeaderGrid" TargetType="Grid">
         <Setter Property="Height" Value="58"/>
