@@ -109,6 +109,8 @@ namespace Edumenu
         */
         private async void GetRestaurantMenus()
         {
+            App.RestaurantViewModel.InitializeMenus("Ei ruokalistaa saatavilla");
+
             if (!NetworkInterface.GetIsNetworkAvailable())
             {
                 /*
@@ -584,25 +586,6 @@ namespace Edumenu
             OpenClose_Right(sender, e);
         }
 
-        private async void Diets_Clicked(object sender, RoutedEventArgs e)
-        {
-            if (this.IsScrollingHorizontally())
-            {
-                return;
-            }
-
-            Frame frame = Window.Current.Content as Frame;
-            if (frame == null)
-            {
-                return;
-            }
-            
-            // Use Dispatcher to call Frame.Navigate in order to avoid
-            // crash "(0xc0000005) Access violation"
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () => frame.Navigate(typeof(DietsPage)));
-        }
-
         private void SelectedSchool_Clicked(object sender, RoutedEventArgs e)
         {
             if (this.IsScrollingHorizontally())
@@ -635,6 +618,39 @@ namespace Edumenu
             return false;
         }
 
+        private void Diets_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (this.IsScrollingHorizontally())
+            {
+                return;
+            }
+
+            NavigateToPage(typeof(DietsPage));
+        }
+
+        private void About_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (this.IsScrollingHorizontally())
+            {
+                return;
+            }
+
+            this.NavigateToPage(typeof(AboutPage));
+        }
+
+        private async void NavigateToPage(Type typeOfPage)
+        {
+            Frame frame = Window.Current.Content as Frame;
+            if (frame == null)
+            {
+                return;
+            }
+
+            // Use Dispatcher to call Frame.Navigate in order to avoid
+            // crash "(0xc0000005) Access violation"
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () => frame.Navigate(typeOfPage));
+        }
     }
 }
 
