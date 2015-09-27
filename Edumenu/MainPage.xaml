@@ -164,14 +164,17 @@
                                        Margin="20,8,10,10" />
                         </StackPanel>-->
             <!--Left view: Information, App-->
-            <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
-              <Image Source="Assets/Icons/IconApp.png"
+            <Button Style="{StaticResource ContentButton}"
+                    Click="About_Clicked">
+              <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+                <Image Source="Assets/Icons/IconApp.png"
                      Width="25"
                      Height="25"/>
-              <TextBlock Text="Tietoa sovelluksesta"
+                <TextBlock Text="Tietoa sovelluksesta"
                          Style="{StaticResource MenuText}"
                          Margin="20,6,10,10"/>
-            </StackPanel>
+              </StackPanel>
+            </Button>
 
           </StackPanel>
         </ScrollViewer>
@@ -289,12 +292,11 @@
           <Button HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   Style="{StaticResource ContentButton}"
-                  Click="SelectedSchool_Clicked">
+                  Click="SelectedSchool_Clicked"
+                  HorizontalContentAlignment="Center">
             <TextBlock Text="{Binding SelectedSchool}"
-                       x:Name="SelectedSchoolHeader"
-                       Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                       FontSize="26"
-                       Padding="25,10,25,10"/>
+                       Style="{StaticResource BigHeaderText}"
+                       x:Name="SelectedSchoolHeader"/>
           </Button>
 
         </Grid>
