@@ -8,7 +8,17 @@
     xmlns:Models="using:Edumenu.Models"
     mc:Ignorable="d"
     RequestedTheme="Dark"
-    Background="{StaticResource ThemeColor1}">
+    Background="Black">
+
+  <Page.Transitions>
+    <TransitionCollection>
+      <NavigationThemeTransition>
+        <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+          <ContinuumNavigationTransitionInfo/>
+        </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+      </NavigationThemeTransition>
+    </TransitionCollection>
+  </Page.Transitions>
 
   <Page.Resources>
     <Models:IsSelectedToForeground x:Key="IsSelectedToForeground"/>
