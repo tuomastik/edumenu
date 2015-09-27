@@ -3,235 +3,239 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Edumenu">
 
-    <!--Theme colors-->
-    <SolidColorBrush x:Key="ThemeColor1" Color="Salmon"/>
-    <SolidColorBrush x:Key="ThemeColor2" Color="IndianRed"/>
-    <SolidColorBrush x:Key="ThemeColor3" Color="White"/>
-    <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="White" />
-    <SolidColorBrush x:Key="ThemeColor4" Color="CadetBlue"/>
+  <!--Theme colors-->
+  <SolidColorBrush x:Key="ThemeColor1" Color="Salmon"/>
+  <SolidColorBrush x:Key="ThemeColor2" Color="IndianRed"/>
+  <SolidColorBrush x:Key="ThemeColor3" Color="White"/>
+  <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="White" />
+  <SolidColorBrush x:Key="ThemeColor4" Color="CadetBlue"/>
 
-    <SolidColorBrush x:Key="ThemeColor5" Color="#FF2F313E"/>
-    <SolidColorBrush x:Key="ThemeColor6" Color="#FF242634"/>
-    <SolidColorBrush x:Key="ThemeColor7" Color="#FF181A25"/>
-    
-    <!--Big header-->
-    <Style x:Key="BigHeaderGrid" TargetType="Grid">
-        <Setter Property="Height" Value="58"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
+  <SolidColorBrush x:Key="ThemeColor5" Color="#FF2F313E"/>
+  <SolidColorBrush x:Key="ThemeColor6" Color="#FF242634"/>
+  <SolidColorBrush x:Key="ThemeColor7" Color="#FF181A25"/>
 
-    <Style x:Key="BigHeaderText" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="30"/>
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Padding" Value="20,10"/>
-    </Style>
+  <!--Common header text style-->
+  <Style x:Key="HeaderText" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="26"/>
+    <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
+    <Setter Property="FontFamily" Value="Segoe UI"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
 
-    <!--Small header-->
-    <Style x:Key="SmallHeaderGrid" TargetType="Grid">
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
+  <!--Big header-->
+  <Style x:Key="BigHeaderGrid" TargetType="Grid">
+    <Setter Property="Height" Value="58"/>
+    <Setter Property="VerticalAlignment" Value="Top"/>
+  </Style>
 
-    <Style x:Key="SmallHeaderText" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="26"/>
-        <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Margin" Value="20,5,0,5"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-    </Style>
+  <Style x:Key="BigHeaderText" TargetType="TextBlock" BasedOn="{StaticResource HeaderText}">
+    <Setter Property="HorizontalAlignment" Value="Center"/>
+    <Setter Property="TextAlignment" Value="Center"/>
+  </Style>
 
-    <!--Restaurant name-->
-    <Style x:Key="RestaurantText" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="26"/>
-        <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Margin" Value="20,5,0,5"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-    </Style>
+  <!--Small header-->
+  <Style x:Key="SmallHeaderGrid" TargetType="Grid">
+    <Setter Property="VerticalAlignment" Value="Top"/>
+  </Style>
 
-    <!--Restaurant menu-->
-    <Style x:Key="MenuText" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="24"/>
-        <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="TextWrapping" Value="Wrap"/>
-        <Setter Property="TextAlignment" Value="Left"/>
-        <Setter Property="Margin" Value="20,15"/>
-    </Style>
+  <Style x:Key="SmallHeaderText" TargetType="TextBlock" BasedOn="{StaticResource HeaderText}">
+    <Setter Property="HorizontalAlignment" Value="Left"/>
+    <Setter Property="TextAlignment" Value="Left"/>
+    <Setter Property="Margin" Value="20,5,0,5"/>
+  </Style>
 
+  <!--Restaurant name-->
+  <Style x:Key="RestaurantText" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="26"/>
+    <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
+    <Setter Property="FontFamily" Value="Segoe UI"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="Margin" Value="20,5,0,5"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
 
-
-    <Style x:Key="HeaderBackgroundTemplate" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource ThemeColor2}" />
-    </Style>
+  <!--Restaurant menu-->
+  <Style x:Key="MenuText" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="24"/>
+    <Setter Property="Foreground" Value="{StaticResource ResourceKey=ThemeColor3}"/>
+    <Setter Property="FontFamily" Value="Segoe UI"/>
+    <Setter Property="FontWeight" Value="Normal"/>
+    <Setter Property="TextWrapping" Value="Wrap"/>
+    <Setter Property="TextAlignment" Value="Left"/>
+    <Setter Property="Margin" Value="20,15"/>
+  </Style>
 
 
-    <Style x:Key="ContentButton" TargetType="Button">
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid Background="Transparent">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="MouseOver"/>
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentContainer">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneBackgroundBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ButtonBackground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ButtonBackground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneForegroundBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentContainer">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ButtonBackground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ButtonBackground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="0" Margin="0">
-                            <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
-    <Style x:Key="RestaurantButton" TargetType="Button">
-        <Setter Property="Background" Value="Green"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="MinHeight" Value="0"/>
-        <Setter Property="MinWidth" Value="0"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid Background="{StaticResource ResourceKey=ThemeColor2}">
-                        <ContentPresenter AutomationProperties.AccessibilityView="Raw"
+  <Style x:Key="HeaderBackgroundTemplate" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource ThemeColor2}" />
+  </Style>
+
+
+  <Style x:Key="ContentButton" TargetType="Button">
+    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="VerticalAlignment" Value="Stretch"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
+    <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid Background="Transparent">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal"/>
+                <VisualState x:Name="MouseOver"/>
+                <VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentContainer">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneBackgroundBrush}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ButtonBackground">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ButtonBackground">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneForegroundBrush}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentContainer">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ButtonBackground">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ButtonBackground">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="ButtonBackground" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="0" Margin="0">
+              <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="RestaurantButton" TargetType="Button">
+    <Setter Property="Background" Value="Green"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="MinHeight" Value="0"/>
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid Background="{StaticResource ResourceKey=ThemeColor2}">
+            <ContentPresenter AutomationProperties.AccessibilityView="Raw"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
                                           Content="{TemplateBinding Content}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Margin="0"
                                           Foreground="#FF9C3535">
-                        </ContentPresenter>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <Thickness x:Key="PhoneBorderThickness">2.5</Thickness>
-    <FontFamily x:Key="PhoneFontFamilyNormal">Segoe WP</FontFamily>
-    <FontWeight x:Key="PhoneButtonFontWeight">Semibold</FontWeight>
-    <x:Double x:Key="TextStyleLargeFontSize">18.14</x:Double>
-    <Thickness x:Key="PhoneButtonContentPadding">2.5,0,2.5,2.5</Thickness>
-    <x:Double x:Key="PhoneButtonMinHeight">57.5</x:Double>
-    <x:Double x:Key="PhoneButtonMinWidth">109</x:Double>
-    <Thickness x:Key="PhoneTouchTargetOverhang">0,9.5</Thickness>
-    <SolidColorBrush x:Key="ButtonDisabledBackgroundThemeBrush" Color="Transparent"/>
-    <Style x:Key="ButtonStyle2" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{ThemeResource PhoneForegroundBrush}"/>
-        <Setter Property="Foreground" Value="{ThemeResource PhoneForegroundBrush}"/>
-        <Setter Property="BorderThickness" Value="{ThemeResource PhoneBorderThickness}"/>
-        <Setter Property="FontFamily" Value="{ThemeResource PhoneFontFamilyNormal}"/>
-        <Setter Property="FontWeight" Value="{ThemeResource PhoneButtonFontWeight}"/>
-        <Setter Property="FontSize" Value="{ThemeResource TextStyleLargeFontSize}"/>
-        <Setter Property="Padding" Value="{ThemeResource PhoneButtonContentPadding}"/>
-        <Setter Property="MinHeight" Value="{ThemeResource PhoneButtonMinHeight}"/>
-        <Setter Property="MinWidth" Value="{ThemeResource PhoneButtonMinWidth}"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid x:Name="Grid" Background="Transparent">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition From="Pressed" To="PointerOver">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="Grid"/>
-                                        </Storyboard>
-                                    </VisualTransition>
-                                    <VisualTransition From="PointerOver" To="Normal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="Grid"/>
-                                        </Storyboard>
-                                    </VisualTransition>
-                                    <VisualTransition From="Pressed" To="Normal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="Grid"/>
-                                        </Storyboard>
-                                    </VisualTransition>
-                                </VisualStateGroup.Transitions>
-                                <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="PointerOver"/>
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <PointerDownThemeAnimation Storyboard.TargetName="Grid"/>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ThemeColor3}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ThemeColor4}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBorderThemeBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBackgroundThemeBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="{ThemeResource PhoneTouchTargetOverhang}">
-                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" Margin="0,5"/>
-                        </Border>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+            </ContentPresenter>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Thickness x:Key="PhoneBorderThickness">2.5</Thickness>
+  <FontFamily x:Key="PhoneFontFamilyNormal">Segoe WP</FontFamily>
+  <FontWeight x:Key="PhoneButtonFontWeight">Semibold</FontWeight>
+  <x:Double x:Key="TextStyleLargeFontSize">18.14</x:Double>
+  <Thickness x:Key="PhoneButtonContentPadding">2.5,0,2.5,2.5</Thickness>
+  <x:Double x:Key="PhoneButtonMinHeight">57.5</x:Double>
+  <x:Double x:Key="PhoneButtonMinWidth">109</x:Double>
+  <Thickness x:Key="PhoneTouchTargetOverhang">0,9.5</Thickness>
+  <SolidColorBrush x:Key="ButtonDisabledBackgroundThemeBrush" Color="Transparent"/>
+  <Style x:Key="ButtonStyle2" TargetType="Button">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{ThemeResource PhoneForegroundBrush}"/>
+    <Setter Property="Foreground" Value="{ThemeResource PhoneForegroundBrush}"/>
+    <Setter Property="BorderThickness" Value="{ThemeResource PhoneBorderThickness}"/>
+    <Setter Property="FontFamily" Value="{ThemeResource PhoneFontFamilyNormal}"/>
+    <Setter Property="FontWeight" Value="{ThemeResource PhoneButtonFontWeight}"/>
+    <Setter Property="FontSize" Value="{ThemeResource TextStyleLargeFontSize}"/>
+    <Setter Property="Padding" Value="{ThemeResource PhoneButtonContentPadding}"/>
+    <Setter Property="MinHeight" Value="{ThemeResource PhoneButtonMinHeight}"/>
+    <Setter Property="MinWidth" Value="{ThemeResource PhoneButtonMinWidth}"/>
+    <Setter Property="HorizontalAlignment" Value="Left"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Grid x:Name="Grid" Background="Transparent">
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualStateGroup.Transitions>
+                  <VisualTransition From="Pressed" To="PointerOver">
+                    <Storyboard>
+                      <PointerUpThemeAnimation Storyboard.TargetName="Grid"/>
+                    </Storyboard>
+                  </VisualTransition>
+                  <VisualTransition From="PointerOver" To="Normal">
+                    <Storyboard>
+                      <PointerUpThemeAnimation Storyboard.TargetName="Grid"/>
+                    </Storyboard>
+                  </VisualTransition>
+                  <VisualTransition From="Pressed" To="Normal">
+                    <Storyboard>
+                      <PointerUpThemeAnimation Storyboard.TargetName="Grid"/>
+                    </Storyboard>
+                  </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="Normal"/>
+                <VisualState x:Name="PointerOver"/>
+                <VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <PointerDownThemeAnimation Storyboard.TargetName="Grid"/>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ThemeColor3}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ThemeColor4}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Border">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBorderThemeBrush}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
+                      <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBackgroundThemeBrush}"/>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="{ThemeResource PhoneTouchTargetOverhang}">
+              <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" Margin="0,5"/>
+            </Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
 
 </ResourceDictionary>
