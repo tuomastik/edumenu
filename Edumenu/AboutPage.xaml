@@ -36,7 +36,7 @@
               Style="{StaticResource ContentButton}">
         <Image Source="Assets/Icons/IconBack.png"
                Width="30"
-               Margin="15,0,0,0"/>
+               Margin="20,0,0,0"/>
       </Button>
       <!--About title-->
       <TextBlock Text="Tietoa sovelluksesta"
@@ -47,28 +47,56 @@
     <!--About content-->
     <ScrollViewer Grid.Row="1"
                   Background="{StaticResource ResourceKey=ThemeColor1}">
-      <StackPanel>
-        <TextBlock Text="Edumenu"
+      <StackPanel Margin="20">
+        <!--<TextBlock Text="Edumenu"
                    Style="{StaticResource BodyTextBlockStyle}"
                    Margin="20,20,0,0"
                    FontSize="40"
                    FontWeight="Thin"
-                   
-                   Foreground="{StaticResource ThemeColor3}"/>
+                   Foreground="{StaticResource ThemeColor3}"/>-->
+        <Image Source="Assets/Icons/Edumenu_AboutPage.png"
+               Width="200"
+               HorizontalAlignment="Left"/>
         <TextBlock x:Name="AppVersion_TextBlock"
                    Style="{StaticResource BodyTextBlockStyle}"
-                   Margin="20,5,0,0"
+                   Margin="0,5,0,0"
                    FontSize="22"
-                   FontWeight="Light"
+                   FontWeight="Normal"
                    Foreground="{StaticResource ThemeColor3}"/>
         <TextBlock Text="Kehittäjä: Tuomas Tikkanen"
                    Style="{StaticResource BodyTextBlockStyle}"
-                   Margin="20,5,0,0"
+                   Margin="0,0,0,0"
                    FontSize="22"
-                   FontWeight="Light"
+                   FontWeight="Normal"
                    Foreground="{StaticResource ThemeColor3}"/>
+        <Button Content="Arvostele sovellus"
+                Click="ReviewApp_Clicked"
+                Style="{StaticResource ButtonStyle2}"
+                Margin="0,25,0,0"
+                HorizontalAlignment="Stretch"
+                FontSize="24"/>
+        <Button Content="Lähetä palautetta"
+                Click="Review_Clicked"
+                Style="{StaticResource ButtonStyle2}"
+                HorizontalAlignment="Stretch"
+                FontSize="24"/>
+        <Button Content="Avaa sovelluskaupassa"
+                Click="OpenInStore_Clicked"
+                Style="{StaticResource ButtonStyle2}"
+                HorizontalAlignment="Stretch"
+                FontSize="24"/>
+        <TextBlock Text="Edumenu tarjoaa Tampereen oppilaitoksien TTY, TAY, TAYS, TAMK ja TAKK viikon ruokalistat. Käynnistyessään ohjelma näyttää kyseisen päivän ruokalistat automaattisesti. Vasemmasta sivunäkymästä voi vaihtaa päivää, oikeasta sivunäkymästä voi vaihtaa oppilaitosta ja ravintolan nimeä painamalla voi siirtyä ravintolan verkkosivulle."
+                   Style="{StaticResource MenuText}"
+                   Margin="0, 20, 0, 0"/>
+        <TextBlock Text="Eri ravintoloiden erilaisten ruokalistojen esitystapojen takia kaikki muut paitsi Juveneksen ruokalistat ovat kyseisen viikon ruokalistoja. Juveneksen ravintoloiden ruokalistat esitetään kyseisestä päivästä eteenpäin."
+                   Style="{StaticResource MenuText}"
+                   Margin="0, 15, 0, 0"/>
+        <TextBlock Text="Ohjelma on kolmannen osapuolen kehittämä sekä vaatii internet-yhteyden toimiakseen. Kehittäjä ei ole vastuussa ruokalistojen oikeellisuudesta." 
+                   Style="{StaticResource MenuText}"
+                   Margin="0, 15, 0, 20"/>
+
       </StackPanel>
-      
+
     </ScrollViewer>
 
   </Grid>

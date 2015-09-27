@@ -4,9 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Email;
+using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
+using Windows.Security.ExchangeActiveSyncProvisioning;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -24,6 +27,8 @@ namespace Edumenu
     /// </summary>
     public sealed partial class AboutPage : Page
     {
+        Version version;
+
         public AboutPage()
         {
             this.InitializeComponent();
@@ -31,7 +36,7 @@ namespace Edumenu
 
             // Display application version
             PackageVersion pv = Package.Current.Id.Version;
-            Version version = new Version(Package.Current.Id.Version.Major,
+            version = new Version(Package.Current.Id.Version.Major,
                 Package.Current.Id.Version.Minor,
                 Package.Current.Id.Version.Revision,
                 Package.Current.Id.Version.Build);
@@ -74,6 +79,45 @@ namespace Edumenu
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+        }
+
+        private async void ReviewApp_Clicked(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(
+                new Uri("ms-windows-store:reviewapp?appid=" + CurrentApp.AppId));
+        }
+
+        private async void Review_Clicked(object sender, RoutedEventArgs e)
+        {
+            EmailRecipient sendTo = new EmailRecipient()
+            {
+                Address = "tuomas.tikkanen@hotmail.com"
+            };
+
+            // Create mail object
+            EmailMessage mail = new EmailMessage();
+
+            // Define body text
+            mail.Subject = "Palautetta Edumenusta";
+            string body = "[Palautteesi tähän]";
+            var easClientDeviceInformation = new EasClientDeviceInformation();
+            string deviceRmCode = easClientDeviceInformation.SystemProductName;
+            mail.Body = body + Environment.NewLine + Environment.NewLine +
+                "---------------------------------" + Environment.NewLine +
+                "Laite: " + deviceRmCode + Environment.NewLine +
+                "Edumenun versio: " + version.ToString() + Environment.NewLine +
+                "---------------------------------";
+
+            // Add recipients to the mail object
+            mail.To.Add(sendTo);
+
+            await EmailManager.ShowComposeNewEmailAsync(mail);
+        }
+
+        private async void OpenInStore_Clicked(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(
+                new Uri("ms-windows-store:navigate?appid=" + CurrentApp.AppId));
         }
     }
 }
