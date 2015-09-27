@@ -307,5 +307,12 @@ namespace Edumenu.ViewModels
             return menu.Trim();
         }
 
+        public void InitializeMenus(string text)
+        {
+            foreach (Restaurant restaurant in restaurantsAll)
+            {
+                restaurant.Menu = text;
+            }
+        }
     }
 }
