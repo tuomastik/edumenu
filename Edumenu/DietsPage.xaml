@@ -6,62 +6,74 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    RequestedTheme="Dark"
+    Background="Black">
 
-    <Grid x:Name="LayoutRoot" Background="{StaticResource ThemeColor1}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+  <Page.Transitions>
+    <TransitionCollection>
+      <NavigationThemeTransition>
+        <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+          <SlideNavigationTransitionInfo/>
+        </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+      </NavigationThemeTransition>
+    </TransitionCollection>
+  </Page.Transitions>
 
-        <!--Header-->
-        <Grid Style="{StaticResource ResourceKey=BigHeaderGrid}"
-                  Grid.Row="0"
-                      Background="{StaticResource ResourceKey=ThemeColor4}"
-                      x:Name="HeaderContainer">
-            <!--Back button-->
-            <Button HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Click="Back_Clicked"
-                    Style="{StaticResource ContentButton}">
-                <Image x:Name="DietIcon"
-                        Source="Assets/Icons/IconBack.png"
-                        Width="35"
-                        Margin="15,0,0,0"/>
-            </Button>
-            <!--Middle view: School name-->
-            <TextBlock Text="Erityisruokavaliot"
-                           HorizontalAlignment="Center"
-                           x:Name="SelectedSchoolHeader"
-                           Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                           FontSize="26"
-                           Padding="25,10,25,10">
-            </TextBlock>
-        </Grid>
+  <Grid x:Name="LayoutRoot"
+        Background="{StaticResource ThemeColor1}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
 
-        <!--Diets-->
-        <ScrollViewer x:Name="Scroller"
-                      Grid.Row="1"
-                      Background="{StaticResource ResourceKey=ThemeColor1}">
-            <ItemsControl ItemsSource="{Binding diets}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-
-                            <Image x:Name="DietIcon"
-                                       Source="{Binding IconPath}"
-                                       Width="30"
-                                       Height="30"
-                                       Margin="20,0,0,0"/>
-                            <TextBlock Text="{Binding Name_FI, Mode=OneWay}"
-                                       Style="{StaticResource MenuText}"/>
-
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+    <!--Header-->
+    <Grid Style="{StaticResource ResourceKey=BigHeaderGrid}"
+          Background="{StaticResource ResourceKey=ThemeColor4}"
+          x:Name="HeaderContainer">
+      <!--Back button-->
+      <Button HorizontalAlignment="Left"
+              VerticalAlignment="Center"
+              Click="Back_Clicked"
+              Style="{StaticResource ContentButton}">
+        <Image x:Name="DietIcon"
+               Source="Assets/Icons/IconBack.png"
+               Width="35"
+               Margin="15,0,0,0"/>
+      </Button>
+      <!--Diets title-->
+      <TextBlock Text="Erityisruokavaliot"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                 FontSize="26"
+                 Padding="25,10,25,10">
+      </TextBlock>
     </Grid>
-    
-    
+
+    <!--Diets-->
+    <ScrollViewer Grid.Row="1"
+                  Background="{StaticResource ResourceKey=ThemeColor1}">
+      <ItemsControl ItemsSource="{Binding diets}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Image x:Name="DietIcon"
+                     Source="{Binding IconPath}"
+                     Width="30"
+                     Height="30"
+                     Margin="20,0,0,0"/>
+              <TextBlock Text="{Binding Name_FI, Mode=OneWay}"
+                         Grid.Column="1"
+                         Style="{StaticResource MenuText}"/>
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+  </Grid>
+
 </Page>
