@@ -46,7 +46,7 @@ namespace Edumenu.Models
             }
             else
             {
-                sideViewWidthPortion = 0.5;
+                sideViewWidthPortion = 0.65;
             }
             LeftViewWidth = sideViewWidthPortion * ScreenWidth;
             RightViewWidth = sideViewWidthPortion * ScreenWidth;
