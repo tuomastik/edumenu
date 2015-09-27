@@ -36,7 +36,7 @@
               Style="{StaticResource ContentButton}">
         <Image Source="Assets/Icons/IconBack.png"
                Width="30"
-               Margin="15,0,0,0"/>
+               Margin="20,0,0,0"/>
       </Button>
       <!--Diets title-->
       <TextBlock Text="Erityisruokavaliot"
@@ -61,7 +61,8 @@
                      Margin="20,0,0,0"/>
               <TextBlock Text="{Binding Name_FI, Mode=OneWay}"
                          Grid.Column="1"
-                         Style="{StaticResource MenuText}"/>
+                         Style="{StaticResource MenuText}"
+                         Margin="20,10"/>
             </Grid>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
