@@ -31,22 +31,16 @@
           Background="{StaticResource ResourceKey=ThemeColor4}"
           x:Name="HeaderContainer">
       <!--Back button-->
-      <Button HorizontalAlignment="Left"
-              VerticalAlignment="Center"
+      <Button VerticalAlignment="Center"
               Click="Back_Clicked"
               Style="{StaticResource ContentButton}">
-        <Image x:Name="DietIcon"
-               Source="Assets/Icons/IconBack.png"
-               Width="35"
+        <Image Source="Assets/Icons/IconBack.png"
+               Width="30"
                Margin="15,0,0,0"/>
       </Button>
       <!--Diets title-->
       <TextBlock Text="Erityisruokavaliot"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Center"
-                 Foreground="{StaticResource ResourceKey=ThemeColor3}"
-                 FontSize="26"
-                 Padding="25,10,25,10">
+                 Style="{StaticResource BigHeaderText}">
       </TextBlock>
     </Grid>
 
@@ -61,8 +55,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
               </Grid.ColumnDefinitions>
-              <Image x:Name="DietIcon"
-                     Source="{Binding IconPath}"
+              <Image Source="{Binding IconPath}"
                      Width="30"
                      Height="30"
                      Margin="20,0,0,0"/>
