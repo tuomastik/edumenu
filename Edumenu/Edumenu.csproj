@@ -134,6 +134,7 @@
     <Content Include="Assets\DietIcons\VE.png" />
     <Content Include="Assets\DietIcons\VL.png" />
     <Content Include="Assets\DietIcons\VS.png" />
+    <Content Include="Assets\Icons\Edumenu_AboutPage.png" />
     <Content Include="Assets\Icons\ExitPrompt.png" />
     <Content Include="Assets\Icons\IconApp.png" />
     <Content Include="Assets\Icons\IconBack.png" />
