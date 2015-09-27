@@ -9,6 +9,7 @@ using Windows.Phone.Devices.Notification;
 using Windows.Phone.UI.Input;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -60,6 +61,10 @@ namespace Edumenu
         public MainPage()
         {
             this.InitializeComponent();
+
+            // Disable the default page transition
+            Frame mainFrame = Window.Current.Content as Frame;
+            mainFrame.ContentTransitions = null;
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
 
@@ -579,14 +584,23 @@ namespace Edumenu
             OpenClose_Right(sender, e);
         }
 
-        private void Diets_Clicked(object sender, RoutedEventArgs e)
+        private async void Diets_Clicked(object sender, RoutedEventArgs e)
         {
             if (this.IsScrollingHorizontally())
             {
                 return;
             }
 
-            Frame.Navigate(typeof(DietsPage));
+            Frame frame = Window.Current.Content as Frame;
+            if (frame == null)
+            {
+                return;
+            }
+            
+            // Use Dispatcher to call Frame.Navigate in order to avoid
+            // crash "(0xc0000005) Access violation"
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () => frame.Navigate(typeof(DietsPage)));
         }
 
         private void SelectedSchool_Clicked(object sender, RoutedEventArgs e)
