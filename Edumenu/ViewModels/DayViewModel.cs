@@ -21,7 +21,15 @@ namespace Edumenu.ViewModels
                 new Day() { Name = Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Saturday)) }
             };
 
-            SelectDay(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek));
+            if (!DateTime.Today.DayOfWeek.Equals(DayOfWeek.Sunday))
+            {
+                SelectDay(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek));
+            }
+            else
+            {
+                // Show Monday menus on Sunday
+                SelectDay(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Monday));
+            }
         }
 
         public void SelectDay(string selectThisDay)
