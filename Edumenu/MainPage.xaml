@@ -141,41 +141,50 @@
                          Style="{StaticResource SmallHeaderText}"/>
             </Grid>
             <!--Left view: Information, Diets-->
-            <Button Style="{StaticResource ContentButton}"
-                    Click="Diets_Clicked">
-              <StackPanel Orientation="Horizontal"
-                          Margin="20,10,0,0">
-                <Image Source="Assets/Icons/IconDiets.png"
-                       Width="25"
-                       Height="25"/>
-                <TextBlock Text="Erityisruokavaliot"
-                           Style="{StaticResource MenuText}"
-                           Margin="20,8,10,10"/>
-              </StackPanel>
-            </Button>
-            <!--Left view: Information, Settings-->
-            <!--<StackPanel Orientation="Horizontal"
-                                        Margin="20,10,0,0">
-                            <Image Source="Assets/Icons/IconSettings.png"
-                                    Width="25"
-                                    Height="25"/>
-                            <TextBlock Text="Asetukset"
-                                       Style="{StaticResource MenuText}"
-                                       Margin="20,8,10,10" />
-                        </StackPanel>-->
-            <!--Left view: Information, App-->
-            <Button Style="{StaticResource ContentButton}"
-                    Click="About_Clicked">
-              <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
-                <Image Source="Assets/Icons/IconApp.png"
+            <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+              <Image Source="Assets/Icons/IconDiets.png"
                      Width="25"
                      Height="25"/>
-                <TextBlock Text="Tietoa sovelluksesta"
-                         Style="{StaticResource MenuText}"
-                         Margin="20,6,10,10"/>
-              </StackPanel>
-            </Button>
-
+              <Button Style="{StaticResource ContentButton}"
+                      FontSize="24"
+                      Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                      FontWeight="Normal"
+                      FontFamily="Segoe UI"
+                      VerticalAlignment="Center"
+                      Click="Diets_Clicked"
+                      Content="Erityisruokavaliot"
+                      Margin="20,0,0,4"/>
+            </StackPanel>
+            <!--Left view: Information, Settings-->
+            <!--<StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+              <Image Source="Assets/Icons/IconSettings.png"
+                     Width="25"
+                     Height="25"/>
+              <Button Style="{StaticResource ContentButton}"
+                      FontSize="24"
+                      Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                      FontWeight="Normal"
+                      FontFamily="Segoe UI"
+                      VerticalAlignment="Center"
+                      Click="Settings_Clicked"
+                      Content="Asetukset"
+                      Margin="20,0,0,4"/>
+            </StackPanel>-->
+            <!--Left view: Information, About-->
+            <StackPanel Orientation="Horizontal" Margin="20,10,0,10">
+              <Image Source="Assets/Icons/IconApp.png"
+                     Width="25"
+                     Height="25"/>
+              <Button Style="{StaticResource ContentButton}"
+                      FontSize="24"
+                      Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                      FontWeight="Normal"
+                      FontFamily="Segoe UI"
+                      VerticalAlignment="Center"
+                      Click="About_Clicked"
+                      Content="Tietoa sovelluksesta"
+                      Margin="20,0,0,4"/>
+            </StackPanel>
           </StackPanel>
         </ScrollViewer>
       </Grid>
