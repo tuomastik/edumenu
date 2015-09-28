@@ -59,7 +59,6 @@
                HorizontalAlignment="Left"/>
         <TextBlock x:Name="AppVersion_TextBlock"
                    Style="{StaticResource BodyTextBlockStyle}"
-                   Margin="0,5,0,0"
                    FontSize="22"
                    FontWeight="Normal"
                    Foreground="{StaticResource ThemeColor3}"/>
@@ -93,7 +92,7 @@
                    Margin="0, 15, 0, 0"/>
         <TextBlock Text="Ohjelma on kolmannen osapuolen kehittämä sekä vaatii internet-yhteyden toimiakseen. Kehittäjä ei ole vastuussa ruokalistojen oikeellisuudesta." 
                    Style="{StaticResource MenuText}"
-                   Margin="0, 15, 0, 20"/>
+                   Margin="0, 15, 0, 0"/>
 
       </StackPanel>
 
