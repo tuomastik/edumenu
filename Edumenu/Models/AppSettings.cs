@@ -16,26 +16,28 @@ namespace Edumenu.Models
                 ApplicationData.Current.LocalSettings.Values["SelectedSchool"] = value;
             }
         }
-        public bool FirstLaunch
+
+        public string CurrentAppVersion
         {
             get
             {
-                InitializeIfNotSet("FirstLaunch", true);
-                return (bool)ApplicationData.Current.LocalSettings.Values["FirstLaunch"];
+                InitializeIfNotSet("CurrentAppVersion", "1.0.0.0");
+                return (string)ApplicationData.Current.LocalSettings.Values["CurrentAppVersion"];
             }
             set
             {
-                ApplicationData.Current.LocalSettings.Values["FirstLaunch"] = value;
+                ApplicationData.Current.LocalSettings.Values["CurrentAppVersion"] = value;
             }
         }
+
         // Initialize setting if it has not been set already
-        private void InitializeIfNotSet(string settingName, object settingVal)
+        private void InitializeIfNotSet(string settingName, object defaultValue)
         {
             var localSettings = ApplicationData.Current.LocalSettings;
 
             if (!localSettings.Values.ContainsKey(settingName))
             {
-                localSettings.Values[settingName] = settingVal;
+                localSettings.Values[settingName] = defaultValue;
             }
         }
     }
