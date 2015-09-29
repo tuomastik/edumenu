@@ -65,6 +65,7 @@ namespace Edumenu
             }
         }
 
+        AppSettings appSettings = new AppSettings();
         private TransitionCollection transitions;
 
         /// <summary>
@@ -75,17 +76,6 @@ namespace Edumenu
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
-            CheckIfFirstLaunch();
-        }
-
-        private void CheckIfFirstLaunch()
-        {
-            AppSettings appSettings = new AppSettings();
-            if (appSettings.FirstLaunch.Equals(true))
-            {
-                appSettings.FirstLaunch = false;
-            }
-            //System.Diagnostics.Debug.WriteLine("Is this the first launch? " + appSettings.FirstLaunch.ToString());
         }
 
         /// <summary>
@@ -104,13 +94,15 @@ namespace Edumenu
 #endif
 
             Frame rootFrame = Window.Current.Content as Frame;
-
+            
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
+
+                ShowChangeLogIfNeeded(rootFrame);
 
                 // TODO: change this value to a cache size that is appropriate for your application
                 rootFrame.CacheSize = 1;
@@ -141,7 +133,7 @@ namespace Edumenu
 
                 rootFrame.ContentTransitions = null;
                 rootFrame.Navigated += this.RootFrame_FirstNavigated;
-
+                
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
@@ -153,6 +145,21 @@ namespace Edumenu
 
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        private void ShowChangeLogIfNeeded(Frame frame)
+        {
+            PackageVersion pv = Package.Current.Id.Version;
+            string version = new Version(Package.Current.Id.Version.Major,
+                Package.Current.Id.Version.Minor,
+                Package.Current.Id.Version.Revision,
+                Package.Current.Id.Version.Build).ToString();
+
+            if (!version.Equals(appSettings.CurrentAppVersion))
+            {
+                appSettings.CurrentAppVersion = version;
+                frame.Navigate(typeof(ChangeLog));
+            }
         }
 
         /// <summary>
