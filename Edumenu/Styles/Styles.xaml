@@ -66,10 +66,28 @@
     <Setter Property="Margin" Value="20,15"/>
   </Style>
 
-
-
   <Style x:Key="HeaderBackgroundTemplate" TargetType="Border">
     <Setter Property="Background" Value="{StaticResource ThemeColor2}" />
+  </Style>
+
+  <!--ChangeLog-->
+  <Style x:Key="Bullet_TextBlock" TargetType="TextBlock">
+    <Setter Property="HorizontalAlignment" Value="Left"/>
+    <Setter Property="VerticalAlignment" Value="Top"/>
+    <Setter Property="Foreground" Value="{StaticResource ThemeColor1}"/>
+    <Setter Property="FontSize" Value="20"/>
+    <Setter Property="FontFamily" Value="Segoe UI"/>
+    <Setter Property="Margin" Value="0,10,0,0"/>
+  </Style>
+  
+  <Style x:Key="Change_TextBlock" TargetType="TextBlock">
+    <Setter Property="HorizontalAlignment" Value="Left"/>
+    <Setter Property="TextWrapping" Value="Wrap"/>
+    <Setter Property="VerticalAlignment" Value="Top"/>
+    <Setter Property="Foreground" Value="{StaticResource ThemeColor3}"/>
+    <Setter Property="FontSize" Value="24"/>
+    <Setter Property="FontFamily" Value="Segoe UI"/>
+    <Setter Property="Margin" Value="0,9,0,0"/>
   </Style>
 
 
