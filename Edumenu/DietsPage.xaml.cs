@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Edumenu.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace Edumenu
             this.InitializeComponent();
             this.DataContext = App.DietViewModel;
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            Utils.ConfigureStatusBar();
         }
 
         private void Back_Clicked(object sender, RoutedEventArgs e)

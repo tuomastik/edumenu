@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Edumenu.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -41,6 +42,8 @@ namespace Edumenu
                 Package.Current.Id.Version.Revision,
                 Package.Current.Id.Version.Build);
             AppVersion_TextBlock.Text = "Versio: " + version.ToString();
+
+            Utils.ConfigureStatusBar();
         }
 
         private void Back_Clicked(object sender, RoutedEventArgs e)
