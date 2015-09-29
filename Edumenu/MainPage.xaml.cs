@@ -75,31 +75,21 @@ namespace Edumenu
             SchoolsItemsControl.DataContext = App.SchoolViewModel;
             SelectedSchoolHeader.DataContext = App.SchoolViewModel;
 
-            // StatusBar
-            var statusBar = StatusBar.GetForCurrentView();
-            statusBar.BackgroundOpacity = 1.0;
-            statusBar.BackgroundColor = Colors.Black;
-            statusBar.ForegroundColor = Colors.White;
+            Utils.ConfigureStatusBar();
 
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
             GetRestaurantMenus();
         }
 
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // TODO: Prepare page for display here.
-
-            // TODO: If your application contains multiple pages, ensure that you are
-            // handling the hardware Back button by registering for the
-            // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
-            // If you are using the NavigationHelper provided by some templates,
-            // this event is handled for you.
+            string navigatedFrom = e.Parameter as string;
+            if (navigatedFrom.Equals("ChangeLog"))
+            {
+                // Remove back key entry so that no one can navigate back to splashScreen
+                this.Frame.BackStack.Clear();
+            }
         }
 
         /*
@@ -613,8 +603,8 @@ namespace Edumenu
         {
             // Do not fire up the event if user is scrolling horizontally
             if (Canvas.GetLeft(this.ChildCanvas) != 0 &&
-                Canvas.GetLeft(this.ChildCanvas) != -(mainPageProperties.LeftViewWidth) &&
-                Canvas.GetLeft(this.ChildCanvas) != -(mainPageProperties.LeftViewWidth + mainPageProperties.RightViewWidth))
+                Math.Round(Canvas.GetLeft(this.ChildCanvas)) != Math.Round(-(mainPageProperties.LeftViewWidth)) &&
+                Math.Round(Canvas.GetLeft(this.ChildCanvas)) != Math.Round(-(mainPageProperties.LeftViewWidth + mainPageProperties.RightViewWidth)))
             {
                 return true;
             }
@@ -628,7 +618,7 @@ namespace Edumenu
                 return;
             }
 
-            NavigateToPage(typeof(DietsPage));
+            this.NavigateWithDispatcher(typeof(DietsPage));
         }
 
         private void About_Clicked(object sender, RoutedEventArgs e)
@@ -638,10 +628,10 @@ namespace Edumenu
                 return;
             }
 
-            this.NavigateToPage(typeof(AboutPage));
+            this.NavigateWithDispatcher(typeof(AboutPage));
         }
 
-        private async void NavigateToPage(Type typeOfPage)
+        private async void NavigateWithDispatcher(Type typeOfPage)
         {
             Frame frame = Window.Current.Content as Frame;
             if (frame == null)
