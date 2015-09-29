@@ -282,33 +282,36 @@ namespace Edumenu
 
             if (Math.Abs(this.initialPosition - left) < mainPageProperties.ViewChangeThreshold)
             {
-                // Bouncing back
+                // Bounce back
                 this.MoveViewWindow(this.initialPosition);
                 return;
             }
 
-            // Change of state
             if (this.initialPosition - left > 0)
             {
-                // Slide to the left
-                if (this.initialPosition > -mainPageProperties.LeftViewWidth)
+                // Swipe left
+                if (Math.Round(this.initialPosition) > Math.Round(-mainPageProperties.LeftViewWidth))
                 {
+                    // Slide to the middle view
                     this.MoveViewWindow(-mainPageProperties.LeftViewWidth);
                 }
                 else
                 {
+                    // Slide to the right view
                     this.MoveViewWindow(-(mainPageProperties.LeftViewWidth + mainPageProperties.RightViewWidth));
                 }
             }
             else
             {
-                // Slide to the right
-                if (this.initialPosition < -mainPageProperties.RightViewWidth)
+                // Swipe Right
+                if (Math.Round(this.initialPosition) < Math.Round(-mainPageProperties.RightViewWidth))
                 {
-                    this.MoveViewWindow(-mainPageProperties.RightViewWidth);
+                    // Slide to the middle view
+                    this.MoveViewWindow(-mainPageProperties.LeftViewWidth);
                 }
                 else
                 {
+                    // Slide to the left view
                     this.MoveViewWindow(0);
                 }
             }
