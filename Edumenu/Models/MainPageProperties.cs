@@ -25,8 +25,8 @@ namespace Edumenu.Models
             ApplicationView.GetForCurrentView().VisibleBoundsChanged += 
                 MainPageProperties_VisibleBoundsChanged;
 
-            this.UpdateProperties(Window.Current.Bounds.Width,
-                Window.Current.Bounds.Height);
+            this.UpdateProperties(ApplicationView.GetForCurrentView().VisibleBounds.Width,
+                ApplicationView.GetForCurrentView().VisibleBounds.Height);
         }
 
         private void MainPageProperties_VisibleBoundsChanged(ApplicationView sender, object args)
@@ -37,8 +37,8 @@ namespace Edumenu.Models
 
         private void UpdateProperties(double width, double height)
         {
-            ScreenWidth = ApplicationView.GetForCurrentView().VisibleBounds.Width;
-            ScreenHeight = ApplicationView.GetForCurrentView().VisibleBounds.Height;
+            ScreenWidth = width;
+            ScreenHeight = height;
             double sideViewWidthPortion;
             if (ScreenHeight > ScreenWidth)
             {
