@@ -599,18 +599,6 @@ namespace Edumenu
             OpenClose_Left(sender, e);
         }
 
-        private bool IsScrollingHorizontally()
-        {
-            // Do not fire up the event if user is scrolling horizontally
-            if (Canvas.GetLeft(this.ChildCanvas) != 0 &&
-                Math.Round(Canvas.GetLeft(this.ChildCanvas)) != Math.Round(-(mainPageProperties.LeftViewWidth)) &&
-                Math.Round(Canvas.GetLeft(this.ChildCanvas)) != Math.Round(-(mainPageProperties.LeftViewWidth + mainPageProperties.RightViewWidth)))
-            {
-                return true;
-            }
-            return false;
-        }
-
         private void Diets_Clicked(object sender, RoutedEventArgs e)
         {
             if (this.IsScrollingHorizontally())
@@ -629,6 +617,18 @@ namespace Edumenu
             }
 
             this.NavigateWithDispatcher(typeof(AboutPage));
+        }
+
+        private bool IsScrollingHorizontally()
+        {
+            // Do not fire up the event if user is scrolling horizontally
+            if (Canvas.GetLeft(this.ChildCanvas) != 0 &&
+                Math.Round(Canvas.GetLeft(this.ChildCanvas)) != Math.Round(-(mainPageProperties.LeftViewWidth)) &&
+                Math.Round(Canvas.GetLeft(this.ChildCanvas)) != Math.Round(-(mainPageProperties.LeftViewWidth + mainPageProperties.RightViewWidth)))
+            {
+                return true;
+            }
+            return false;
         }
 
         private async void NavigateWithDispatcher(Type typeOfPage)
