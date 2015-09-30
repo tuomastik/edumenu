@@ -9,10 +9,21 @@
     RequestedTheme="Dark"
     Background="Black">
 
+  <Page.Transitions>
+    <TransitionCollection>
+      <NavigationThemeTransition>
+        <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+          <ContinuumNavigationTransitionInfo/>
+        </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+      </NavigationThemeTransition>
+    </TransitionCollection>
+  </Page.Transitions>
+
   <Grid x:Name="LayoutRoot">
     <ScrollViewer>
-      <StackPanel Grid.Row="0" Margin="0,20,0, 20">
-        
+      <StackPanel Grid.Row="0"
+                  Margin="0,20,0, 20">
+
         <Image Source="Assets/Icons/Edumenu_AboutPage.png"
                Margin="20,0,0,0"
                Width="200"
@@ -27,6 +38,7 @@
         </Grid>
 
         <Grid Margin="20,0,20,0">
+          
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -34,36 +46,74 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
+          
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"/>
             <ColumnDefinition Width="*"/>
           </Grid.ColumnDefinitions>
-          <TextBlock Text="○" Grid.Row="0" Grid.Column="0" Style="{StaticResource Bullet_TextBlock}"/>
-          <TextBlock Text="○" FontSize="20" Grid.Row="1" Grid.Column="0" Style="{StaticResource Bullet_TextBlock}" />
-          <TextBlock Text="○" FontSize="20" Grid.Row="2" Grid.Column="0" Style="{StaticResource Bullet_TextBlock}" />
-          <TextBlock Text="○" FontSize="20" Grid.Row="3" Grid.Column="0" Style="{StaticResource Bullet_TextBlock}" />
-          <TextBlock Text="○" FontSize="20" Grid.Row="4" Grid.Column="0" Style="{StaticResource Bullet_TextBlock}" />
+          
+          <TextBlock Text="○"
+                     Grid.Row="0"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
+          <TextBlock Text="○"
+                     Grid.Row="1"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
+          <TextBlock Text="○"
+                     Grid.Row="2"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
+          <TextBlock Text="○"
+                     Grid.Row="3"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
+          <TextBlock Text="○"
+                     Grid.Row="4"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
 
-          <TextBlock Text="Uudistettu ulkoasu" Grid.Row="0" Grid.Column="1" Style="{StaticResource Change_TextBlock}" />
-          <TextBlock Text="Optimoidut latausajat" Grid.Row="1" Grid.Column="1" Style="{StaticResource Change_TextBlock}" />
-          <TextBlock Text="TTY:n ravintolat päivitetty" Grid.Row="2" Grid.Column="1" Style="{StaticResource Change_TextBlock}" />
-          <TextBlock Text="Sovellus toimii nyt myös vaakatasossa" Grid.Row="3" Grid.Column="1" Style="{StaticResource Change_TextBlock}" />
-          <TextBlock Text="Sovellus tukee nyt vain Windows Phone 8.1 versiota" Grid.Row="4" Grid.Column="1" Style="{StaticResource Change_TextBlock}" />
+          <TextBlock Text="Uudistettu ulkoasu"
+                     Grid.Row="0"
+                     Grid.Column="1"
+                     Style="{StaticResource Change_TextBlock}"/>
+          <TextBlock Text="Optimoidut latausajat"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     Style="{StaticResource Change_TextBlock}"/>
+          <TextBlock Text="TTY:n ravintolat päivitetty"
+                     Grid.Row="2"
+                     Grid.Column="1"
+                     Style="{StaticResource Change_TextBlock}"/>
+          <TextBlock Text="Sovellus toimii nyt myös vaakatasossa"
+                     Grid.Row="3"
+                     Grid.Column="1"
+                     Style="{StaticResource Change_TextBlock}"/>
+          <TextBlock Text="Sovellus tukee nyt vain Windows Phone 8.1 versiota"
+                     Grid.Row="4"
+                     Grid.Column="1"
+                     Style="{StaticResource Change_TextBlock}"/>
 
         </Grid>
-
 
         <Button Style="{StaticResource ButtonStyle2}"
                 Margin="20,15,20,0"
                 Height="120"
-                Click="Button_Click"
+                Click="ContinueToMainPage_Click"
                 HorizontalAlignment="Stretch"
                 VerticalContentAlignment="Center">
           <StackPanel>
-            <TextBlock Text="Kiitos päivityksestä!"  TextWrapping="Wrap" TextAlignment="Center" FontSize="24" />
-            <TextBlock Text="Jatka painamalla tästä" TextWrapping="Wrap" TextAlignment="Center" FontSize="24" />
+            <TextBlock Text="Kiitos päivityksestä!"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       FontSize="24"/>
+            <TextBlock Text="Jatka painamalla tästä"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       FontSize="24"/>
           </StackPanel>
         </Button>
+        
       </StackPanel>
     </ScrollViewer>
   </Grid>
