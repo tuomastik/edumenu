@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Windows.UI;
 using Windows.UI.Text;
@@ -8,7 +9,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Edumenu.Models
 {
-    public class IsSelectedToForeground : IValueConverter
+    public class IsSelectedToForegroundConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
@@ -25,15 +26,11 @@ namespace Edumenu.Models
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
             return null;
         }
     }
-    public class IsSelectedToFontWeight : IValueConverter
+
+    public class IsSelectedToFontWeightConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
@@ -49,11 +46,6 @@ namespace Edumenu.Models
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return null;
         }

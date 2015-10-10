@@ -21,8 +21,8 @@
   </Page.Transitions>
 
   <Page.Resources>
-    <Models:IsSelectedToForeground x:Key="IsSelectedToForeground"/>
-    <Models:IsSelectedToFontWeight x:Key="IsSelectedToFontWeight"/>
+    <Models:IsSelectedToForegroundConverter x:Key="IsSelectedToForegroundConverter"/>
+    <Models:IsSelectedToFontWeightConverter x:Key="IsSelectedToFontWeightConverter"/>
   </Page.Resources>
 
   <Canvas x:Name="ParentCanvas"
@@ -126,8 +126,8 @@
                           Click="DayOfWeek_Clicked">
                     <TextBlock Text="{Binding Path=Name}"
                                Style="{StaticResource MenuText}"
-                               Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForeground}}"
-                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeight}}"/>
+                               Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForegroundConverter}}"
+                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeightConverter}}"/>
                   </Button>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
@@ -217,8 +217,8 @@
                           Click="School_Clicked">
                     <TextBlock Text="{Binding Path=Name_FI}"
                                Style="{StaticResource MenuText}"
-                               Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForeground}}"
-                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeight}}"/>
+                               Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForegroundConverter}}"
+                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeightConverter}}"/>
                   </Button>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
