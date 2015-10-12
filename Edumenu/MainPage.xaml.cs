@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Networking.Connectivity;
 using Windows.Phone.Devices.Notification;
 using Windows.Phone.UI.Input;
@@ -62,6 +63,8 @@ namespace Edumenu
         {
             this.InitializeComponent();
 
+            ShowChangeLogIfNeeded();
+
             // Disable the default page transition
             Frame mainFrame = Window.Current.Content as Frame;
             mainFrame.ContentTransitions = null;
@@ -80,6 +83,21 @@ namespace Edumenu
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
             GetRestaurantMenus();
+        }
+
+        private void ShowChangeLogIfNeeded()
+        {
+            PackageVersion pv = Package.Current.Id.Version;
+            string version = new Version(Package.Current.Id.Version.Major,
+                Package.Current.Id.Version.Minor,
+                Package.Current.Id.Version.Revision,
+                Package.Current.Id.Version.Build).ToString();
+
+            if (!version.Equals(appSettings.CurrentAppVersion))
+            {
+                appSettings.CurrentAppVersion = version;
+                this.NavigateWithDispatcher(typeof(ChangeLog));
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

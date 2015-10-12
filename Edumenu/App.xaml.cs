@@ -102,8 +102,6 @@ namespace Edumenu
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
-                ShowChangeLogIfNeeded(rootFrame);
-
                 // TODO: change this value to a cache size that is appropriate for your application
                 rootFrame.CacheSize = 1;
 
@@ -145,21 +143,6 @@ namespace Edumenu
 
             // Ensure the current window is active
             Window.Current.Activate();
-        }
-
-        private void ShowChangeLogIfNeeded(Frame frame)
-        {
-            PackageVersion pv = Package.Current.Id.Version;
-            string version = new Version(Package.Current.Id.Version.Major,
-                Package.Current.Id.Version.Minor,
-                Package.Current.Id.Version.Revision,
-                Package.Current.Id.Version.Build).ToString();
-
-            if (!version.Equals(appSettings.CurrentAppVersion))
-            {
-                appSettings.CurrentAppVersion = version;
-                frame.Navigate(typeof(ChangeLog));
-            }
         }
 
         /// <summary>
