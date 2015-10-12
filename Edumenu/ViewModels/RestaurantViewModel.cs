@@ -124,6 +124,10 @@ namespace Edumenu.ViewModels
             menu = menu.Replace("<br>", string.Empty);
             menu = RemoveWhiteSpaceInsideBrackets(menu);
             menu = CapitalizeFirstLetterOfMenuTypeTitle(menu);
+            // Replace 3 or more newlines with 2 newlines
+            menu = Regex.Replace(menu, @"(\r\n){3,}", Environment.NewLine + Environment.NewLine);
+            // Replace 2 or more spaces with 1 space
+            menu = Regex.Replace(menu, @"( ){2,}", " ");
             return menu.Trim();
         }
 
@@ -218,6 +222,8 @@ namespace Edumenu.ViewModels
             menu = menu.Replace("&nbsp;", " ");
             // Replace 3 or more newlines with 2 newlines
             menu = Regex.Replace(menu, @"(\r\n){3,}", Environment.NewLine + Environment.NewLine);
+            // Replace 2 or more spaces with 1 space
+            menu = Regex.Replace(menu, @"( ){2,}", " ");
             menu = RemoveWhiteSpaceInsideBrackets(menu);
             return menu.Trim();
         }
@@ -282,28 +288,24 @@ namespace Edumenu.ViewModels
 
         private string CleanSodexo(string menu)
         {
-            // With some foods, menu item symbols are not inside <span> elements,
+            // TODO: With some foods, menu item symbols are not inside <span> elements,
             // and thus there were no brackets added around the symbols in ParseSodexo.
             // Find those symbols and put brackets around them so that each company
             // menus are presented consistently.
-            for (int i = 0; i < menu.Length; i++)
-            {
-                if (!menu[i].Equals(','))
-                {
-                    continue;
-                }
-                //if (!menu)
-                //School instance = new School();
-                //Type type = typeof(School);
-
-                //Dictionary<string, object> properties = new Dictionary<string, object>();
-                //foreach (System.Reflection.PropertyInfo prop in type.GetProperties())
-                //{ 
-                //    properties.Add(prop.Name, prop.GetValue(instance));
-                //    Debug.WriteLine(prop.Name.ToString());
-                //}
-            }
-            menu = menu.Replace("amp;", "");
+            //for (int i = 0; i < menu.Length; i++)
+            //{
+            //    if (!menu[i].Equals(','))
+            //    {
+            //        continue;
+            //    }
+            //}
+            menu = menu.Replace("&nbsp;", " ").Replace("amp;", "");
+            menu = menu.Replace(" )", ")").Replace("( ", "(");
+            menu = menu.Replace(" ,", ",").Replace(", ", ",");
+            // Replace 3 or more newlines with 2 newlines
+            menu = Regex.Replace(menu, @"(\r\n){3,}", Environment.NewLine + Environment.NewLine);
+            // Replace 2 or more spaces with 1 space
+            menu = Regex.Replace(menu, @"( ){2,}", " ");
             return menu.Trim();
         }
 
