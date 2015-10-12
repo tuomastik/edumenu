@@ -214,7 +214,7 @@ namespace Edumenu.Models
         public static Restaurant nasta = new Restaurant()
         {
             Name = "Nasta",
-            Firm = Restaurant.Company.Amica,
+            Firm = Restaurant.Company.Juvenes,
             School = School.takk,
             MenuUrl = new Uri("http://www.juvenes.fi/tabid/788/moduleid/1669/RSS.aspx"),
             HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/takknirva/nasta.aspx"),
