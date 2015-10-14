@@ -128,6 +128,7 @@ namespace Edumenu.ViewModels
             menu = Regex.Replace(menu, @"(\r\n){3,}", Environment.NewLine + Environment.NewLine);
             // Replace 2 or more spaces with 1 space
             menu = Regex.Replace(menu, @"( ){2,}", " ");
+            menu = menu.Replace("()", "").Replace("( )", "");
             return menu.Trim();
         }
 
@@ -225,6 +226,7 @@ namespace Edumenu.ViewModels
             // Replace 2 or more spaces with 1 space
             menu = Regex.Replace(menu, @"( ){2,}", " ");
             menu = RemoveWhiteSpaceInsideBrackets(menu);
+            menu = menu.Replace("()", "").Replace("( )", "");
             return menu.Trim();
         }
 
@@ -306,6 +308,7 @@ namespace Edumenu.ViewModels
             menu = Regex.Replace(menu, @"(\r\n){3,}", Environment.NewLine + Environment.NewLine);
             // Replace 2 or more spaces with 1 space
             menu = Regex.Replace(menu, @"( ){2,}", " ");
+            menu = menu.Replace("()", "").Replace("( )", "");
             return menu.Trim();
         }
 
@@ -314,6 +317,23 @@ namespace Edumenu.ViewModels
             foreach (Restaurant restaurant in restaurantsAll)
             {
                 restaurant.Menu = text;
+            }
+        }
+
+        internal void UpdateVisibleRestaurants()
+        {
+            restaurantsVisible.Clear();
+            foreach (Restaurant restaurant in restaurantsAll)
+            {
+                // Skip the restaurants which do not correspond to the selected school
+                if (!App.SchoolViewModel.GetSelectedSchool().Equals(restaurant.School.NameShort_FI))
+                {
+                    continue;
+                }
+                else
+                {
+                    restaurantsVisible.Add(restaurant);
+                }
             }
         }
     }
