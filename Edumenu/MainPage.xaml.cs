@@ -44,7 +44,6 @@ namespace Edumenu
 
         // Hiding header when scrolling down
         private bool headerVisible = true;
-        private bool animationRunning = false;
         private bool scrollerLoaded = false;
 
         // Opening restaurant website
@@ -133,15 +132,12 @@ namespace Edumenu
                 MessageDialog msgDialog = new MessageDialog(content, title);
                 msgDialog.Commands.Add(new UICommand("Asia selvä", null));
                 await msgDialog.ShowAsync();
+                App.RestaurantViewModel.UpdateVisibleRestaurants();
+                HideLoadingShowMenus();
                 return;
             }
 
-            // Hide menus and show loading
-            if (this.scrollerLoaded)
-            { 
-                Scroller.Visibility = Visibility.Collapsed;
-            }
-            LoadingStackPanel.Visibility = Visibility.Visible;
+            HideMenusShowLoading();
 
             // Initialize progress tracking variables
             restaurantsProcessed = 0;
@@ -188,22 +184,26 @@ namespace Edumenu
                 }
             }
 
-            App.RestaurantViewModel.restaurantsVisible.Clear();
-            foreach (Restaurant restaurant in App.RestaurantViewModel.restaurantsAll)
-            {
-                // Skip the restaurants which do not correspond to the selected school
-                if (!App.SchoolViewModel.GetSelectedSchool().Equals(restaurant.School.NameShort_FI))
-                {
-                    continue;
-                }
-                else
-                {
-                    App.RestaurantViewModel.restaurantsVisible.Add(restaurant);
-                }
-            }
+            App.RestaurantViewModel.UpdateVisibleRestaurants();
 
-            // Hide loading and show menus
-            Scroller.Visibility = Visibility.Visible;
+            HideLoadingShowMenus();
+        }
+
+        private void HideMenusShowLoading()
+        {
+            if (this.scrollerLoaded)
+            {
+                Scroller.Visibility = Visibility.Collapsed;
+            }
+            LoadingStackPanel.Visibility = Visibility.Visible;
+        }
+
+        private void HideLoadingShowMenus()
+        {
+            if (this.scrollerLoaded)
+            {
+                Scroller.Visibility = Visibility.Visible;
+            }
             LoadingStackPanel.Visibility = Visibility.Collapsed;
         }
 
@@ -369,18 +369,17 @@ namespace Edumenu
         {
             ////System.Diagnostics.Debug.WriteLine(e.OldValue.ToString());
             ////System.Diagnostics.Debug.WriteLine(e.NewValue.ToString());
-            ////System.Diagnostics.Debug.WriteLine("Animation running: " + animationRunning.ToString());
             ////System.Diagnostics.Debug.WriteLine("Header visible: " + headerVisible.ToString());
 
             if (e.NewValue > e.OldValue &&
                 e.NewValue > HeaderContainer.Height &&
-                !this.animationRunning && this.headerVisible)
+                this.headerVisible)
             {
                 // Scroll Down
                 HideHeader();
             }
             else if (e.NewValue < e.OldValue &&
-                     !this.animationRunning && !this.headerVisible)
+                     !this.headerVisible)
             {
                 // Scroll up
                 ShowHeader();
@@ -392,9 +391,7 @@ namespace Edumenu
         {
             this.headerVisible = false;
             Storyboard scrollDown = this.AnimateMove(HeaderContainer, 0, -HeaderContainer.Height, 300);
-            scrollDown.Completed += this.HeaderAnimate_Completed;
             scrollDown.Begin();
-            this.animationRunning = true;
             ////System.Diagnostics.Debug.WriteLine("User scrolled down!");
         }
 
@@ -402,7 +399,6 @@ namespace Edumenu
         {
             this.headerVisible = true;
             Storyboard scrollUp = this.AnimateMove(HeaderContainer, -HeaderContainer.Height, 0, 300);
-            scrollUp.Completed += this.HeaderAnimate_Completed;
             scrollUp.Begin();
             ////System.Diagnostics.Debug.WriteLine("User scrolled up!");
         }
@@ -471,11 +467,6 @@ namespace Edumenu
             storyboard.Children.Add(animation);
 
             return storyboard;
-        }
-
-        private void HeaderAnimate_Completed(object sender, object e)
-        {
-            this.animationRunning = false;
         }
         
         /*
