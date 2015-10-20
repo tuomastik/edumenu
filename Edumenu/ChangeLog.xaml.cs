@@ -17,8 +17,8 @@ namespace Edumenu
             PackageVersion pv = Package.Current.Id.Version;
             string version = new Version(Package.Current.Id.Version.Major,
                 Package.Current.Id.Version.Minor,
-                Package.Current.Id.Version.Revision,
-                Package.Current.Id.Version.Build).ToString();
+                Package.Current.Id.Version.Build,
+                Package.Current.Id.Version.Revision).ToString();
             changeLogTitle.Text = "Uutta versiossa " + version;
 
             Utils.ConfigureStatusBar();
