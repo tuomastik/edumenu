@@ -55,29 +55,29 @@ namespace Edumenu.Models
             MenuUrl = new Uri("http://www.juvenes.fi/tabid/348/moduleid/1187/RSS.aspx"),
             HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/newton/roheextra.aspx"),
         };
-        //public static Restaurant cafeKonehuoneSaasBar = new Restaurant()
-        //{
-        //    name = "Café Konehuone - Såås Bar",
-        //    company = Restaurant.Company.Juvenes,
-        //    school = School.tut,
-        //    menuUrl = new Uri("RSS FEED NOT PROVIDED (YET)"),
-        //    homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/caf%C3%A9konehuone/s%C3%A5%C3%A5sbar.aspx"),
-        //};
-        //public static Restaurant cafeKonehuoneFusionKitchen = new Restaurant()
-        //{
-        //    name = "Café Konehuone - Fusion Kitchen",
-        //    company = Restaurant.Company.Juvenes,
-        //    school = School.tut,
-        //    menuUrl = new Uri("RSS FEED NOT PROVIDED (YET)"),
-        //    homeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/caf%C3%A9konehuone/fusionkitchen.aspx"),
-        //};
+        public static Restaurant cafeKonehuoneSaasBar = new Restaurant()
+        {
+            Name = "Såås Bar",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.tut,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/1284/moduleid/3584/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/caf%C3%A9konehuone/s%C3%A5%C3%A5sbar.aspx"),
+        };
+        public static Restaurant cafeKonehuoneFusionKitchen = new Restaurant()
+        {
+            Name = "Fusion Kitchen",
+            Firm = Restaurant.Company.Juvenes,
+            School = School.tut,
+            MenuUrl = new Uri("http://www.juvenes.fi/tabid/1286/moduleid/3578/RSS.aspx"),
+            HomeUrl = new Uri("http://www.juvenes.fi/fi-fi/ravintolatjakahvilat/opiskelijaravintolat/ttykampus/caf%C3%A9konehuone/fusionkitchen.aspx"),
+        };
         //public static Restaurant biitti = new Restaurant()
         //{
-        //    name = "Bitti",
-        //    company = Company.Sodexo,
-        //    school = Restaurant.School.tut,
-        //    menuUrl = new Uri("RSS FEED NOT PROVIDED (YET)"),
-        //    homeUrl = new Uri("http://www.sodexo.fi/tty-tietotalo/kahvila-bitti"),
+        //    Name = "Bitti",
+        //    Firm = Company.Sodexo,
+        //    School = Restaurant.School.tut,
+        //    MenuUrl = new Uri("RSS FEED NOT PROVIDED (YET)"),
+        //    HomeUrl = new Uri("http://www.sodexo.fi/tty-tietotalo/kahvila-bitti"),
         //};
         //-----------------------------
         // UTA

@@ -23,13 +23,13 @@ namespace Edumenu.ViewModels
             // they are added to the restaurantsAll
 
             // TUT
-            restaurantsAll.Add(Restaurant.hertsi);
             restaurantsAll.Add(Restaurant.reaktori);
+            restaurantsAll.Add(Restaurant.hertsi);
             restaurantsAll.Add(Restaurant.newton);
             restaurantsAll.Add(Restaurant.newtonRoheeXtra);
-            //restaurantsAll.Add(Restaurant.cafeKonehuoneSaasBar)       // RSS feed not available
-            //restaurantsAll.Add(Restaurant.cafeKonehuoneFusionKitchen) // RSS feed not available
-            //restaurantsAll.Add(Restaurant.biitti)                     // RSS feed not available
+            restaurantsAll.Add(Restaurant.cafeKonehuoneSaasBar);
+            restaurantsAll.Add(Restaurant.cafeKonehuoneFusionKitchen);
+            //restaurantsAll.Add(Restaurant.biitti); // RSS feed not available
             // UTA
             restaurantsAll.Add(Restaurant.yliopistonRavintola);
             restaurantsAll.Add(Restaurant.minerva);
