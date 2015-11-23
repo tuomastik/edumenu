@@ -33,7 +33,7 @@
               Background="{StaticResource ResourceKey=ThemeColor4}"
               Margin="0,25,0,10">
           <TextBlock x:Name="changeLogTitle"
-                     Text="Uutta versiossa 2.0.1.0"
+                     Text="Uutta versiossa 2.0.1.1"
                      Style="{StaticResource SmallHeaderText}"/>
         </Grid>
 
@@ -56,10 +56,10 @@
                      Grid.Row="0"
                      Grid.Column="0"
                      Style="{StaticResource Bullet_TextBlock}"/>
-          <TextBlock Text="○"
+          <!--<TextBlock Text="○"
                      Grid.Row="1"
                      Grid.Column="0"
-                     Style="{StaticResource Bullet_TextBlock}"/>
+                     Style="{StaticResource Bullet_TextBlock}"/>-->
           <!--<TextBlock Text="○"
                      Grid.Row="2"
                      Grid.Column="0"
@@ -73,14 +73,14 @@
                      Grid.Column="0"
                      Style="{StaticResource Bullet_TextBlock}"/>-->
 
-          <TextBlock Text="Lisätty TTY:n ravintolat Såås Bar ja Fusion Kitchen"
+          <TextBlock Text="Korjattu Amican ruokalistat"
                      Grid.Row="0"
                      Grid.Column="1"
                      Style="{StaticResource Change_TextBlock}"/>
-          <TextBlock Text="Siirretty Reaktori TTY:n ensimmäiseksi ravintolaksi"
+          <!--<TextBlock Text="Siirretty Reaktori TTY:n ensimmäiseksi ravintolaksi"
                      Grid.Row="1"
                      Grid.Column="1"
-                     Style="{StaticResource Change_TextBlock}"/>
+                     Style="{StaticResource Change_TextBlock}"/>-->
           <!--<TextBlock Text="TTY:n ravintolat päivitetty"
                      Grid.Row="2"
                      Grid.Column="1"
