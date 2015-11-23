@@ -122,10 +122,24 @@ namespace Edumenu.ViewModels
         {
             menu = menu.Replace("&lt;br&gt;", string.Empty);
             menu = menu.Replace("<br>", string.Empty);
+            menu = menu.Replace("<p>", Environment.NewLine);
+            menu = menu.Replace("</p>", string.Empty);
+            menu = menu.Replace("<br />", Environment.NewLine + "- ");
+            menu = menu.Replace("&nbsp;", string.Empty);
+            menu = menu.Replace("- jälkiruoka:", "Jälkiruoka:");
+            menu = menu.Replace("- Jälkiruoka:", "Jälkiruoka:");
+            menu = menu.Replace(" 5,90/ opisk. 2,60", string.Empty);
+            menu = menu.Replace(" 4,70 /opisk. 2,27", string.Empty);
+            menu = menu.Replace(" 7,50/opisk. 4,95", string.Empty);
+            menu = menu.Replace(" 7,50/ opisk. 4,95", string.Empty);
+            menu = menu.Replace(" 1,90", string.Empty);
+            menu = menu.Replace(" :", ":");
             menu = RemoveWhiteSpaceInsideBrackets(menu);
             menu = CapitalizeFirstLetterOfMenuTypeTitle(menu);
             // Replace 3 or more newlines with 2 newlines
             menu = Regex.Replace(menu, @"(\r\n){3,}", Environment.NewLine + Environment.NewLine);
+            // Replace 3 or more newlines with 2 newlines
+            menu = Regex.Replace(menu, @"(:\r\n\r\n)", ":" + Environment.NewLine + "- ");
             // Replace 2 or more spaces with 1 space
             menu = Regex.Replace(menu, @"( ){2,}", " ");
             menu = menu.Replace("()", "").Replace("( )", "");
