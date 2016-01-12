@@ -13,12 +13,12 @@ namespace Edumenu.ViewModels
         {
             daysOfWeek = new ObservableCollection<Day>()
             {
-                new Day() { Name = Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Monday)) },
-                new Day() { Name = Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Tuesday)) },
-                new Day() { Name = Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Wednesday)) },
-                new Day() { Name = Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Thursday)) },
-                new Day() { Name = Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Friday)) },
-                new Day() { Name = Utils.FirstCharToUpper(new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DayOfWeek.Saturday)) }
+                new Day() { Name = "Maanantai" },
+                new Day() { Name = "Tiistai" },
+                new Day() { Name = "Keskiviikko" },
+                new Day() { Name = "Torstai" },
+                new Day() { Name = "Perjantai" },
+                new Day() { Name = "Lauantai" }
             };
 
             if (!DateTime.Today.DayOfWeek.Equals(DayOfWeek.Sunday))
