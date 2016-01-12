@@ -11,6 +11,7 @@ namespace Edumenu.ViewModels
 
     public class RestaurantViewModel //: INotifyPropertyChanged
     {
+        AppSettings appSettings = new AppSettings();
         public ObservableCollection<Restaurant> restaurantsVisible { get; set; }
         public ObservableCollection<Restaurant> restaurantsAll { get; set; }
 
@@ -65,15 +66,19 @@ namespace Edumenu.ViewModels
                     // Use correct parser for correct restaurant company
                     case Restaurant.Company.Amica:
                         restaurant.Menu = CleanAmica(ParseAmica(sourceCode));
+                        restaurant.Menu = HideDietsIfNeeded(restaurant.Menu);
                         break;
                     case Restaurant.Company.Campusravita:
                         restaurant.Menu = CleanCampusravita(FetchCampusravita(sourceCode));
+                        restaurant.Menu = HideDietsIfNeeded(restaurant.Menu);
                         break;
                     case Restaurant.Company.Juvenes:
                         restaurant.Menu = CleanJuvenes(FetchJuvenes(sourceCode));
+                        restaurant.Menu = HideDietsIfNeeded(restaurant.Menu);
                         break;
                     case Restaurant.Company.Sodexo:
                         restaurant.Menu = CleanSodexo(FetchSodexo(sourceCode));
+                        restaurant.Menu = HideDietsIfNeeded(restaurant.Menu);
                         break;
                     default:
                         // If restaurant's company is not known,
@@ -128,10 +133,10 @@ namespace Edumenu.ViewModels
             menu = menu.Replace("&nbsp;", string.Empty);
             menu = menu.Replace("- jälkiruoka:", "Jälkiruoka:");
             menu = menu.Replace("- Jälkiruoka:", "Jälkiruoka:");
-            menu = menu.Replace(" 5,90/ opisk. 2,60", string.Empty);
-            menu = menu.Replace(" 4,70 /opisk. 2,27", string.Empty);
-            menu = menu.Replace(" 7,50/opisk. 4,95", string.Empty);
-            menu = menu.Replace(" 7,50/ opisk. 4,95", string.Empty);
+            menu = menu.Replace(" 5,95/ opisk. 2,60", string.Empty);
+            menu = menu.Replace(" 4,75 /opisk. 2,27", string.Empty);
+            menu = menu.Replace(" 7,55/opisk. 4,95", string.Empty);
+            menu = menu.Replace(" 7,55/ opisk. 4,95", string.Empty);
             menu = menu.Replace(" 1,90", string.Empty);
             menu = menu.Replace(" :", ":");
             menu = RemoveWhiteSpaceInsideBrackets(menu);
@@ -324,6 +329,15 @@ namespace Edumenu.ViewModels
             menu = Regex.Replace(menu, @"( ){2,}", " ");
             menu = menu.Replace("()", "").Replace("( )", "");
             return menu.Trim();
+        }
+
+        private string HideDietsIfNeeded(string menu)
+        {
+            if (!appSettings.ShowDiets)
+            {
+                return Regex.Replace(menu, @" ?\(.*?\)", string.Empty);
+            }
+            return menu;
         }
 
         public void InitializeMenus(string text)

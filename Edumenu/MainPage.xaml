@@ -156,7 +156,7 @@
                       Margin="20,0,0,4"/>
             </StackPanel>
             <!--Left view: Information, Settings-->
-            <!--<StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+            <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
               <Image Source="Assets/Icons/IconSettings.png"
                      Width="25"
                      Height="25"/>
@@ -169,7 +169,7 @@
                       Click="Settings_Clicked"
                       Content="Asetukset"
                       Margin="20,0,0,4"/>
-            </StackPanel>-->
+            </StackPanel>
             <!--Left view: Information, About-->
             <StackPanel Orientation="Horizontal" Margin="20,10,0,10">
               <Image Source="Assets/Icons/IconApp.png"

@@ -33,7 +33,7 @@
               Background="{StaticResource ResourceKey=ThemeColor4}"
               Margin="0,25,0,10">
           <TextBlock x:Name="changeLogTitle"
-                     Text="Uutta versiossa 2.0.1.1"
+                     Text="Uutta versiossa 2.1.1.1"
                      Style="{StaticResource SmallHeaderText}"/>
         </Grid>
 
@@ -56,15 +56,15 @@
                      Grid.Row="0"
                      Grid.Column="0"
                      Style="{StaticResource Bullet_TextBlock}"/>
-          <!--<TextBlock Text="○"
+          <TextBlock Text="○"
                      Grid.Row="1"
-                     Grid.Column="0"
-                     Style="{StaticResource Bullet_TextBlock}"/>-->
-          <!--<TextBlock Text="○"
-                     Grid.Row="2"
                      Grid.Column="0"
                      Style="{StaticResource Bullet_TextBlock}"/>
           <TextBlock Text="○"
+                     Grid.Row="2"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
+          <!--<TextBlock Text="○"
                      Grid.Row="3"
                      Grid.Column="0"
                      Style="{StaticResource Bullet_TextBlock}"/>
@@ -73,19 +73,19 @@
                      Grid.Column="0"
                      Style="{StaticResource Bullet_TextBlock}"/>-->
 
-          <TextBlock Text="Korjattu Amican ruokalistat"
+          <TextBlock Text="Lisätty asetukset, joista voi piilottaa erityisruokavaliot"
                      Grid.Row="0"
                      Grid.Column="1"
                      Style="{StaticResource Change_TextBlock}"/>
-          <!--<TextBlock Text="Siirretty Reaktori TTY:n ensimmäiseksi ravintolaksi"
+          <TextBlock Text="Edumenu toimii nyt myös Windows 10 Mobile käyttöjärjestelmässä"
                      Grid.Row="1"
                      Grid.Column="1"
-                     Style="{StaticResource Change_TextBlock}"/>-->
-          <!--<TextBlock Text="TTY:n ravintolat päivitetty"
+                     Style="{StaticResource Change_TextBlock}"/>
+          <TextBlock Text="Korjattu Minervan ruokalistat"
                      Grid.Row="2"
                      Grid.Column="1"
                      Style="{StaticResource Change_TextBlock}"/>
-          <TextBlock Text="Sovellus toimii nyt myös vaakatasossa"
+          <!--<TextBlock Text="Korjattu Minervan ruokalistoja"
                      Grid.Row="3"
                      Grid.Column="1"
                      Style="{StaticResource Change_TextBlock}"/>

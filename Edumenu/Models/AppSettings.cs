@@ -30,6 +30,19 @@ namespace Edumenu.Models
             }
         }
 
+        public bool ShowDiets
+        {
+            get
+            {
+                InitializeIfNotSet("ShowDiets", true);
+                return (bool)ApplicationData.Current.LocalSettings.Values["ShowDiets"];
+            }
+            set
+            {
+                ApplicationData.Current.LocalSettings.Values["ShowDiets"] = value;
+            }
+        }
+
         // Initialize setting if it has not been set already
         private void InitializeIfNotSet(string settingName, object defaultValue)
         {

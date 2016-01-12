@@ -38,7 +38,14 @@ namespace Edumenu.ViewModels
             // Set isSelected property of other days to false.
             foreach (Day day in daysOfWeek)
             {
-                if (day.Name.ToLower().Equals(selectThisDay.ToLower()))
+                // This used to be:
+                // if (day.Name.ToLower().Equals(selectThisDay.ToLower()))
+                // but Windows 10 Mobile broke the names of the days of the week,
+                // producing, for example, "Maanantaina" instead if "Maanantai" when
+                // executing:
+                // new CultureInfo("fi-FI").DateTimeFormat.GetDayName(DateTime.Today.DayOfWeek).
+                // That is why below "Contains" statement is used now.
+                if (selectThisDay.ToLower().Contains(day.Name.ToLower()))
                 {
                     day.IsSelected = true;
                     continue;

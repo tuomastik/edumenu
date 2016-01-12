@@ -618,6 +618,16 @@ namespace Edumenu
             this.NavigateWithDispatcher(typeof(DietsPage));
         }
 
+        private void Settings_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (this.IsScrollingHorizontally())
+            {
+                return;
+            }
+
+            this.NavigateWithDispatcher(typeof(SettingsPage));
+        }
+
         private void About_Clicked(object sender, RoutedEventArgs e)
         {
             if (this.IsScrollingHorizontally())
