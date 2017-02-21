@@ -48,12 +48,6 @@
     <ScrollViewer Grid.Row="1"
                   Background="{StaticResource ResourceKey=ThemeColor1}">
       <StackPanel Margin="20">
-        <!--<TextBlock Text="Edumenu"
-                   Style="{StaticResource BodyTextBlockStyle}"
-                   Margin="20,20,0,0"
-                   FontSize="40"
-                   FontWeight="Thin"
-                   Foreground="{StaticResource ThemeColor3}"/>-->
         <Image Source="Assets/Icons/Edumenu_AboutPage.png"
                Width="200"
                HorizontalAlignment="Left"/>
@@ -62,16 +56,52 @@
                    FontSize="22"
                    FontWeight="Normal"
                    Foreground="{StaticResource ThemeColor3}"/>
-        <TextBlock Text="Kehittäjä: Tuomas Tikkanen"
-                   Style="{StaticResource BodyTextBlockStyle}"
-                   Margin="0,0,0,0"
-                   FontSize="22"
-                   FontWeight="Normal"
-                   Foreground="{StaticResource ThemeColor3}"/>
+        <Grid Margin="0,20,0,0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="60"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Image Grid.Row="0" Grid.Column="0"
+                 Tapped="LinkedIn_Tapped"
+                 Source="Assets/Icons/linkedin.png"
+                 Margin="0, 0, 0, 0"
+                 Width="36" Height="36"
+                 HorizontalAlignment="Left"/>
+          <Image Grid.Row="1" Grid.Column="0"
+                 Tapped="GitHub_Tapped"
+                 Source="Assets/Icons/github.png"
+                 Margin="0, 0, 0, 0"
+                 Width="36" Height="36"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"/>
+          <TextBlock Grid.Row="0" Grid.Column="1"
+                     Text="Kehittäjä: Tuomas Tikkanen"
+                     Tapped="LinkedIn_Tapped"
+                     Style="{StaticResource BodyTextBlockStyle}"
+                     VerticalAlignment="Center"
+                     Margin="20, 0, 0, 2"
+                     FontSize="22"
+                     FontWeight="Normal"
+                     Foreground="{StaticResource ThemeColor3}"/>
+          <TextBlock Grid.Row="1" Grid.Column="1"
+                     Text="Osallistu sovelluskehitykseen"
+                     Tapped="GitHub_Tapped"
+                     Style="{StaticResource BodyTextBlockStyle}"
+                     VerticalAlignment="Center"
+                     Margin="20, 0, 0, 2"
+                     FontSize="22"
+                     FontWeight="Normal"
+                     Foreground="{StaticResource ThemeColor3}"/>
+
+        </Grid>
         <Button Content="Arvostele sovellus"
                 Click="ReviewApp_Clicked"
                 Style="{StaticResource ButtonStyle2}"
-                Margin="0,25,0,0"
+                Margin="0,15,0,0"
                 HorizontalAlignment="Stretch"
                 FontSize="24"/>
         <Button Content="Lähetä palautetta"
@@ -84,7 +114,7 @@
                 Style="{StaticResource ButtonStyle2}"
                 HorizontalAlignment="Stretch"
                 FontSize="24"/>
-        <TextBlock Text="Edumenu tarjoaa Tampereen oppilaitoksien TTY, TAY, TAYS, TAMK ja TAKK viikon ruokalistat. Käynnistyessään ohjelma näyttää kyseisen päivän ruokalistat automaattisesti. Vasemmasta sivunäkymästä voi vaihtaa päivää, oikeasta sivunäkymästä voi vaihtaa oppilaitosta ja ravintolan nimeä painamalla voi siirtyä ravintolan verkkosivulle."
+        <TextBlock Text="Edumenu tarjoaa Tampereen oppilaitoksien TTY, TAY, TAMK ja TAKK viikon ruokalistat. Käynnistyessään ohjelma näyttää kyseisen päivän ruokalistat automaattisesti. Vasemmasta sivunäkymästä voi vaihtaa päivää, oikeasta sivunäkymästä voi vaihtaa oppilaitosta ja ravintolan nimeä painamalla voi siirtyä ravintolan verkkosivulle."
                    Style="{StaticResource MenuText}"
                    Margin="0, 20, 0, 0"/>
         <TextBlock Text="Eri ravintoloiden erilaisten ruokalistojen esitystapojen takia kaikki muut paitsi Juveneksen ruokalistat ovat kyseisen viikon ruokalistoja. Juveneksen ravintoloiden ruokalistat esitetään kyseisestä päivästä eteenpäin."

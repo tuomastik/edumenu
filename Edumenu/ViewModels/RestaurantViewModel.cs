@@ -27,28 +27,30 @@ namespace Edumenu.ViewModels
             restaurantsAll.Add(Restaurant.reaktori);
             restaurantsAll.Add(Restaurant.hertsi);
             restaurantsAll.Add(Restaurant.newton);
-            restaurantsAll.Add(Restaurant.newtonRoheeXtra);
-            restaurantsAll.Add(Restaurant.cafeKonehuoneSaasBar);
-            restaurantsAll.Add(Restaurant.cafeKonehuoneFusionKitchen);
-            //restaurantsAll.Add(Restaurant.biitti); // RSS feed not available
+            //restaurantsAll.Add(Restaurant.newtonRoheeXtra);            // RSS feed not available
+            //restaurantsAll.Add(Restaurant.cafeKonehuoneSaasBar);       // RSS feed not available
+            //restaurantsAll.Add(Restaurant.cafeKonehuoneFusionKitchen); // RSS feed not available
+            //restaurantsAll.Add(Restaurant.biitti);                     // RSS feed not available
             // UTA
             restaurantsAll.Add(Restaurant.yliopistonRavintola);
             restaurantsAll.Add(Restaurant.minerva);
             restaurantsAll.Add(Restaurant.linna);
             restaurantsAll.Add(Restaurant.pinni);
-            restaurantsAll.Add(Restaurant.salaattibaari);
-            restaurantsAll.Add(Restaurant.utaFusionKitchen);
-            restaurantsAll.Add(Restaurant.roheeXtra);
-            restaurantsAll.Add(Restaurant.intro);
+            //restaurantsAll.Add(Restaurant.salaattibaari);    // RSS feed not available
+            //restaurantsAll.Add(Restaurant.utaFusionKitchen); // RSS feed not available
+            //restaurantsAll.Add(Restaurant.roheeXtra);        // RSS feed not available
+            //restaurantsAll.Add(Restaurant.intro);            // RSS feed not available
             restaurantsAll.Add(Restaurant.cafeAlakuppila);
             // TAYS
-            restaurantsAll.Add(Restaurant.medicaBio);
-            restaurantsAll.Add(Restaurant.medicaArvo);
-            restaurantsAll.Add(Restaurant.medicaArvoFusionKitchen);
+            //restaurantsAll.Add(Restaurant.medicaBio);               // RSS feed not available
+            //restaurantsAll.Add(Restaurant.medicaArvo);              // RSS feed not available
+            //restaurantsAll.Add(Restaurant.medicaArvoFusionKitchen); // RSS feed not available
             // TAMK
             //restaurantsAll.Add(Restaurant.campusravita); // Parser not implemented
             restaurantsAll.Add(Restaurant.pirteria);
             restaurantsAll.Add(Restaurant.ziberia);
+            restaurantsAll.Add(Restaurant.live);
+            restaurantsAll.Add(Restaurant.liveFusionKitchen);
             // TAKK
             restaurantsAll.Add(Restaurant.nasta);
             restaurantsAll.Add(Restaurant.nastaFusionKitchen);

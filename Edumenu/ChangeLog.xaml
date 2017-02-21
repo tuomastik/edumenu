@@ -33,7 +33,7 @@
               Background="{StaticResource ResourceKey=ThemeColor4}"
               Margin="0,25,0,10">
           <TextBlock x:Name="changeLogTitle"
-                     Text="Uutta versiossa 2.1.1.1"
+                     Text="Uutta versiossa 2.1.2.0"
                      Style="{StaticResource SmallHeaderText}"/>
         </Grid>
 
@@ -45,54 +45,70 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
           
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"/>
             <ColumnDefinition Width="*"/>
           </Grid.ColumnDefinitions>
-          
-          <TextBlock Text="○"
-                     Grid.Row="0"
-                     Grid.Column="0"
-                     Style="{StaticResource Bullet_TextBlock}"/>
-          <TextBlock Text="○"
-                     Grid.Row="1"
-                     Grid.Column="0"
-                     Style="{StaticResource Bullet_TextBlock}"/>
-          <TextBlock Text="○"
-                     Grid.Row="2"
-                     Grid.Column="0"
-                     Style="{StaticResource Bullet_TextBlock}"/>
-          <!--<TextBlock Text="○"
-                     Grid.Row="3"
-                     Grid.Column="0"
-                     Style="{StaticResource Bullet_TextBlock}"/>
-          <TextBlock Text="○"
-                     Grid.Row="4"
-                     Grid.Column="0"
-                     Style="{StaticResource Bullet_TextBlock}"/>-->
 
-          <TextBlock Text="Lisätty asetukset, joista voi piilottaa erityisruokavaliot"
+          <TextBlock Text="○"
+                     Grid.Row="0"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
+          <TextBlock Text="○"
+                     Grid.Row="1"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
+          <TextBlock Text="○"
+                     Grid.Row="5"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
+          <TextBlock Text="○"
+                     Grid.Row="7"
+                     Grid.Column="0"
+                     Style="{StaticResource Bullet_TextBlock}"/>
+
+          <TextBlock Text='Edumenun lähdekoodi on nyt avoin. Katso lisätiedot "Tietoa sovelluksesta" sivulta.'
                      Grid.Row="0"
                      Grid.Column="1"
                      Style="{StaticResource Change_TextBlock}"/>
-          <TextBlock Text="Edumenu toimii nyt myös Windows 10 Mobile käyttöjärjestelmässä"
+          <TextBlock Text="Poistettu seuraavat ravintolat, koska RSS-syöte ei ole enää saatavilla:"
                      Grid.Row="1"
                      Grid.Column="1"
                      Style="{StaticResource Change_TextBlock}"/>
-          <TextBlock Text="Korjattu Minervan ruokalistat"
+          <TextBlock Text="◦ TTY: Newton - Rohee Xtra, Såås Bar, Fusion Kitchen"
                      Grid.Row="2"
                      Grid.Column="1"
                      Style="{StaticResource Change_TextBlock}"/>
-          <!--<TextBlock Text="Korjattu Minervan ruokalistoja"
+          <TextBlock Text="◦ TAY: Salaattibaari, Fusion Kitchen, Rohee Xtra, Intro"
                      Grid.Row="3"
                      Grid.Column="1"
                      Style="{StaticResource Change_TextBlock}"/>
-          <TextBlock Text="Sovellus tukee nyt vain Windows Phone 8.1 versiota"
+          <TextBlock Text="◦ TAYS: Medica Bio, Medica Arvo, Medica Arvo - Fusion Kitchen"
                      Grid.Row="4"
                      Grid.Column="1"
-                     Style="{StaticResource Change_TextBlock}"/>-->
+                     Style="{StaticResource Change_TextBlock}"/>
+          <TextBlock Text="Lisätty seuraavat ravintolat:"
+                     Grid.Row="5"
+                     Grid.Column="1"
+                     Style="{StaticResource Change_TextBlock}"/>
+          <TextBlock Text="◦ TAMK: Live, Live - Fusion Kitchen"
+                     Grid.Row="6"
+                     Grid.Column="1"
+                     Style="{StaticResource Change_TextBlock}"/>
+          <TextBlock Text="Korjattu seuraavat ravintolat:"
+                     Grid.Row="7"
+                     Grid.Column="1"
+                     Style="{StaticResource Change_TextBlock}"/>
+          <TextBlock Text="◦ TAKK: Ratamo"
+                     Grid.Row="8"
+                     Grid.Column="1"
+                     Style="{StaticResource Change_TextBlock}"/>
 
         </Grid>
 

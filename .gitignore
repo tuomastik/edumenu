@@ -196,4 +196,5 @@ FakesAssemblies/
 *.opt
 
 # Visual Studio - Store associated files
-Edumenu/BundleArtifacts
+BundleArtifacts
+Package.StoreAssociation.xml

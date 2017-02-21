@@ -38,7 +38,7 @@ namespace Edumenu.ViewModels
             {
                 School.tut,
                 School.uta,
-                School.tays,
+                // School.tays,  // Commented out because there aren't currently available any restaurants with RSS feed
                 School.tamk,
                 School.takk
             };

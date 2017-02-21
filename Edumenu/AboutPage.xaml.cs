@@ -11,6 +11,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Phone.UI.Input;
 using Windows.Security.ExchangeActiveSyncProvisioning;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -122,5 +123,20 @@ namespace Edumenu
             await Windows.System.Launcher.LaunchUriAsync(
                 new Uri("ms-windows-store:navigate?appid=" + CurrentApp.AppId));
         }
+
+        // Opening website
+        private async void OpenWebSite(Uri webSiteAddressToOpen)
+        {
+            await Launcher.LaunchUriAsync(webSiteAddressToOpen);
+        }
+        private void LinkedIn_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            OpenWebSite(new Uri("https://www.linkedin.com/in/tuomastikkanen/"));
+        }
+        private void GitHub_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            OpenWebSite(new Uri("https://github.com/tuomastik/edumenu"));
+        }
+
     }
 }

@@ -145,10 +145,12 @@
     <Content Include="Assets\DietIcons\VS.png" />
     <Content Include="Assets\Icons\Edumenu_AboutPage.png" />
     <Content Include="Assets\Icons\ExitPrompt.png" />
+    <Content Include="Assets\Icons\github.png" />
     <Content Include="Assets\Icons\IconApp.png" />
     <Content Include="Assets\Icons\IconBack.png" />
     <Content Include="Assets\Icons\IconDiets.png" />
     <Content Include="Assets\Icons\IconSettings.png" />
+    <Content Include="Assets\Icons\linkedin.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Logo.scale-140.png" />
     <Content Include="Assets\Logo.scale-240.png" />
