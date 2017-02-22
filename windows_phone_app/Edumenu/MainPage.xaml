@@ -1,0 +1,324 @@
+﻿<Page
+    x:Class="Edumenu.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edumenu"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Models="using:Edumenu.Models"
+    mc:Ignorable="d"
+    RequestedTheme="Dark"
+    Background="Black">
+
+  <Page.Transitions>
+    <TransitionCollection>
+      <NavigationThemeTransition>
+        <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+          <ContinuumNavigationTransitionInfo/>
+        </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+      </NavigationThemeTransition>
+    </TransitionCollection>
+  </Page.Transitions>
+
+  <Page.Resources>
+    <Models:IsSelectedToForegroundConverter x:Key="IsSelectedToForegroundConverter"/>
+    <Models:IsSelectedToFontWeightConverter x:Key="IsSelectedToFontWeightConverter"/>
+  </Page.Resources>
+
+  <Canvas x:Name="ParentCanvas"
+          VerticalAlignment="Stretch"
+          HorizontalAlignment="Stretch"
+          ManipulationMode="TranslateX"
+          ManipulationStarted="ParentCanvas_ManipulationStarted"
+          ManipulationDelta="ParentCanvas_ManipulationDelta"
+          ManipulationCompleted="ParentCanvas_ManipulationCompleted">
+
+  <Canvas.Resources>
+    <Storyboard x:Name="ChangeViewAnimation">
+      <DoubleAnimation Duration="0:0:0.4"
+                       To="0"
+                       Storyboard.TargetProperty="(Canvas.Left)"
+                       Storyboard.TargetName="ChildCanvas"
+                       d:IsOptimized="True">
+        <DoubleAnimation.EasingFunction>
+          <ExponentialEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+    </Storyboard>
+  </Canvas.Resources>
+
+    <Canvas x:Name="ChildCanvas"
+            Width="{Binding ChildCanvasWidth}"
+            Height="{Binding ScreenHeight}"
+            VerticalAlignment="Stretch"
+            Background="{StaticResource ResourceKey=ThemeColor1}"
+            Canvas.Left="{Binding CanvasLeft, Mode=TwoWay}">
+
+      <Popup x:Name="WebsitePrompt_PopUp"
+             Height="400">
+        <Border Margin="{Binding MainViewMargin}"
+                VerticalAlignment="Center">
+          <StackPanel Background="#1f1f1f"
+                      Width="{Binding ScreenWidth}"
+                      VerticalAlignment="Center">
+            <Image HorizontalAlignment="Left"
+                   Source="Assets/Icons/ExitPrompt.png"
+                   Width="120"
+                   Height="100"
+                   Margin="27,100,0,0"/>
+            <TextBlock x:Name="NavigationPrompt_Textblock"
+                       Text="Haluatko varmasti poistua sovelluksesta ja avata ravintolan verkkosivun selaimessa?"
+                       TextWrapping="Wrap"
+                       Foreground="White"
+                       TextAlignment="Left"
+                       FontSize="24"
+                       FontFamily="Segoe UI"
+                       Margin="36,10,40,20"/>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,0,0,48"
+                        HorizontalAlignment="Left">
+              <Button HorizontalAlignment="Left"
+                      FontSize="24"
+                      Foreground="White"
+                      Content="kyllä"
+                      Width="148"
+                      Margin="37,0,0,0"
+                      Padding="0,10"
+                      Style="{StaticResource ButtonStyle2}"
+                      Click="PopUpButton_Continue_Click"/>
+              <Button HorizontalAlignment="Left"
+                      FontSize="24"
+                      Foreground="White"
+                      Content="en"
+                      Width="148"
+                      Margin="30,0,0,0"
+                      Padding="0,10"
+                      Style="{StaticResource ButtonStyle2}"
+                      Click="PopUpButton_Cancel_Click"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+      </Popup>
+
+      <!--Left view-->
+      <Grid x:Name="LeftView"
+            Width="{Binding LeftViewWidth}"
+            Height="{Binding ScreenHeight}"
+            Background="{StaticResource ResourceKey=ThemeColor5}"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch">
+
+        <!--Left view: Container-->
+        <ScrollViewer>
+          <StackPanel ManipulationMode="System,TranslateX">
+
+            <!--Left view: Days of week, Title-->
+            <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
+                  Background="{StaticResource ResourceKey=ThemeColor7}">
+              <TextBlock Text="Viikonpäivät"
+                         Style="{StaticResource SmallHeaderText}"/>
+            </Grid>
+            <!--Left view: Days of week, Content-->
+            <ItemsControl x:Name="DaysOfWeekItemsControl" ItemsSource="{Binding daysOfWeek}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Button Style="{StaticResource ContentButton}"
+                          Click="DayOfWeek_Clicked">
+                    <TextBlock Text="{Binding Path=Name}"
+                               Style="{StaticResource MenuText}"
+                               Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForegroundConverter}}"
+                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeightConverter}}"/>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!--Left view: Information, Title-->
+            <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
+                  Background="{StaticResource ResourceKey=ThemeColor7}"
+                  Margin="0,10,0,0">
+              <TextBlock Text="Tietoa"
+                         Style="{StaticResource SmallHeaderText}"/>
+            </Grid>
+            <!--Left view: Information, Diets-->
+            <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+              <Image Source="Assets/Icons/IconDiets.png"
+                     Width="25"
+                     Height="25"/>
+              <Button Style="{StaticResource ContentButton}"
+                      FontSize="24"
+                      Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                      FontWeight="Normal"
+                      FontFamily="Segoe UI"
+                      VerticalAlignment="Center"
+                      Click="Diets_Clicked"
+                      Content="Erityisruokavaliot"
+                      Margin="20,0,0,4"/>
+            </StackPanel>
+            <!--Left view: Information, Settings-->
+            <StackPanel Orientation="Horizontal" Margin="20,10,0,0">
+              <Image Source="Assets/Icons/IconSettings.png"
+                     Width="25"
+                     Height="25"/>
+              <Button Style="{StaticResource ContentButton}"
+                      FontSize="24"
+                      Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                      FontWeight="Normal"
+                      FontFamily="Segoe UI"
+                      VerticalAlignment="Center"
+                      Click="Settings_Clicked"
+                      Content="Asetukset"
+                      Margin="20,0,0,4"/>
+            </StackPanel>
+            <!--Left view: Information, About-->
+            <StackPanel Orientation="Horizontal" Margin="20,10,0,10">
+              <Image Source="Assets/Icons/IconApp.png"
+                     Width="25"
+                     Height="25"/>
+              <Button Style="{StaticResource ContentButton}"
+                      FontSize="24"
+                      Foreground="{StaticResource ResourceKey=ThemeColor3}"
+                      FontWeight="Normal"
+                      FontFamily="Segoe UI"
+                      VerticalAlignment="Center"
+                      Click="About_Clicked"
+                      Content="Tietoa sovelluksesta"
+                      Margin="20,0,0,4"/>
+            </StackPanel>
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+
+      <!--Right view-->
+      <Grid x:Name="RightView"
+            Width="{Binding RightViewWidth}"
+            Height="{Binding ScreenHeight}"
+            Background="{StaticResource ResourceKey=ThemeColor5}"
+            Margin="{Binding RightViewMargin}"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch">
+
+        <!--Right view: Container-->
+        <ScrollViewer>
+          <StackPanel ManipulationMode="System,TranslateX">
+
+            <!--Right view: Schools, Title-->
+            <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
+                  Background="{StaticResource ResourceKey=ThemeColor7}">
+              <TextBlock Text="Oppilaitokset"
+                         Style="{StaticResource SmallHeaderText}"/>
+            </Grid>
+            <!---Right view: Schools, Content-->
+            <ItemsControl x:Name="SchoolsItemsControl"
+                          ItemsSource="{Binding schools}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Button Style="{StaticResource ContentButton}"
+                          Click="School_Clicked">
+                    <TextBlock Text="{Binding Path=Name_FI}"
+                               Style="{StaticResource MenuText}"
+                               Foreground="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToForegroundConverter}}"
+                               FontWeight="{Binding Path=IsSelected, Converter={StaticResource IsSelectedToFontWeightConverter}}"/>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+
+      <!--Middle view-->
+      <Grid x:Name="MainView"
+            Margin="{Binding MainViewMargin}"
+            Height="{Binding ScreenHeight}"
+            Width="{Binding ScreenWidth}">
+          
+        <!--Middle view: Loading-->
+        <StackPanel x:Name="LoadingStackPanel"
+                    Visibility="Collapsed">
+          <!--Middle view: Loading, Empty space under the header-->
+          <StackPanel Width="58" Height="58" />
+          <!--Middle view: Loading, Title-->
+          <Grid Style="{StaticResource ResourceKey=SmallHeaderGrid}"
+                Background="{StaticResource ResourceKey=ThemeColor2}">
+            <TextBlock Text="Ladataan ruokalistoja..."
+                       Style="{StaticResource SmallHeaderText}"/>
+          </Grid>
+          <ProgressBar IsIndeterminate="True"
+                       Background="Transparent"/>
+        </StackPanel>
+        
+        <!--Middle view: Content is defined before header, so that header will be on top of content-->
+        <ScrollViewer x:Name="Scroller"
+                      Loaded="Scroller_Loaded">
+          <StackPanel ManipulationMode="System,TranslateX">
+
+            <!--Middle view: Empty space under the header-->
+            <StackPanel Width="58" Height="58" />
+
+            <ItemsControl ItemsSource="{Binding restaurantsVisible}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel>
+
+                    <!--Middle view: Restaurant name-->
+                    <Button Style="{StaticResource RestaurantButton}"
+                            Click="RestaurantName_Clicked">
+                      <TextBlock Text="{Binding Name, Mode=OneWay}"
+                                 Style="{StaticResource RestaurantText}"/>
+                    </Button>
+
+                    <!--Middle view: Restaurant menu-->
+                    <!--<RichTextBox Margin="20,0" Padding="0" />-->
+                    <TextBlock Text="{Binding Menu, Mode=OneWay}"
+                               Style="{StaticResource MenuText}"/>
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </ScrollViewer>
+
+        <!--Middle view: Header-->
+        <Grid Style="{StaticResource ResourceKey=BigHeaderGrid}"
+              Background="{StaticResource ResourceKey=ThemeColor4}"
+              x:Name="HeaderContainer">
+
+          <!--Middle view: Hamburger button-->
+          <Button HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  x:Name="LeftButtonTapped"
+                  Click="HamburgerButton_Clicked"
+                  Style="{StaticResource ContentButton}">
+            <StackPanel Margin="20">
+              <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" />
+              <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0" />
+              <Rectangle Width="30" Height="2" Fill="{StaticResource ResourceKey=ThemeColor3}" Margin="0,5,0,0"/>
+            </StackPanel>
+          </Button>
+
+          <!--Middle view: School name-->
+          <Button HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Style="{StaticResource ContentButton}"
+                  Click="SelectedSchool_Clicked"
+                  HorizontalContentAlignment="Center">
+            <TextBlock Text="{Binding SelectedSchool}"
+                       Style="{StaticResource BigHeaderText}"
+                       x:Name="SelectedSchoolHeader"/>
+          </Button>
+
+        </Grid>
+      
+      </Grid>
+
+      <Grid x:Name="PopUpOverlayGrid"
+            Visibility="Collapsed"
+            Width="{Binding ChildCanvasWidth}"
+            Height="{Binding ScreenHeight}"
+            Background="Black" Opacity="0.5"/>
+
+    </Canvas>
+  </Canvas>
+
+</Page>

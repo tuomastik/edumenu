@@ -1,0 +1,1 @@
+The screenshots have been taken with "Emulator 8.1 720P 4.7 inch"
